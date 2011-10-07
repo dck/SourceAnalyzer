@@ -1,0 +1,17 @@
+Parser->Parser Module: sa3addcall(), sa3adddecl()
+Parser Module->Gen Module: getstruct(); call/declaration info
+activate Gen Module
+Gen Module->Parser Module: status code; solid blob with call/declaration info
+Parser Module->Gen Module: getkey()
+activate Gen Module
+Gen Module->Parser Module: status code; key for the blob
+Parser Module->DB Wrapper: put2db(): key, blob
+DB Wrapper->Parser Module: status code
+Parser Module->Gen Module: freestruct(), freekey()
+deactivate Gen Module
+deactivate Gen Module
+Gen Module-->Parser Module:
+Parser Module->Parser: status code
+# note right of Bob: Bob thinks about it
+
+
