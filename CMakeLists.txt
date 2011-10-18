@@ -15,10 +15,6 @@ set(LOCAL_HEADERS   ${LOCAL_INCLUDE}/api.h
                     ${LOCAL_INCLUDE}/types.h
                     ${LOCAL_INCLUDE}/wrapdb.h )
                    
-                    
-
-
-
 include_directories(${SourceAnalyzer_SOURCE_DIR}/include
 		    ${SourceAnalyzer_SOURCE_DIR}/src
 		    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
