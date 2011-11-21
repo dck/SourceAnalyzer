@@ -27,6 +27,10 @@
 #ifndef APICALL_H
 #define APICALL_H
 
+#ifdef _WIN32
+    #define __func__ __FUNCTION__
+#endif
+
 #define CLEANUP __cleanup
 
 #ifdef TRACE
