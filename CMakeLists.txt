@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 project(SourceAnalyzer)
 
+# common includes
 set(COMMON_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 file (GLOB COMMON_HEADERS "${COMMON_INCLUDE}/*.h")
 set(LOCAL_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
