@@ -21,8 +21,16 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-cmake_minimum_required( VERSION 2.6 )
-project( qsagui )
+cmake_minimum_required( VERSION 2.8.1 )
+
+if( SOURCE_ANALYZER_ROOT_DIR )
+	message( STATUS "Building as part of SA. Root dir: ${SOURCE_ANALYZER_ROOT_DIR}" )
+	set( SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR ${SOURCE_ANALYZER_ROOT_DIR}/apps/qsagui )
+else( SOURCE_ANALYZER_ROOT_DIR )
+	message( STATUS "Building QSAGUI as independent component" )
+	project( qsagui )
+	set( SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR ${SourceAnalyzer_qsagui_SOURCE_DIR} )
+endif( SOURCE_ANALYZER_ROOT_DIR )
 
 find_package(Qt4 REQUIRED)
 set(QT_USE_QTSVG true)
@@ -31,12 +39,12 @@ include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
 
 ###############################################################################
 ## Variables set ##############################################################
-set( docs_dir    ${qsagui_SOURCE_DIR}/docs )
-set( include_dir ${qsagui_SOURCE_DIR}/include  )
-set( src_dir     ${qsagui_SOURCE_DIR}/src  )
-set( forms_dir   ${qsagui_SOURCE_DIR}/forms  )
-set( res_dir ${qsagui_SOURCE_DIR}/resources )
-set( lib_dir ${qsagui_SOURCE_DIR}/lib )
+set( docs_dir    ${SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR}/docs )
+set( include_dir ${SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR}/include  )
+set( src_dir     ${SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR}/src  )
+set( forms_dir   ${SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR}/forms  )
+set( res_dir     ${SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR}/resources )
+set( lib_dir     ${SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR}/lib )
 
 set( SOURCES
 ${src_dir}/main.cpp
@@ -96,7 +104,7 @@ ${res_dir}/resources.qrc
 if( WIN32 )
     if( MINGW )
         add_custom_command( OUTPUT ${CMAKE_BINARY_DIR}/icon_rc.o
-        COMMAND windres.exe -I${qsagui_SOURCE_DIR}
+        COMMAND windres.exe -I${SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR}
         -i${res_dir}/icon.rc
         -o ${CMAKE_BINARY_DIR}/icon_rc.o
 	    )
