@@ -933,7 +933,8 @@ void MainWindow::fillFuncFilesList() {
             unblockTabs();
             return;
         }
-    cw->fillCallGraphStruct();
+    }
+    //cw->fillCallGraphStruct();  // Trouble after merge
     filesListWidget->fillList();
     newTabAction->setDisabled(false);
 }

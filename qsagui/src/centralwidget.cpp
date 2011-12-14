@@ -284,6 +284,8 @@ void CentralWidget::runProcess(const QString& binaryName,
         isList = true;
     else
         isList = false;
+}
+
 void CentralWidget::saveFile(const QString& fileName) {
     if (fileName.isEmpty()) {
         return;
@@ -317,10 +319,11 @@ void CentralWidget::showRelationsList() {
     }
     showTextBrowser();
     setBrowserText("");
-    QString str = getFuncListProcess->readAllStandardOutput();
+    // Trouble after merge
+    /*QString str = getFuncListProcess->readAllStandardOutput();
     textBrowser->setPlainText(str);
     listOfFunctions.clear();
-    listOfFunctions << str.split("\n");
+    listOfFunctions << str.split("\n");*/
     findWidget->hideAdvancedSearchOptions();
 }
 
