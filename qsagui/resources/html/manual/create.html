@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>
+			create
+		</title>
+	</head>
+	<body>
+	<table align="left" style="margin-right: 20px">
+	<tr>
+	<td bgcolor="#CCCCCC" width="150" height="500"  valign="top">
+		<h2>
+			Contents
+		</h2>
+		<p><big>
+			<li><a href="./about.html">What is QSAGUI?</a></li>
+			<li><a href="./getting_started.html">Getting started</a></li>
+			<li>Create call graph</li>
+			<li><a href="./link.html">Link call graphs</a></li>
+			<li><a href="./clean.html">Clean call graph</a></li>
+			<li><a href="./update.html">Update call graph</a></li>
+			<li><a href="./lists.html">Get funs/files lists</a></li>
+			<li><a href="./open.html">Show call graph</a></li>
+			<li><a href="./settings.html">Settings</a></li>
+		</big></p>
+	</td>
+	<td height="500" valign="top">
+			<h2>
+				Create call graph
+			</h2>
+		<p><big>
+			Use "Call graph"-> "New..." or "New" button on tool bar or "Ctrl+N".<br>
+			You can parse C, assembler ( only Intel syntax based assemblers (MASM) ) and fortran ( only fortran90 standard ) codes.
+			<ul>
+				<li>
+					C.
+				</li>
+			</ul><br>
+			<img src="images/newc.png" alt="new call graph from c"><br><br>
+<b><font color="#CC0000">1. </font></b>You can ignore this option, but if you don't want to see information related to system headers that was included in .c (like stdio.h and functions like printf()), enter the full path to directory with source code.<br><br>
+<b><font color="#CC0000">2. 3. </font></b>Specify one of two type of files for parsing - from preprocessed code or from source file. In the first case you can add several files to list - call graph for each file will be created and then all call graphs will be linked together. In the second case enter command for preprocessing (see the documentation for your compiler for it).<br><br>		
+<b><font color="#CC0000">4. </font></b>Select full output call graph name, you can write any extention but ".cg" is recommended.<br><br>
+			<ul>
+				<li>
+					Assembler, fortran90.
+				</li>
+			</ul><br>
+			<img src="images/newasm.png" alt="new call graph from assembler"> <img src="images/newf90.png" alt="new call graph from fortran"><br><br>
+<b><font color="#CC0000">1. </font></b>This option is similar to <b><font color="#CC0000">2. </font></b> in C. Select one or several assembler/fortran90 source files.<br><br>
+<b><font color="#CC0000">2. </font></b>This option is similar to <b><font color="#CC0000">4. </font></b> in C.<br><br>
+Press the "OK" button to get call graph.<br>
+		</big></p>
+	</td>
+	</tr>
+	</table>
+	</body>
+</html>

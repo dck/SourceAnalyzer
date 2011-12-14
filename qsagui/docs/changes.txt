@@ -1,0 +1,11 @@
+2010-09-06 release: beta 2.0
+ - call graph was opened after creation
+ - central widget was maked as QTabWidget
+ - user manual was updated
+ - the opportunity of graph creation from GAS was added
+ - concurrent work with different tabs was added
+ - throws an exception during searching through function list was fixed
+ - mechanizm for internationalization of QSAGUI was implemented
+ - QSAGUI and help were translated to russian
+ - the ability to save the history of search parents/children was added
+ - the list of choosen functions under the list of functions was added

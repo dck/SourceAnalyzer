@@ -1,0 +1,56 @@
+﻿<html>
+	<head>
+		<title>
+			Создание
+		</title>
+	</head>
+	<body>
+	<table align="left" style="margin-right: 20px">
+	<tr>
+	<td bgcolor="#CCCCCC" width="150" height="500"  valign="top">
+		<h2>
+			Содержание
+		</h2>
+		<p><big>
+			<li><a href="./about.html">Что такое QSAGUI?</a></li>
+			<li><a href="./getting_started.html">Начало</a></li>
+			<li>Создание графа вызовов</li>
+			<li><a href="./link.html">Соединение графов вызовов</a></li>
+			<li><a href="./clean.html">Очистка графа вызовов</a></li>
+			<li><a href="./update.html">Обновление графа вызовов</a></li>
+			<li><a href="./lists.html">Получение списков файлов/функций</a></li>
+			<li><a href="./open.html">Показать граф вызовов</a></li>
+			<li><a href="./settings.html">Настройки</a></li>
+		</big></p>
+	</td>
+	<td height="500" valign="top">
+			<h2>
+				Создание графа вызовов
+			</h2>
+		<p><big>
+			Используйте "Граф вызовов"-> "Новый..." или кнопку "Новый" на панели инструментов или сочетание клавиш "Ctrl+N".<br>
+			Вы можете анализировать C, assembler ( только синтаксис Intel, базирующийся на assemblers (MASM) ) и fortran ( только стандартный fortran90 ) коды.
+			<ul>
+				<li>
+					C.
+				</li>
+			</ul><br>
+			<img src="images/newc.png" alt="new call graph from c"><br><br>
+<b><font color="#CC0000">1. </font></b>Вы можете проигнорировать эту опцию, но если Вы не хотите видеть информацию, связанную с системными заголовками, которые были включены в.c (как stdio.h и функции как printf ()), введите полный путь к каталогу с исходным файлом.<br><br>
+<b><font color="#CC0000">2. 3. </font></b>Определите один из двух типов файлов для того, чтобы анализировать - от предварительно обработанного кода или от исходного файла. В первом случае Вы можете добавить несколько файлов в список,  для каждого графа вызовов будет создан файл, и затем они будут соединены. Во втором случае введите команду для предварительной обработки (см. документацию для своего компилятора).<br><br>		
+<b><font color="#CC0000">4. </font></b>Выберите название для графа вызовов, подаваемого на выход, вы можете указать любое расширение, но ".cg" рекомендуется.<br><br>
+			<ul>
+				<li>
+					Assembler, fortran90.
+				</li>
+			</ul><br>
+			<img src="images/newasm.png" alt="new call graph from assembler"> <img src="images/newf90.png" alt="new call graph from fortran"><br><br>
+<b><font color="#CC0000">1. </font></b>Эта опция подобна <b><font color="#CC0000">2. </font></b> в C. Выберите один или несколько assembler/fortran90 исходных файлов.<br><br>
+<b><font color="#CC0000">2. </font></b>Эта опция подобна <b><font color="#CC0000">4. </font></b> в C.<br><br>
+Нажмите кнопку "OK", чтобы получить граф вызовов.<br>
+		</big></p>
+	</td>
+	</tr>
+	</table>
+	</body>
+</html>
