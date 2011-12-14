@@ -1,25 +1,28 @@
-///////////////////////////////////////////////////////////////////////////////
-// This file is the part of QSAGUI source codes.                             //
-// QSAGUI is a graphical user interface for SourceAnalyzer.                  //
-// QSAGUI source codes are distributed with SourceAnalyzer source codes.     //
-//                                                                           //
-// SourceAnalyzer is a program that search out a call-graph of               //
-// given source code. See <http://trac-hg.assembla.com/SourceAnalyzer>       //
-// Copyright (C) 2008-2010 BiPro Lab team                                    //
-//                                                                           //
-// This program is free software: you can redistribute it and/or modify      //
-// it under the terms of the GNU General Public License as published by      //
-// the Free Software Foundation, either version 3 of the License,            //
-// any later version.                                                        //
-//                                                                           //
-// This program is distributed in the hope that it will be useful,           //
-// but WITHOUT ANY WARRANTY; without even the implied warranty of            //
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             //
-// GNU General Public License for more details.                              //
-//                                                                           //
-// You should have received a copy of the GNU General Public License         //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.     //
-///////////////////////////////////////////////////////////////////////////////
+// Copyright 2008-2011 SourceAnalyzer team. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without modification, are
+// permitted provided that the following conditions are met:
+//
+//    1. Redistributions of source code must retain the above copyright notice, this list of
+//       conditions and the following disclaimer.
+//
+//    2. Redistributions in binary form must reproduce the above copyright notice, this list
+//       of conditions and the following disclaimer in the documentation and/or other materials
+//       provided with the distribution.
+//
+// THIS SOFTWARE IS PROVIDED BY SOURCEANALYZER TEAM ''AS IS'' AND ANY EXPRESS OR IMPLIED
+// WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL SOURCEANALYZER TEAM OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+// ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+// ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// The views and conclusions contained in the software and documentation are those of the
+// authors and should not be interpreted as representing official policies, either expressed
+// or implied, of SourceAnalyzer team.
 
 /// \file
 /// \brief Declaration of the \ref NewCallGraphWidget class;
