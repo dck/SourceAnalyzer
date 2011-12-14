@@ -30,9 +30,6 @@
 #ifndef __ABOUTWIDGET_H__
 #define __ABOUTWIDGET_H__
 
-#include <QSettings>
-#include <QCloseEvent>
-
 #include "saguiconstants.h"
 #include "ui_aboutwidget.h"
 

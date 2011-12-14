@@ -30,11 +30,6 @@
 #ifndef __LINKCALLGRAPHSWIDGET_H__
 #define __LINKCALLGRAPHSWIDGET_H__
 
-#include <QSettings>
-#include <QProcess>
-#include <QFileDialog>
-#include <QCloseEvent>
-
 #include "mainwindow.h"
 #include "ui_linkcallgraphswidget.h"
 

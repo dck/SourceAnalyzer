@@ -30,9 +30,10 @@
 /// \file
 /// \brief Implementation of the \ref RequestHystoryWidget class.
 
-#include "rhwidget.h"
 #include <QtGui>
 #include <QtCore>
+
+#include "rhwidget.h"
 
 RequestHystoryWidget::RequestHystoryWidget(ListWidget* parent)
     : QDialog(parent)

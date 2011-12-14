@@ -30,11 +30,6 @@
 #ifndef __UPDATECALLGRAPHWIDGET_H__
 #define __UPDATECALLGRAPHWIDGET_H__
 
-#include <QSettings>
-#include <QProcess>
-#include <QFileDialog>
-#include <QCloseEvent>
-
 #include "mainwindow.h"
 #include "ui_updatecallgraphwidget.h"
 

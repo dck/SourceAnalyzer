@@ -30,12 +30,6 @@
 #ifndef __CLEANCALLGRAPHWIDGET_H__
 #define __CLEANCALLGRAPHWIDGET_H__
 
-#include <QSettings>
-#include <QProcess>
-#include <QFileDialog>
-#include <QKeyEvent>
-#include <QCloseEvent>
-
 #include "saguiconstants.h"
 #include "mainwindow.h"
 #include "ui_cleancallgraphwidget.h"

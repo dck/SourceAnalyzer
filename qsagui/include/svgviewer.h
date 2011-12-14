@@ -31,15 +31,7 @@
 #define __SVGVIEWER_H__
 
 #include <QScrollArea>
-#include <QScrollBar>
-#include <QSvgWidget>
-#include <QPaintEvent>
-#include <QSvgRenderer>
-#include <QPainter>
-#include <QPrinter>
-#include <QPrintDialog>
 
-class QScrollArea;
 class QScrollBar;
 class QSvgWidget;
 class QPaintEvent;

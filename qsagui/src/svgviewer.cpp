@@ -34,6 +34,14 @@
 /// \file
 /// \bref Implementation of the \ref SvgViewer class.
 
+#include <QScrollBar>
+#include <QMouseEvent>
+#include <QSvgWidget>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPainter>
+#include <QSvgRenderer>
+
 #include "svgviewer.h"
 
 SvgViewer::SvgViewer(QWidget* parent)

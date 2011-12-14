@@ -36,7 +36,10 @@
 /// \file
 /// \brief Implementation of the \ref CleanCallGraphWidget class.
 
+#include <QFileDialog>
+
 #include "cleancallgraphwidget.h"
+
 CleanCallGraphWidget::CleanCallGraphWidget(QWidget* parent) : QDialog(parent)
 {
     setupUi(this);

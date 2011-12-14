@@ -34,6 +34,8 @@
 /// \file
 /// \brief Implementation of the \ref LinkCallGraphsWidget class.
 
+#include <QFileDialog>
+
 #include "linkcallgraphswidget.h"
 
 LinkCallGraphsWidget::LinkCallGraphsWidget(QWidget* parent) : QDialog(parent)

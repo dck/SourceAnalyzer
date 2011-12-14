@@ -34,6 +34,8 @@
 /// \file
 /// \brief Implementation of the \ref SettingsWidget class.
 
+#include <QFileDialog>
+
 #include "settingswidget.h"
 
 SettingsWidget::SettingsWidget(QWidget* parent)

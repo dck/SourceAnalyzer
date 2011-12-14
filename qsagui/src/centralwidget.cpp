@@ -35,9 +35,10 @@
 /** \brief Implementation of the \ref CentralWidget and
  * \ref FindWidget classes. */
 
-#include "centralwidget.h"
 #include <QtGui>
 #include <QtCore>
+
+#include "centralwidget.h"
 
 CentralWidget::CentralWidget(MainWindow* mainWindow) : QWidget()
 {

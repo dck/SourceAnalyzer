@@ -33,6 +33,8 @@
 /// \file
 /// \brief Implementation of the \ref AboutWidget class.
 
+#include <QSettings>
+
 #include "aboutwidget.h"
 
 AboutWidget::AboutWidget(QWidget *parent) : QDialog(parent)

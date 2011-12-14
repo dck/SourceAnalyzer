@@ -35,9 +35,10 @@
 /// \file
 /** \brief Implementation of the \ref NewCallGraphWidget class. */
 
-#include "newcallgraphwidget.h"
 #include <QtCore>
 #include <QtGui>
+
+#include "newcallgraphwidget.h"
 
 NewCallGraphWidget::NewCallGraphWidget(QWidget* parent) : QDialog(parent)
 {

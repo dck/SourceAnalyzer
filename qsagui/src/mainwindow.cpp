@@ -35,8 +35,10 @@
 /// \file
 /** \brief Implementation of the \ref MainWindow, \ref ApplicationOutput
  * \ref and \ref AddNameDialog classes. */
+
 #include <QtGui>
 #include <QtCore>
+
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget * parent)

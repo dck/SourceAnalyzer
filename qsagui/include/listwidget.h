@@ -30,12 +30,6 @@
 #ifndef __LISTWIDGET_H__
 #define __LISTWIDGET_H__
 
-#include <QStringList>
-#include <QListWidgetItem>
-#include <QFile>
-#include <QTextStream>
-#include <QProcess>
-
 #include "mainwindow.h"
 #include "rhwidget.h"
 #include "ui_listwidget.h"

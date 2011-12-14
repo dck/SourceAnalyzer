@@ -33,6 +33,9 @@
 /// \file
 /// \brief Implementation of the \ref HelpWidget class.
 
+#include <QKeyEvent>
+#include <QSettings>
+
 #include "helpwidget.h"
 
 HelpWidget::HelpWidget(QWidget *parent) : QWidget(parent)

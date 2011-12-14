@@ -30,13 +30,6 @@
 #ifndef __SETTINGSWIDGET_H__
 #define __SETTINGSWIDGET_H__
 
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QSettings>
-#include <QProcess>
-#include <QTextStream>
-#include <QCloseEvent>
-
 #include "mainwindow.h"
 #include "saguiconstants.h"
 #include "ui_settingswidget.h"

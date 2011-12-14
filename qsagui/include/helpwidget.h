@@ -30,11 +30,6 @@
 #ifndef __HELPWIDGET_H__
 #define __HELPWIDGET_H__
 
-#include <QSettings>
-#include <QUrl>
-#include <QKeyEvent>
-#include <QCloseEvent>
-
 #include "saguiconstants.h"
 #include "ui_helpwidget.h"
 

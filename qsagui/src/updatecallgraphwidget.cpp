@@ -34,6 +34,8 @@
 /// \file
 /// \brief Implementation of the \ref UpdateCallGraphWidget class.
 
+#include <QFileDialog>
+
 #include "updatecallgraphwidget.h"
 
 UpdateCallGraphWidget::UpdateCallGraphWidget(QWidget* parent) : QDialog(parent)
