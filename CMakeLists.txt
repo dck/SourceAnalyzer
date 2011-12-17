@@ -36,6 +36,7 @@ set( APPS
 	qsagui
 	cpar
 	link
+	view
 )
 addPrefix( "${SOURCE_ANALYZER_ROOT_DIR}/apps/" APPS )
 
