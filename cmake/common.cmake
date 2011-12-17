@@ -24,46 +24,41 @@
 # authors and should not be interpreted as representing official policies, either expressed
 # or implied, of SourceAnalyzer team.
 
-cmake_minimum_required(VERSION 2.8.1)
-project(SourceAnalyzer)
+## This function adds specifid prefix for each item in the given list
+## prefix - prefix to add
+## refItems - reference to a list, witch will be processed (it's name)
+macro( addPrefix prefix refItems )
+	set( newItems )
+	foreach( item ${${refItems}} )
+		set( newItems ${newItems} ${prefix}/${item})
+	endforeach( item ${${refItems}} )
+	set( ${refItems} ${newItems} )
+endmacro( addPrefix prefix refItems )
 
-include( "cmake/common.cmake" )
+## This function sets COMPONENT_NAME variable used over component's cmakelists
+## componentPath - path to the component, last dir-name is it's name
+function( setComponentName componentPath )
+	string(REPLACE "/" ";" path_list ${componentPath})
+	
+endfunction( setComponentName )
 
-set( SOURCE_ANALYZER_ROOT_DIR  ${SourceAnalyzer_SOURCE_DIR} )
-set( SOURCE_ANALYZER_BUILD_DIR ${SourceAnalyzer_BINARY_DIR} )
+function( printSettingsForComponent componentName )
+	message( "Dirrectories for ${componentName}: " )
+	message( "    Root dir:    ${${componentName}_root_dir}"    )
+	message( "    Src dir:     ${${componentName}_src_dir}"     )
+	message( "    Include dir: ${${componentName}_include_dir}" )
+	
+	message( "Files for ${componentName}: " )
+	message( "    External headers: ${${componentName}_EXTERNAL_HEADERS}" )
+	message( "" )
+	message( "    Internal headers: ${${componentName}_INTERNAL_HEADERS}" )
+	message( "" )
+	message( "    Sorces:           ${${componentName}_SRC}"              )
+	message( "" )
+	message( "    Output name:      ${${componentName}_OUTPUT_NAME}"      )
+endfunction( printSettingsForComponent componentName )
 
-set( APPS
-	qsagui
-)
-addPrefix( "${SOURCE_ANALYZER_ROOT_DIR}/apps/" APPS )
-
-set( LIBS
-	common/sav3
-	common/ast
-)
-addPrefix( "${SOURCE_ANALYZER_ROOT_DIR}/libs/" LIBS )
-
-set( EXAMPLES
-)
-
-set( TESTS
-)
-
-set( ALL_COMPONENTS 
-	${APPS}
-	${LIBS}
-	${EXAMPLES}
-	${TESTS}
-)
-
-foreach( component ${ALL_COMPONENTS} )
-	set( cmakelists ${component}/CMakeLists.txt )
-	if( EXISTS ${cmakelists} )
-		message( STATUS "Adding component: ${component}" )
-		include( ${cmakelists} )
-	else( EXISTS ${cmakelists} )
-		message( STATUS "Error: Can't find ${cmakelists}" )
-	endif( EXISTS ${cmakelists} )
-endforeach(component ${ALL_COMPONENTS} )
-
+#function(hello MESSAGE)
+#    message(${MESSAGE})
+#endfunction(hello) 
 
