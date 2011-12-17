@@ -5,3 +5,4 @@ apps/view/build/*
 apps/qsagui/build/*
 libs/common/ast/build/*
 libs/common/sav3/build/*
+libs/tests/sav3api/build/*

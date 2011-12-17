@@ -50,7 +50,9 @@ set( EXAMPLES
 )
 
 set( TESTS
+	sav3api
 )
+addPrefix( "${SOURCE_ANALYZER_ROOT_DIR}/tests/" TESTS )
 
 set( ALL_COMPONENTS 
 	${APPS}
