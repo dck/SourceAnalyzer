@@ -35,6 +35,7 @@ set( SOURCE_ANALYZER_BUILD_DIR ${SourceAnalyzer_BINARY_DIR} )
 set( APPS
 	qsagui
 	cpar
+	link
 )
 addPrefix( "${SOURCE_ANALYZER_ROOT_DIR}/apps/" APPS )
 
