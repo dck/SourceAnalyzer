@@ -1,4 +1,5 @@
 build/*
+apps/cpar/build/*
 apps/qsagui/build/*
 libs/common/ast/build/*
 libs/common/sav3/build/*
