@@ -1,25 +1,28 @@
-###############################################################################
-## This file is the part of QSAGUI source codes.
-## QSAGUI is a graphical user interface for Source Analyzer.
-## QSAGUI source codes are distributed with Source Analyzer source codes.
-## 
-## Source Analyzer is a program that search out a call-graph of
-## given source code. See <http://trac-hg.assembla.com/SourceAnalyzer>
-## Copyright (C) 2008-2010 BiPro Lab team
-## 
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License,
-## any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
-###############################################################################
+# Copyright 2008-2011 SourceAnalyzer team. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without modification, are
+# permitted provided that the following conditions are met:
+# 
+#    1. Redistributions of source code must retain the above copyright notice, this list of
+#       conditions and the following disclaimer.
+# 
+#    2. Redistributions in binary form must reproduce the above copyright notice, this list
+#       of conditions and the following disclaimer in the documentation and/or other materials
+#       provided with the distribution.
+# 
+# THIS SOFTWARE IS PROVIDED BY SOURCEANALYZER TEAM ''AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+# FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL SOURCEANALYZER TEAM OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+# ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# 
+# The views and conclusions contained in the software and documentation are those of the
+# authors and should not be interpreted as representing official policies, either expressed
+# or implied, of SourceAnalyzer team.
 
 cmake_minimum_required( VERSION 2.8.1 )
 
@@ -46,56 +49,14 @@ set( forms_dir   ${SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR}/forms  )
 set( res_dir     ${SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR}/resources )
 set( lib_dir     ${SOURCE_ANALYZER_QSAGUI_APP_ROOT_DIR}/lib )
 
-set( SOURCES
-${src_dir}/main.cpp
-${src_dir}/mainwindow.cpp
-${src_dir}/centralwidget.cpp
-${src_dir}/settingswidget.cpp
-${src_dir}/newcallgraphwidget.cpp
-${src_dir}/listwidget.cpp
-${src_dir}/aboutwidget.cpp
-${src_dir}/helpwidget.cpp
-${src_dir}/linkcallgraphswidget.cpp
-${src_dir}/cleancallgraphwidget.cpp
-${src_dir}/updatecallgraphwidget.cpp
-${src_dir}/svgviewer.cpp
-${src_dir}/rhwidget.cpp
-)
-
-set( MOC_HEADERS
-${include_dir}/mainwindow.h
-${include_dir}/centralwidget.h
-${include_dir}/settingswidget.h
-${include_dir}/newcallgraphwidget.h
-${include_dir}/listwidget.h
-${include_dir}/saguiconstants.h
-${include_dir}/aboutwidget.h
-${include_dir}/helpwidget.h
-${include_dir}/linkcallgraphswidget.h
-${include_dir}/cleancallgraphwidget.h
-${include_dir}/updatecallgraphwidget.h
-${include_dir}/svgviewer.h
-${include_dir}/rhwidget.h
-)
-
-set( FORMS
-${forms_dir}/aboutwidget.ui
-${forms_dir}/addnamedialog.ui
-${forms_dir}/cleancallgraphwidget.ui
-${forms_dir}/helpwidget.ui
-${forms_dir}/linkcallgraphswidget.ui
-${forms_dir}/listwidget.ui
-${forms_dir}/newcallgraphwidget.ui
-${forms_dir}/settingswidget.ui
-${forms_dir}/updatecallgraphwidget.ui
-${forms_dir}/findwidget.ui
-${forms_dir}/rhwidget.ui
-)
+aux_source_directory( ${src_dir} SOURCES)
+file (GLOB MOC_HEADERS "${include_dir}/*.h"	)
+file (GLOB FORMS       "${forms_dir}/*.ui"	)
 
 qt4_wrap_ui( UI_HEADERS ${FORMS} )
 
 set( RESOURCES
-${res_dir}/resources.qrc
+	${res_dir}/resources.qrc
 )
 ###############################################################################
 
