@@ -50,7 +50,7 @@ void Node::setValue ( const string& value )
 
 void Node::addChild ( INode* child )
 {
-    // have to implement
+    this->getChildren().push_back(child);
 }
 
 INode* Node::getParent () const
@@ -73,5 +73,9 @@ INodeLocation* Node::getNodeLocation () const
     return this->_nodeLocation;
 }
 
+NodeList Node::getChildren() const
+{
+    return this->_children;
+}
 
 

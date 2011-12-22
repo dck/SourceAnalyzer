@@ -26,25 +26,21 @@
 
 #include "path.h"
 
-//virtual 
 void Path::setRoot ( INode* node )
 {
     this->_root = node;
 }
 
-//virtual
 void Path::addSheet ( INode* node )
 {
-    // have to implement
+    this->getSheets().push_back(node);
 }
 
-//virtual
 INode* Path::getRoot () const
 {
     return this->_root;
 }
 
-//virtual
 NodeList Path::getSheets () const
 {
     return this->_sheets;

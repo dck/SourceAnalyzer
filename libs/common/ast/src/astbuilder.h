@@ -29,6 +29,12 @@
 
     #include "iastbuilder.h"
 
+    /*
+        There are two possibilities here
+        1) We are want to create a new AST
+        2) We are already have the AST and want build a new AST from it
+    */
+
     class ASTBuilder : public IASTBuilder {
         public:
             virtual void push ( INode* node );

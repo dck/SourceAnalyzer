@@ -34,6 +34,7 @@
     class INode {
         public:
             enum InstrType {
+                unknown   = -1,
                 realInstr = 0,
                 virtInstr = 1
             };

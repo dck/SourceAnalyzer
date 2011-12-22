@@ -43,6 +43,9 @@
             virtual std::string      getValue()        const;
             virtual INodeLocation*   getNodeLocation() const;
 
+        protected:
+            virtual NodeList getChildren () const;
+
         private:
             NodeList       _children;
             INode*         _parent;
