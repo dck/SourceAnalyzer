@@ -32,16 +32,16 @@
 
     class Node : public INode{
         public:
-            virtual Node*            getParent()       const;
+            virtual void setParent       ( INode* parent );
+            virtual void setInstrType    ( const InstrType instrType );
+            virtual void setNodeLocation ( INodeLocation* nodeLocation );
+            virtual void setValue        ( const std::string& value );
+            virtual void addChild        ( INode* child );
+
+            virtual INode*           getParent()       const;
             virtual InstrType        getInstrType()    const;
             virtual std::string      getValue()        const;
             virtual INodeLocation*   getNodeLocation() const;
-
-            virtual void setParent       ( const INode* parent );
-            virtual void setInstrType    ( const InstrType instrType );
-            virtual void setNodeLocation ( const INodeLocation* nodeLocation );
-            virtual void setValue        ( const std::string& value );
-            virtual void addChild        ( const INode* child );
 
         private:
             NodeList       _children;

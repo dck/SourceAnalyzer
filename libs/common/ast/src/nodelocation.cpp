@@ -25,3 +25,36 @@
 // or implied, of SourceAnalyzer team.
 
 #include "nodelocation.h"
+
+using std::string;
+
+size_t NodeLocation::getPos () const
+{
+    return this->_pos;
+}
+
+size_t NodeLocation::getLine () const
+{
+    return this->_line;
+}
+
+string NodeLocation::getFile () const
+{
+    return this->_file;
+}
+
+void NodeLocation::setPos ( const size_t pos  )
+{
+    this->_pos = pos;    
+}
+
+void NodeLocation::setLine ( const size_t line )
+{
+    this->_line = line;
+}
+
+void NodeLocation::setFile ( const string& file )
+{
+    this->_file = file;
+}
+

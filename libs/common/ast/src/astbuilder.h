@@ -36,7 +36,7 @@
             virtual AST* getAST    ();
 
         private:
-            AST* ast;
+            AST* _ast;
     };
 
 #endif // AST_BUILDER_H

@@ -35,7 +35,7 @@
             virtual INode* getRoot() const;
 
         private:
-            INode* root;
+            INode* _root;
     };
 
 #endif // ABSTRACT_SYNTAX_TREE_H

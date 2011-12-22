@@ -31,8 +31,8 @@
 
     class Path : public IPath {
         public:
-            virtual void setRoot  ( const INode* node );
-            virtual void addSheet ( const INode* node );
+            virtual void setRoot  ( INode* node );
+            virtual void addSheet ( INode* node );
 
             virtual INode*   getRoot   () const;
             virtual NodeList getSheets () const;

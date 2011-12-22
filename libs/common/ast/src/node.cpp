@@ -25,3 +25,53 @@
 // or implied, of SourceAnalyzer team.
 
 #include "node.h"
+
+using std::string;
+
+void Node::setParent ( INode* parent )
+{
+    this->_parent = parent;
+}
+
+void Node::setInstrType ( const InstrType instrType )
+{
+    this->_instrType = instrType;
+}
+
+void Node::setNodeLocation ( INodeLocation* nodeLocation )
+{
+    this->_nodeLocation = nodeLocation;
+}
+
+void Node::setValue ( const string& value )
+{
+    this->_value = value;
+}
+
+void Node::addChild ( INode* child )
+{
+    // have to implement
+}
+
+INode* Node::getParent () const
+{
+    return this->_parent;
+}
+
+INode::InstrType Node::getInstrType () const
+{
+    return this->_instrType;
+}
+
+string Node::getValue () const
+{
+    return this->_value;
+}
+
+INodeLocation* Node::getNodeLocation () const
+{
+    return this->_nodeLocation;
+}
+
+
+

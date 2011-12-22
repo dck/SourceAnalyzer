@@ -25,3 +25,22 @@
 // or implied, of SourceAnalyzer team.
 
 #include "astbuilder.h"
+
+//virtual
+void ASTBuilder::push( INode* node )
+{
+    //have to implement
+}
+
+//virtual
+void ASTBuilder::buildNode () 
+{
+    //have to implement
+}
+
+//virtual
+AST* ASTBuilder::getAST ()
+{
+    return this->_ast;
+} 
+

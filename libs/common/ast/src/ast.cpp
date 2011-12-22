@@ -28,4 +28,8 @@
 
 #include "ast.h"
 
-using namespace std;
+//virtual
+INode* AbstractSyntaxTree::getRoot () const
+{
+    return this->_root;
+}

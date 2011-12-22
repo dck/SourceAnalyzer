@@ -24,7 +24,7 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
-/*
+
 #include "node.h"
 #include "ast.h"
 #include "astbuilder.h"
@@ -38,8 +38,4 @@ int main( int argc, char** argv )
     ast = builder->getAST();
     return 0;
 }
-*/
-int main( int argc, char** argv )
-{
-    return 0;
-}
+
