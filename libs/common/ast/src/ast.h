@@ -30,17 +30,23 @@
     #include "inode.h"
     #include "iast.h"
 
-    /*
-        I think to walk around the tree we shuold implemet walker class
-        it is really modern and good approach, moreover it will hide all node interfaces, good for user!
-    */
-
     class AbstractSyntaxTree : public IAbstractSyntaxTree {
         public:
+            AbstractSyntaxTree( INode* root = NULL );
+            virtual ~AbstractSyntaxTree();
+
             virtual INode* getRoot() const;
+            virtual void   setRoot( INode* root );
+
+            virtual INode* getRBottom () const;
+            virtual INode* getLBottom () const;
 
         private:
             INode* _root;
+
+            // have to impliment initialization of this parameters
+            //INode* _lbottom;
+            //INode* _rbottom;
     };
 
 #endif // ABSTRACT_SYNTAX_TREE_H

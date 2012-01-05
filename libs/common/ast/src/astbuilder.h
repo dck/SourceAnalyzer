@@ -27,22 +27,27 @@
 #ifndef AST_BUILDER_H
 #define AST_BUILDER_H
 
-    #include "iastbuilder.h"
+    #include <queue>
 
-    /*
-        There are two possibilities here
-        1) We are want to create a new AST
-        2) We are already have the AST and want build a new AST from it
-    */
+    #include "iastbuilder.h"
+    #include "node.h"
+    #include "ast.h"
 
     class ASTBuilder : public IASTBuilder {
         public:
-            virtual void push ( INode* node );
-            virtual void buildNode ();
-            virtual AST* getAST    ();
+            ASTBuilder ();
+            virtual ~ASTBuilder ();
+            virtual void  push      ( INode* node );
+            virtual void  buildNode ();
+            virtual IAST* getAST    ();
+            virtual void  clear     ();
+
+        protected:
+            virtual INode*  getRoot () const;
+            virtual void    setRoot ( INode* root );
 
         private:
-            AST* _ast;
+            INode* _root;
     };
 
 #endif // AST_BUILDER_H

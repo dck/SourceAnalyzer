@@ -31,10 +31,10 @@
 
     class INodeLocation {
         public:
-            INodeLocation () {};
+            INodeLocation () {}
             INodeLocation ( const size_t pos,
                             const size_t line,
-                            const std::string& file ) {};
+                            const std::string& file ) {}
 
             virtual size_t      getPos  () const = 0;
             virtual size_t      getLine () const = 0;

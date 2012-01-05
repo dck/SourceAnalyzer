@@ -31,9 +31,15 @@
 
     class IAbstractSyntaxTree {
         public:
+            virtual ~IAbstractSyntaxTree() = 0;
+
             virtual INode* getRoot() const = 0;
+            virtual void   setRoot( INode* root ) = 0;
+
+            virtual INode* getRBottom () const = 0;
+            virtual INode* getLBottom () const = 0;
     };
 
-    typedef IAbstractSyntaxTree AST;
+    typedef IAbstractSyntaxTree IAST;
 
 #endif // IABSTRACT_SYNTAX_TREE_H

@@ -28,8 +28,35 @@
 
 #include "ast.h"
 
-//virtual
+AbstractSyntaxTree::~AbstractSyntaxTree()
+{
+    if( getRoot() != NULL )
+        delete this->_root;
+}
+
+AbstractSyntaxTree::AbstractSyntaxTree(INode *root)
+{
+    setRoot(root);
+}
+
 INode* AbstractSyntaxTree::getRoot () const
 {
     return this->_root;
+}
+
+void AbstractSyntaxTree::setRoot( INode *root )
+{
+    this->_root = root;
+}
+
+INode* AbstractSyntaxTree::getLBottom() const
+{
+    // have to implement
+    return NULL;
+}
+
+INode* AbstractSyntaxTree::getRBottom() const
+{
+    // have to implement
+    return NULL;
 }

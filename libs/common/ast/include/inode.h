@@ -27,6 +27,8 @@
 #ifndef INODE_H
 #define INODE_H
 
+    #include <list>
+
     #include "inodelocation.h"
 
     class string;
@@ -39,18 +41,27 @@
                 virtInstr = 1
             };
 
+            typedef std::list<INode*> NodeList;
+
+            virtual ~INode() = 0;
+
             virtual INode*         getParent()       const = 0;
             virtual InstrType      getInstrType()    const = 0;
             virtual std::string    getValue()        const = 0;
             virtual INodeLocation* getNodeLocation() const = 0;
+            virtual NodeList       getChildren()     const = 0;
+            virtual INode*         getLeftChild()    const = 0;
+            virtual INode*         getRightChild()   const = 0;
 
-            //TODO: implement getChildren function
+            virtual void setParent       ( INode* parent )                = 0;
+            virtual void setInstrType    ( const InstrType instrType )    = 0;
+            virtual void setNodeLocation ( INodeLocation* nodeLocation )  = 0;
+            virtual void setValue        ( const std::string& value )     = 0;
+            virtual void addChild        ( INode* child )                 = 0;
 
-            virtual void setParent       ( const INode* parent ) = 0;
-            virtual void setInstrType    ( const InstrType instrType ) = 0;
-            virtual void setNodeLocation ( const INodeLocation* nodeLocation ) = 0;
-            virtual void setValue        ( const std::string& value ) = 0;
-            virtual void addChild        ( const INode* child ) = 0;
+            virtual bool isNull          () = 0;
+            virtual bool isParentNull    () = 0;
+            virtual bool isChildrenEmpty () = 0;
 
             //TODO: implement removeChild function
             //TODO: implement operator=

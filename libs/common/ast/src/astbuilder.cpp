@@ -26,18 +26,47 @@
 
 #include "astbuilder.h"
 
+///////////// public /////////////
+
+ASTBuilder::ASTBuilder()
+{
+    setRoot( new Node() );
+}
+
+ASTBuilder::~ASTBuilder()
+{
+}
+
 void ASTBuilder::push( INode* node )
 {
-    //have to implement
+    getRoot()->addChild(node);
 }
 
 void ASTBuilder::buildNode () 
 {
-    //have to implement
+    INode* newRoot = new Node();
+    getRoot()->setParent(newRoot);
+    setRoot(newRoot);
 }
 
-AST* ASTBuilder::getAST ()
+IAST* ASTBuilder::getAST ()
 {
-    return this->_ast;
-} 
+    return new AbstractSyntaxTree(getRoot());
+}
 
+void ASTBuilder::clear()
+{
+    delete this->_root;
+}
+
+///////////// protected /////////////
+
+INode* ASTBuilder::getRoot() const
+{
+    return this->_root;
+}
+
+void ASTBuilder::setRoot( INode *root )
+{
+    this->_root = root;
+}

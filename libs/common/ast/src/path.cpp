@@ -41,7 +41,7 @@ INode* Path::getRoot () const
     return this->_root;
 }
 
-NodeList Path::getSheets () const
+INode::NodeList Path::getSheets () const
 {
     return this->_sheets;
 }

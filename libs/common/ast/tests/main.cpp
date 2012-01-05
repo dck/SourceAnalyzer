@@ -12,7 +12,7 @@ int main(int argc, char** argv)
     //CppUnit::TestResult result;
     //test.run( &result );
 
-    TestNodeLocation test1;
-    test1.runTest();
+    //TestNodeLocation test1;
+    //test1.runTest();
     return 0;
 }

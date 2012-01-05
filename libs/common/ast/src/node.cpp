@@ -28,6 +28,23 @@
 
 using std::string;
 
+///////////// public /////////////
+
+Node::Node()
+{
+    setParent       ( NULL );
+    setNodeLocation ( NULL );
+    setInstrType    ( Node::unknown );
+    getValue().clear();
+}
+
+Node::~Node()
+{
+    delete this->_nodeLocation;
+    for( NodeList::iterator it = getChildren().begin(); it!=getChildren().end(); it++ )
+        delete *it;
+}
+
 void Node::setParent ( INode* parent )
 {
     this->_parent = parent;
@@ -53,6 +70,21 @@ void Node::addChild ( INode* child )
     this->getChildren().push_back(child);
 }
 
+INode::NodeList Node::getChildren() const
+{
+    return this->_children;
+}
+
+INode* Node::getLeftChild() const
+{
+    return *(getChildren().begin());
+}
+
+INode* Node::getRightChild() const
+{
+    return *(getChildren().end());
+}
+
 INode* Node::getParent () const
 {
     return this->_parent;
@@ -73,9 +105,24 @@ INodeLocation* Node::getNodeLocation () const
     return this->_nodeLocation;
 }
 
-NodeList Node::getChildren() const
+bool Node::isNull()
 {
-    return this->_children;
+    if( this == NULL )
+        return true;
+    return false;
 }
 
+bool Node::isParentNull()
+{
+    if( getParent() == NULL )
+        return true;
+    return false;
+}
+
+bool Node::isChildrenEmpty()
+{
+    if( getChildren().size() == 0 )
+        return true;
+    return false;
+}
 

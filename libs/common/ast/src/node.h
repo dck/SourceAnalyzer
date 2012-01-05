@@ -28,23 +28,29 @@
 #define NODE_H
 
     #include "inode.h"
-    #include "common.h"
 
-    class Node : public INode{
+    class Node : public INode {
         public:
+            Node ();
+            virtual ~Node();
+
             virtual void setParent       ( INode* parent );
             virtual void setInstrType    ( const InstrType instrType );
             virtual void setNodeLocation ( INodeLocation* nodeLocation );
             virtual void setValue        ( const std::string& value );
             virtual void addChild        ( INode* child );
 
+            virtual NodeList         getChildren()     const;
+            virtual INode*           getLeftChild()    const;
+            virtual INode*           getRightChild()   const;
             virtual INode*           getParent()       const;
             virtual InstrType        getInstrType()    const;
             virtual std::string      getValue()        const;
             virtual INodeLocation*   getNodeLocation() const;
 
-        protected:
-            virtual NodeList getChildren () const;
+            virtual bool isNull          ();
+            virtual bool isParentNull    ();
+            virtual bool isChildrenEmpty ();
 
         private:
             NodeList       _children;

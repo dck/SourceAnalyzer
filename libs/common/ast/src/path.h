@@ -34,12 +34,12 @@
             virtual void setRoot  ( INode* node );
             virtual void addSheet ( INode* node );
 
-            virtual INode*   getRoot   () const;
-            virtual NodeList getSheets () const;
+            virtual INode*          getRoot   () const;
+            virtual INode::NodeList getSheets () const;
 
         private:
-            INode*   _root;
-            NodeList _sheets;
+            INode*          _root;
+            INode::NodeList _sheets;
     };
 
 #endif // PATH_H
