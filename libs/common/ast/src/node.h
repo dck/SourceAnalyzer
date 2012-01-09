@@ -40,7 +40,7 @@
             virtual void setValue        ( const std::string& value );
             virtual void addChild        ( INode* child );
 
-            virtual NodeList         getChildren()     const;
+            virtual INodeList        getChildren()     const;
             virtual INode*           getLeftChild()    const;
             virtual INode*           getRightChild()   const;
             virtual INode*           getParent()       const;
@@ -53,7 +53,7 @@
             virtual bool isChildrenEmpty ();
 
         private:
-            NodeList       _children;
+            INodeList      _children;
             INode*         _parent;
             std::string    _value;
             InstrType      _instrType;

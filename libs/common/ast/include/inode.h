@@ -32,6 +32,10 @@
     #include "inodelocation.h"
 
     class string;
+    class INode;
+
+    typedef std::list<INode*>  INodeList;
+    typedef INodeList::iterator INodeIterator;
 
     class INode {
         public:
@@ -41,15 +45,13 @@
                 virtInstr = 1
             };
 
-            typedef std::list<INode*> NodeList;
-
             virtual ~INode() = 0;
 
             virtual INode*         getParent()       const = 0;
             virtual InstrType      getInstrType()    const = 0;
             virtual std::string    getValue()        const = 0;
             virtual INodeLocation* getNodeLocation() const = 0;
-            virtual NodeList       getChildren()     const = 0;
+            virtual INodeList      getChildren()     const = 0;
             virtual INode*         getLeftChild()    const = 0;
             virtual INode*         getRightChild()   const = 0;
 

@@ -41,7 +41,7 @@ Node::Node()
 Node::~Node()
 {
     delete this->_nodeLocation;
-    for( NodeList::iterator it = getChildren().begin(); it!=getChildren().end(); it++ )
+    for( INodeIterator it = getChildren().begin(); it!=getChildren().end(); it++ )
         delete *it;
 }
 
@@ -70,7 +70,7 @@ void Node::addChild ( INode* child )
     this->getChildren().push_back(child);
 }
 
-INode::NodeList Node::getChildren() const
+INodeList Node::getChildren() const
 {
     return this->_children;
 }
