@@ -38,19 +38,19 @@
 
             virtual IASTIterator& root       ();
 
-            virtual const IASTIterator& left       ();
-            virtual const IASTIterator& operator-- ();
-            virtual const IASTIterator&  operator-- (int);
+            virtual IASTIterator& left       ();
+            virtual IASTIterator& operator-- ();
+            virtual ASTIterator   operator-- (int);
 
-            virtual const IASTIterator& right      ();
-            virtual const IASTIterator& operator++ ();
-            virtual const IASTIterator& operator++ (int);
+            virtual IASTIterator& right      ();
+            virtual IASTIterator& operator++ ();
+            virtual ASTIterator   operator++ (int);
 
-            virtual const IASTIterator& up       ();
-            virtual const IASTIterator& downToR  ();
-            virtual const IASTIterator& downToL  ();
+            virtual IASTIterator& up       ();
+            virtual IASTIterator& downToR  ();
+            virtual IASTIterator& downToL  ();
 
-           // virtual const IASTIterator& operator= ( const ASTIterator& _ASTIterator );
+            virtual IASTIterator& operator= ( const ASTIterator& _ASTIterator );
 
         protected:
             virtual INode* getCurrentNode () const;
