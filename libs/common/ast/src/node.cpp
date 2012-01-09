@@ -65,6 +65,16 @@ void Node::setValue ( const string& value )
     this->_value = value;
 }
 
+void Node::setLeftNeighbor(INode *lneighbor)
+{
+    this->_lneighbor = lneighbor;
+}
+
+void Node::setRightNeighbor(INode *rneighbor)
+{
+    this->_rneighbor;
+}
+
 void Node::addChild ( INode* child )
 {
     this->getChildren().push_back(child);
@@ -103,6 +113,16 @@ string Node::getValue () const
 INodeLocation* Node::getNodeLocation () const
 {
     return this->_nodeLocation;
+}
+
+INode* Node::getLeftNeighbor() const
+{
+    return this->_lneighbor;
+}
+
+INode* Node::getRightNeighbor() const
+{
+    return this->_rneighbor;
 }
 
 bool Node::isNull()

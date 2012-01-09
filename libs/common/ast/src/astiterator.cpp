@@ -30,10 +30,14 @@
 
 ASTIterator::ASTIterator(IAST *ast)
 {
-    this->_ast         = ast;
-    this->_currentNode = NULL;
-    this->_hpos        = 0;
-    setCurrentNode(ast->getRoot());
+    setAST(ast);
+    setCurrentNode(getAST()->getRoot());
+}
+
+ASTIterator::ASTIterator(const ASTIterator& _ASTIterator)
+{
+    setCurrentNode  (_ASTIterator.getCurrentNode());
+    setAST          (_ASTIterator.getAST());
 }
 
 IASTIterator& ASTIterator::root()
@@ -41,7 +45,7 @@ IASTIterator& ASTIterator::root()
     return *this;
 }
 
-IASTIterator& ASTIterator::up()
+const IASTIterator& ASTIterator::up()
 {
     // here must be thrown exception instead of returnign NULL
     if( getCurrentNode()->isParentNull() == true )
@@ -50,7 +54,7 @@ IASTIterator& ASTIterator::up()
     return *this;
 }
 
-IASTIterator& ASTIterator::downToL()
+const IASTIterator& ASTIterator::downToL()
 {
     // here must be thrown exception instead of returnign NULL
     if( getCurrentNode()->isChildrenEmpty() == true )
@@ -59,7 +63,7 @@ IASTIterator& ASTIterator::downToL()
     return *this;
 }
 
-IASTIterator& ASTIterator::downToR()
+const IASTIterator& ASTIterator::downToR()
 {
     // here must be thrown exception instead of returnign NULL
     if( getCurrentNode()->isChildrenEmpty() == true )
@@ -68,29 +72,52 @@ IASTIterator& ASTIterator::downToR()
     return *this;
 }
 
-IASTIterator& ASTIterator::left()
+const IASTIterator& ASTIterator::left()
 {
-    //if( getCurrentNode()->isParentNull() == false )
+    INode* leftNeighbor = getCurrentNode()->getLeftNeighbor();
+    if( leftNeighbor != NULL )
+        setCurrentNode( leftNeighbor );
     return *this;
 }
 
-IASTIterator& ASTIterator::operator-- ()
+const IASTIterator& ASTIterator::operator-- ()
 {
+    return left();
+}
+
+const IASTIterator& ASTIterator::operator-- (int)
+{
+    ASTIterator it_copy(*this);
     left();
+    return it_copy;
+}
+
+const IASTIterator& ASTIterator::right()
+{
+    INode* rightNeighbor = getCurrentNode()->getRightChild();
+    if( rightNeighbor != NULL )
+        setCurrentNode( rightNeighbor );
     return *this;
 }
 
-IASTIterator& ASTIterator::right()
+const IASTIterator& ASTIterator::operator++ ()
 {
-    //if( getCurrentNode()->isParentNull() == false )
-    return *this;
+    return right();
 }
 
-IASTIterator& ASTIterator::operator++ ()
+const IASTIterator& ASTIterator::operator++ (int)
 {
+    ASTIterator it_copy(*this);
     right();
-    return *this;
+    return it_copy;
 }
+
+//const IASTIterator& ASTIterator::operator= ( const ASTIterator& _ASTIterator )
+//{
+//    setAST(_ASTIterator.getAST());
+//    setCurrentNode(_ASTIterator.getCurrentNode());
+//    return *this;
+//}
 
 ///////////// protected /////////////
 
@@ -99,8 +126,17 @@ INode* ASTIterator::getCurrentNode() const
     return this->_currentNode;
 }
 
+IAST* ASTIterator::getAST() const
+{
+    return this->_ast;
+}
+
 void ASTIterator::setCurrentNode(INode *currentNode)
 {
     this->_currentNode = currentNode;
 }
 
+void ASTIterator::setAST(IAST *ast)
+{
+    this->_ast = ast;
+}

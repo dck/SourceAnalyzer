@@ -39,7 +39,14 @@ ASTBuilder::~ASTBuilder()
 
 void ASTBuilder::push( INode* node )
 {
-    getRoot()->addChild(node);
+    INode* root = getRoot();
+    INode* rightChild = root->getRightChild();
+
+    if( root->isChildrenEmpty() == false ) {
+        rightChild->setRightNeighbor(node);
+        node->setLeftNeighbor( rightChild );
+    }
+    root->addChild(node);
 }
 
 void ASTBuilder::buildNode () 
