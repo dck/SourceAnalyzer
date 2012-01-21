@@ -27,8 +27,6 @@
 #ifndef AST_BUILDER_H
 #define AST_BUILDER_H
 
-    #include <queue>
-
     #include "iastbuilder.h"
     #include "node.h"
     #include "ast.h"
@@ -37,17 +35,16 @@
         public:
             ASTBuilder ();
             virtual ~ASTBuilder ();
-            virtual void  push      ( INode* node );
-            virtual void  buildNode ();
+            virtual void  pushNode  ( INode* node );
+            virtual void  buildNode ( INode* node, const size_t childrenNodeNumber );
             virtual IAST* getAST    ();
-            virtual void  clear     ();
 
         protected:
-            virtual INode*  getRoot () const;
-            virtual void    setRoot ( INode* root );
+            virtual INodeStack* getINodeStack   () const;
+            virtual void        setINodeStack   ( INodeStack* inodeStack );
 
         private:
-            INode* _root;
+            INodeStack* _inodeStack;
     };
 
 #endif // AST_BUILDER_H

@@ -33,18 +33,16 @@
 
     class ASTIterator : public IASTIterator {
         public:
-            ASTIterator( IAST* ast = NULL );
-            ASTIterator( const ASTIterator& _ASTIterator );
+            ASTIterator ( IAST* ast = NULL );
+            ASTIterator ( const ASTIterator& _ASTIterator );
 
             virtual IASTIterator& root       ();
 
             virtual IASTIterator& left       ();
             virtual IASTIterator& operator-- ();
-            virtual ASTIterator   operator-- (int);
 
             virtual IASTIterator& right      ();
             virtual IASTIterator& operator++ ();
-            virtual ASTIterator   operator++ (int);
 
             virtual IASTIterator& up       ();
             virtual IASTIterator& downToR  ();
@@ -58,6 +56,9 @@
 
             virtual void setCurrentNode ( INode* currentNode );
             virtual void setAST         ( IAST* ast );
+
+            virtual ASTIterator   operator++ (int);
+            virtual ASTIterator   operator-- (int);
 
         private:
             IAST*   _ast;

@@ -85,13 +85,6 @@ IASTIterator& ASTIterator::operator-- ()
     return left();
 }
 
-ASTIterator ASTIterator::operator-- (int)
-{
-    ASTIterator it_copy(*this);
-    left();
-    return it_copy;
-}
-
 IASTIterator& ASTIterator::right()
 {
     INode* rightNeighbor = getCurrentNode()->getRightChild();
@@ -103,13 +96,6 @@ IASTIterator& ASTIterator::right()
 IASTIterator& ASTIterator::operator++ ()
 {
     return right();
-}
-
-ASTIterator ASTIterator::operator++ (int)
-{
-    ASTIterator it_copy(*this);
-    right();
-    return it_copy;
 }
 
 IASTIterator& ASTIterator::operator= ( const ASTIterator& _ASTIterator )
@@ -139,4 +125,18 @@ void ASTIterator::setCurrentNode(INode *currentNode)
 void ASTIterator::setAST(IAST *ast)
 {
     this->_ast = ast;
+}
+
+ASTIterator ASTIterator::operator-- (int)
+{
+    ASTIterator it_copy(*this);
+    left();
+    return it_copy;
+}
+
+ASTIterator ASTIterator::operator++ (int)
+{
+    ASTIterator it_copy(*this);
+    right();
+    return it_copy;
 }

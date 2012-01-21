@@ -37,6 +37,7 @@
             virtual IASTIterator& right      ()    = 0;
             virtual IASTIterator& operator++ ()    = 0;
 
+            virtual IASTIterator& up         ()    = 0;
             virtual IASTIterator& downToR    ()    = 0;
             virtual IASTIterator& downToL    ()    = 0;
 

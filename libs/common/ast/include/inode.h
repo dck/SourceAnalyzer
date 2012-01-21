@@ -28,13 +28,15 @@
 #define INODE_H
 
     #include <list>
+    #include <stack>
 
     #include "inodelocation.h"
 
     class string;
     class INode;
 
-    typedef std::list<INode*>  INodeList;
+    typedef std::list<INode*>   INodeList;
+    typedef std::stack<INode*>  INodeStack;
     typedef INodeList::iterator INodeIterator;
 
     class INode {

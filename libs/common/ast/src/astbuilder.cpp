@@ -30,54 +30,42 @@
 
 ASTBuilder::ASTBuilder()
 {
-//    setRoot( new Node() );
+    setINodeStack( new INodeStack );
 }
 
 ASTBuilder::~ASTBuilder()
 {
+    delete getINodeStack();
 }
 
-void ASTBuilder::push( INode* node )
+void ASTBuilder::pushNode( INode* node )
 {
-/*
-    INode* root = getRoot();
-    INode* rightChild = root->getRightChild();
+    getINodeStack()->push(node);
+}
 
-    if( root->isChildrenEmpty() == false ) {
-        rightChild->setRightNeighbor(node);
-        node->setLeftNeighbor( rightChild );
+void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber )
+{
+    if( getINodeStack()->size() < childrenNodeNumber )
+    {
+        // we must to throw exception here
+        // can't to build node
     }
-    root->addChild(node);
-*/
-}
-
-void ASTBuilder::buildNode ()
-{
-/*
-    INode* newRoot = new Node();
-    getRoot()->setParent(newRoot);
-    setRoot(newRoot);
-*/
+    for( size_t i = 0; i<childrenNodeNumber; i++ )
+    {
+        node->getChildren().push_back(getINodeStack()->top());
+        getINodeStack()->pop();
+    }
+    getINodeStack()->push(node);
 }
 
 IAST* ASTBuilder::getAST ()
 {
-    return new AbstractSyntaxTree(getRoot());
-}
-
-void ASTBuilder::clear()
-{
-    delete this->_root;
-}
-
-///////////// protected /////////////
-
-INode* ASTBuilder::getRoot() const
-{
-    return this->_root;
-}
-
-void ASTBuilder::setRoot( INode *root )
-{
-    this->_root = root;
+    if( getINodeStack()->size() != 1 )
+    {
+        // we have to throw exception here
+        // can't get ast
+    }
+    IAST* ast = new AbstractSyntaxTree(getINodeStack()->top());
+    getINodeStack()->pop();
+    return ast;
 }
