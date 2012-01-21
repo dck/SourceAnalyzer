@@ -24,41 +24,47 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
+// this file have to be removed from the project ASAP
+
+/**
+
 #ifndef ASTITERATOR_H
 #define ASTITERATOR_H
 
-    #include "iastiterator.h"    
     #include "node.h"
     #include "ast.h"
 
-    class ASTIterator : public IASTIterator {
+    class ASTIterator {
         public:
             ASTIterator ( IAST* ast = NULL );
             ASTIterator ( const ASTIterator& _ASTIterator );
 
-            virtual IASTIterator& root       ();
+            virtual ASTIterator& root       ();
 
-            virtual IASTIterator& left       ();
-            virtual IASTIterator& operator-- ();
+            virtual ASTIterator& left       ();
+            virtual ASTIterator& operator-- ();
+            virtual ASTIterator  operator-- (int);
 
-            virtual IASTIterator& right      ();
-            virtual IASTIterator& operator++ ();
+            virtual ASTIterator& right      ();
+            virtual ASTIterator& operator++ ();
+            virtual ASTIterator  operator++ (int);
 
-            virtual IASTIterator& up       ();
-            virtual IASTIterator& downToR  ();
-            virtual IASTIterator& downToL  ();
+            virtual ASTIterator& up       ();
+            virtual ASTIterator& downToR  ();
+            virtual ASTIterator& downToL  ();
 
-            virtual IASTIterator& operator= ( const ASTIterator& _ASTIterator );
+            virtual ASTIterator& operator= ( const ASTIterator& _ASTIterator );
+
+            virtual INode*        operator*  () const;
+            virtual INode*        operator-> () const;
 
         protected:
+
             virtual INode* getCurrentNode () const;
             virtual IAST*  getAST         () const;
 
             virtual void setCurrentNode ( INode* currentNode );
             virtual void setAST         ( IAST* ast );
-
-            virtual ASTIterator   operator++ (int);
-            virtual ASTIterator   operator-- (int);
 
         private:
             IAST*   _ast;
@@ -66,3 +72,5 @@
     };
 
 #endif //ASTITERATOR_H
+
+*/

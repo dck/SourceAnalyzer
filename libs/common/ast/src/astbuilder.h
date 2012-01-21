@@ -31,7 +31,8 @@
     #include "node.h"
     #include "ast.h"
 
-    class ASTBuilder : public IASTBuilder {
+    class ASTBuilder : public IASTBuilder
+    {
         public:
             ASTBuilder ();
             virtual ~ASTBuilder ();

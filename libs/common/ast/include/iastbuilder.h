@@ -24,6 +24,8 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
+// this file have to be removed from the project ASAP
+
 #ifndef IAST_BUILDER_H
 #define IAST_BUILDER_H
 

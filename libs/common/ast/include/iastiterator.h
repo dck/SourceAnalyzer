@@ -24,27 +24,50 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
+// this file have to be removed from the project ASAP
+
+/**
+
 #ifndef IASTITERATOR_H
 #define IASTITERATOR_H
 
+    #include <inode.h>
+    #include <iast.h>
+
     class IASTIterator {
         public:
-            virtual IASTIterator& root       ()    = 0;
+            virtual IASTIterator& root       ();
 
-            virtual IASTIterator& left       ()    = 0;
-            virtual IASTIterator& operator-- ()    = 0;
+            virtual IASTIterator& left       ();
+            virtual IASTIterator& operator-- ();
+            virtual IASTIterator  operator-- (int);
 
-            virtual IASTIterator& right      ()    = 0;
-            virtual IASTIterator& operator++ ()    = 0;
+            virtual IASTIterator& right      ();
+            virtual IASTIterator& operator++ ();
+            virtual IASTIterator  operator++ (int);
 
-            virtual IASTIterator& up         ()    = 0;
-            virtual IASTIterator& downToR    ()    = 0;
-            virtual IASTIterator& downToL    ()    = 0;
+            virtual IASTIterator& up         ();
+            virtual IASTIterator& downToR    ();
+            virtual IASTIterator& downToL    ();
+
+            virtual IASTIterator& operator= ( const IASTIterator& _ASTIterator );
+
+            virtual INode* operator*         ()   const;
+            virtual INode* operator->        ()   const;
 
             // operator ==
             // opeartor !=
 
-            // virtual INode* operator* ();
+        protected:
+
+            virtual INode* getCurrentNode () const;
+            virtual IAST*  getAST         () const;
+
+            virtual void setCurrentNode ( INode* currentNode );
+            virtual void setAST         ( IAST* ast );
+
     };
 
 #endif //IASTITERATOR_H
+
+*/

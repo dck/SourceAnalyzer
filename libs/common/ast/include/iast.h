@@ -38,6 +38,43 @@
 
             virtual INode* getRBottom () const = 0;
             virtual INode* getLBottom () const = 0;
+
+            class iterator {
+                public:
+                    iterator ( IAbstractSyntaxTree* ast = NULL );
+                    iterator ( const iterator& _iterator );
+
+                    virtual iterator& root       ();
+
+                    virtual iterator& left       ();
+                    virtual iterator& operator-- ();
+                    virtual iterator  operator-- (int);
+
+                    virtual iterator& right      ();
+                    virtual iterator& operator++ ();
+                    virtual iterator  operator++ (int);
+
+                    virtual iterator& up       ();
+                    virtual iterator& downToR  ();
+                    virtual iterator& downToL  ();
+
+                    virtual iterator& operator= ( const iterator& _iterator );
+
+                    virtual INode*        operator*  () const;
+                    virtual INode*        operator-> () const;
+
+                protected:
+                    virtual INode*                getCurrentNode () const;
+                    virtual IAbstractSyntaxTree*  getAST         () const;
+
+                    virtual void setCurrentNode ( INode* currentNode );
+                    virtual void setAST         ( IAbstractSyntaxTree* ast );
+
+                private:
+                    IAbstractSyntaxTree*   _ast;
+                    INode*                 _currentNode;
+            };
+
     };
 
     typedef IAbstractSyntaxTree IAST;
