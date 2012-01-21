@@ -29,18 +29,16 @@
 
     class IASTIterator {
         public:
-            virtual IASTIterator& root       () = 0;
+            virtual IASTIterator& root       ()    = 0;
 
-            virtual IASTIterator& left       () = 0;
-            virtual IASTIterator& operator-- () = 0;
-//            virtual const IASTIterator& operator-- (IASTIterator*) = 0;
+            virtual IASTIterator& left       ()    = 0;
+            virtual IASTIterator& operator-- ()    = 0;
 
-            virtual IASTIterator& right      () = 0;
-            virtual IASTIterator& operator++ () = 0;
-//            virtual const IASTIterator& operator++ (IASTIterator*) = 0;
+            virtual IASTIterator& right      ()    = 0;
+            virtual IASTIterator& operator++ ()    = 0;
 
-            virtual IASTIterator& downToR    () = 0;
-            virtual IASTIterator& downToL    () = 0;
+            virtual IASTIterator& downToR    ()    = 0;
+            virtual IASTIterator& downToL    ()    = 0;
 
             // operator ==
             // opeartor !=

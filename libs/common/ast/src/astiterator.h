@@ -34,32 +34,34 @@
     class ASTIterator : public IASTIterator {
         public:
             ASTIterator( IAST* ast = NULL );
+            ASTIterator( const ASTIterator& _ASTIterator );
 
             virtual IASTIterator& root       ();
 
             virtual IASTIterator& left       ();
             virtual IASTIterator& operator-- ();
-//            virtual const IASTIterator* operator-- (IASTIterator*);
+            virtual ASTIterator   operator-- (int);
 
             virtual IASTIterator& right      ();
             virtual IASTIterator& operator++ ();
-//            virtual const IASTIterator* operator++ (IASTIterator*);
+            virtual ASTIterator   operator++ (int);
 
             virtual IASTIterator& up       ();
             virtual IASTIterator& downToR  ();
             virtual IASTIterator& downToL  ();
 
+            virtual IASTIterator& operator= ( const ASTIterator& _ASTIterator );
+
         protected:
-            virtual INode* getCurrentNode() const;
-            virtual void setCurrentNode( INode* currentNode );
+            virtual INode* getCurrentNode () const;
+            virtual IAST*  getAST         () const;
+
+            virtual void setCurrentNode ( INode* currentNode );
+            virtual void setAST         ( IAST* ast );
 
         private:
-            // we have to use INodeIterator instead of INode*
-            // code have to be rewrote
-            IAST*          _ast;
-            INode*         _currentNode;
-            INodeIterator  _horizontalNodeIt;
-            size_t _hpos;
+            IAST*   _ast;
+            INode*  _currentNode;
     };
 
 #endif //ASTITERATOR_H

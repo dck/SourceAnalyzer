@@ -30,7 +30,7 @@
 
 ASTBuilder::ASTBuilder()
 {
-    setRoot( new Node() );
+//    setRoot( new Node() );
 }
 
 ASTBuilder::~ASTBuilder()
@@ -39,14 +39,25 @@ ASTBuilder::~ASTBuilder()
 
 void ASTBuilder::push( INode* node )
 {
-    getRoot()->addChild(node);
+/*
+    INode* root = getRoot();
+    INode* rightChild = root->getRightChild();
+
+    if( root->isChildrenEmpty() == false ) {
+        rightChild->setRightNeighbor(node);
+        node->setLeftNeighbor( rightChild );
+    }
+    root->addChild(node);
+*/
 }
 
-void ASTBuilder::buildNode () 
+void ASTBuilder::buildNode ()
 {
+/*
     INode* newRoot = new Node();
     getRoot()->setParent(newRoot);
     setRoot(newRoot);
+*/
 }
 
 IAST* ASTBuilder::getAST ()

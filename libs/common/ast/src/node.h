@@ -34,19 +34,23 @@
             Node ();
             virtual ~Node();
 
-            virtual void setParent       ( INode* parent );
-            virtual void setInstrType    ( const InstrType instrType );
-            virtual void setNodeLocation ( INodeLocation* nodeLocation );
-            virtual void setValue        ( const std::string& value );
-            virtual void addChild        ( INode* child );
+            virtual void setParent        ( INode* parent );
+            virtual void setInstrType     ( const InstrType instrType );
+            virtual void setNodeLocation  ( INodeLocation* nodeLocation );
+            virtual void setValue         ( const std::string& value );
+            virtual void setLeftNeighbor  ( INode* lneighbor );
+            virtual void setRightNeighbor ( INode* rneighbor );
+            virtual void addChild         ( INode* child );
 
-            virtual INodeList        getChildren()     const;
-            virtual INode*           getLeftChild()    const;
-            virtual INode*           getRightChild()   const;
-            virtual INode*           getParent()       const;
-            virtual InstrType        getInstrType()    const;
-            virtual std::string      getValue()        const;
-            virtual INodeLocation*   getNodeLocation() const;
+            virtual INodeList        getChildren()      const;
+            virtual INode*           getLeftChild()     const;
+            virtual INode*           getRightChild()    const;
+            virtual INode*           getParent()        const;
+            virtual INode*           getLeftNeighbor()  const;
+            virtual INode*           getRightNeighbor() const;
+            virtual InstrType        getInstrType()     const;
+            virtual std::string      getValue()         const;
+            virtual INodeLocation*   getNodeLocation()  const;
 
             virtual bool isNull          ();
             virtual bool isParentNull    ();
@@ -55,6 +59,8 @@
         private:
             INodeList      _children;
             INode*         _parent;
+            INode*         _lneighbor;
+            INode*         _rneighbor;
             std::string    _value;
             InstrType      _instrType;
             INodeLocation* _nodeLocation;

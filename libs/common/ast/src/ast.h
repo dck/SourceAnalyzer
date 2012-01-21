@@ -43,10 +43,6 @@
 
         private:
             INode* _root;
-
-            // have to impliment initialization of this parameters
-            //INode* _lbottom;
-            //INode* _rbottom;
     };
 
 #endif // ABSTRACT_SYNTAX_TREE_H
