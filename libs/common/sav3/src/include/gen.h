@@ -40,7 +40,8 @@
 	}
 
 int  getkey     (const char* pref, const char* val, uint16* keylen, char** pkey);
-int  getseckey  (DB* db, const char* pref, const char* val, uint16* keylen, char** pkey);
+int  gen_cd     (DB *pfdb, const DBT *pkey, const DBT *pdata, DBT *pfkey);
+int  gen_cr     (DB *pfdb, const DBT *pkey, const DBT *pdata, DBT *pfkey);
 void freekey    (char** pkey);
 int  getstruct  (uint32* size, void** struc, uint8 cnt, ...);
 void freestruct (void** struc);

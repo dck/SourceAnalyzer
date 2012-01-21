@@ -27,10 +27,6 @@
 #ifndef APICALL_H
 #define APICALL_H
 
-#ifdef _WIN32
-    #define __func__ __FUNCTION__
-#endif
-
 #define CLEANUP __cleanup
 
 #ifdef TRACE
@@ -49,24 +45,36 @@
 	#define ERR_LOG(err)
 #endif
 
-#define GOTO_CLEANUP_IF(cond, saret, err)                            \
-	if (cond) {                                                  \
-		ERR_LOG(err);                                        \
-		saret = (err);                                       \
-		goto CLEANUP;                                        \
+#define GOTO_CLEANUP(saret, err) { \
+	 	ERR_LOG(err);              \
+		saret = (err);             \
+		goto CLEANUP;              \
+	 }
+
+#define GOTO_CLEANUP_IF(cond, saret, err) \
+	if (cond) {                           \
+		GOTO_CLEANUP(saret, err)          \
 	}
 
-#define CALL_API(sts, call)    { TRACE_BEFORE_CALL (call);             \
-				 sts = call;                           \
-				 TRACE_AFTER_CALL  (call, sts);        \
-				 GOTO_CLEANUP_IF (0 != sts, sts, sts); }
+#define CALL_API(sts, call) {                         \
+				TRACE_BEFORE_CALL (call);             \
+				sts = call;                           \
+				TRACE_AFTER_CALL  (call, sts);        \
+				GOTO_CLEANUP_IF (0 != sts, sts, sts); \
+				}
 
-#define CALL_BD_API(sts, call) { int __tmp = 0;                                 \
-				 TRACE_BEFORE_CALL (call);                      \
-				 __tmp = call;                                  \
-				 TRACE_AFTER_CALL  (call, __tmp);               \
-				 GOTO_CLEANUP_IF (0 != __tmp && DB_NOTFOUND != __tmp && DB_KEYEXIST != __tmp, sts, SA3_DB_ERR); }
+#define CALL_BD_API(sts, call) {							   \
+				int __tmp = 0;                                 \
+				TRACE_BEFORE_CALL (call);                      \
+				__tmp = call;                                  \
+				TRACE_AFTER_CALL  (call, __tmp);               \
+				GOTO_CLEANUP_IF (0 != __tmp && DB_NOTFOUND != __tmp && DB_KEYEXIST != __tmp, sts, SA3_DB_ERR); \
+			}
 
-#define SA3_FORLST(it, lst) for(it=sa3firstlstit(lst); it!=sa3lastlstit(lst); it=sa3nextlstit(lst, it))
+#define STRLEN(str) (strlen (str) + 1)
+
+#define SA3_FORLST(it, lst) for (it = (void*)sa3firstlstit(lst); \
+	((void*)it) != (void*)sa3lastlstit(lst); \
+	it = (void*)sa3nextlstit(lst, it))
 
 #endif // APICALL_H

@@ -32,9 +32,10 @@ int sa3open_p (sa3cg* cg, const char* name) {
 	CHK_PTR (cg,   saret);
 	CHK_STR (name, saret);
 
-	CALL_API (saret, opencg (cg, name, DB_CREATE | DB_TRUNCATE));
+	CALL_API (saret, create_cg (cg, name));
 
 CLEANUP:
+
 	return saret;
 }
 
@@ -44,9 +45,10 @@ int sa3close_p (sa3cg* cg) {
 	CHK_PTR (cg,  saret);
 	CHK_CG  (*cg, saret);
 
-	CALL_API (saret, closecg (cg));
+	CALL_API (saret, close_cg (cg));
 
 CLEANUP:
+
 	return saret;
 }
 
@@ -67,8 +69,8 @@ int sa3adddecl (sa3cg cg, char* type, char* func, char* param) {
 	
 	/*   TODO: child thread start */ {
 		_func = (char*) PI2PTR (d, d->func);
-		CALL_API (saret, getkey ("dl \0", (const char*) _func, &keylen, &key));
-		CALL_API (saret, put2db (cg->db, key, keylen, (void*) d, size));
+		// CALL_API (saret, getkey ("dl \0", (const char*) _func, &keylen, &key));
+		CALL_API (saret, put_ent (cg->pdb, _func, STRLEN(_func), (void*) d, size, DL));
 	} /* TODO: child thread end */
 
 CLEANUP:
@@ -90,79 +92,47 @@ int sa3addcall (sa3cg cg, char* cr, char* cd) {
 	uint16  pklen = 0;
 	uint16  fklen = 0;
 	char*      pk = NULL;
-	char*      fk = NULL;
-	char*     _cr = NULL;
-	char*     _cd = NULL;
+	char*   tmpcr = NULL;
 
 	CHK_CG  (cg, saret);
 	CHK_STR (cr, saret);
 	CHK_STR (cd, saret);
 
 	CALL_API (saret, getstruct (&size, (void**)&c, 2, cr, cd));
-	/* Thread #1 */
-	_cr = (char*) PI2PTR (c, c->cr);
-	_cd = (char*) PI2PTR (c, c->cd);
 
-	CALL_API (saret, getkey ("cr \0", (const char*) _cr, &pklen, &pk));
-	CALL_API (saret, put2db (cg->db, pk, pklen, (void*) c, size));
-
-	CALL_API (saret, getkey ("cd \0", (const char*) _cd, &fklen, &fk));
-	CALL_API (saret, put2db (cg->db, fk, fklen, (void*) pk, pklen));
+	CALL_API (saret, put_ent (cg->pdb, NULL, 0, (void*) c, size, CR));
 
 CLEANUP:
 	if (NULL != pk) {
 		freekey (&pk);
 	}
-	if (NULL != fk) {
-		freekey (&fk);
-	}
 
-	return saret;
-}
-
-int sa3mergedeps (sa3cg rcpt, sa3cg src) {
-	int    saret = 0;
-	sa3list  lst = NULL;
-	char*   pref = "cr \0";
-
-	CHK_CG (rcpt, saret);
-	CHK_CG (src,  saret);
-
-	CALL_API(saret, getbypref (src->db, pref, strlen(pref), &lst));
-
-	{
-		sa3listit it = NULL;
-		SA3_FORLST (it, lst) {
-			sa3call* call = (sa3call*)sa3resolveit (lst, it);
-			// if (NULL != call)
-			// CALL_API(saret, adddeps (rcpt, PI2PTR(call, call->cr), PI2PTR(call, call->cd)));
-		}
-	}
-
-CLEANUP:
-	if (NULL != lst)
-		sa3freelist (&lst);
 	return saret;
 }
 
 int sa3mergedecls (sa3cg rcpt, sa3cg src) {
 	int    saret = 0;
 	sa3list  lst = NULL;
-	uint32     i = 0;
+	sa3listit it = NULL;
 	char*   pref = "dl \0";
 
 	CHK_CG (rcpt, saret);
 	CHK_CG (src,  saret);
 
-	CALL_API(saret, getbypref (src->db, pref, strlen(pref), &lst));
+	CALL_API(saret, get_all_ent (src->pdb, &lst, DL));
 
-	{
-		sa3listit it = NULL;
-		SA3_FORLST (it, lst) {
-			sa3decl* d = (sa3decl*)sa3resolveit (lst, it);
-			//if (NULL != call)
-			CALL_API(saret, sa3adddecl (rcpt, PI2PTR(d, d->type), PI2PTR(d, d->func), PI2PTR(d, d->param)));
-		}
+	SA3_FORLST (it, lst) {
+		char* type  = NULL;
+		char* func  = NULL;
+		char* param = NULL;
+		sa3decl* d  = NULL;
+		d = (sa3decl*)sa3resolveit (lst, it);
+		type  = (char*)PI2PTR(d, d->type);
+		func  = (char*)PI2PTR(d, d->func);
+		param = (char*)PI2PTR(d, d->param);
+		// no (NULL != call) check needed, since sa3adddecl() is a public
+		// API and will do argumants check
+		CALL_API(saret, sa3adddecl (rcpt, type, func, param));
 	}
 
 CLEANUP:
@@ -174,6 +144,35 @@ CLEANUP:
 int sa3mergecalls (sa3cg rcpt, sa3cg src) {
 	int    saret = 0;
 	sa3list  lst = NULL;
+	sa3listit it = NULL;
+
+	CHK_CG (rcpt, saret);
+	CHK_CG (src,  saret);
+
+	CALL_API(saret, get_all_ent (src->pdb, &lst, CR));
+
+	SA3_FORLST (it, lst) {
+		char*   cr = NULL;
+		char*   cd = NULL;
+		sa3call* c = NULL;
+		c = (sa3call*)sa3resolveit (lst, it);
+		cr = (char*)PI2PTR(c, c->cr);
+		cd = (char*)PI2PTR(c, c->cd);
+		// no (NULL != call) check needed, since sa3adddecl() is a public
+		// API and will do argumants check
+		CALL_API(saret, sa3addcall (rcpt, cr, cd));
+	}
+
+CLEANUP:
+	if (NULL != lst)
+		sa3freelist (&lst);
+	return saret;
+}
+
+/* About to exclude this stuff. Dependencies are calculated on demand.
+int sa3mergedeps (sa3cg rcpt, sa3cg src) {
+	int    saret = 0;
+	sa3list  lst = NULL;
 	char*   pref = "cr \0";
 
 	CHK_CG (rcpt, saret);
@@ -182,12 +181,12 @@ int sa3mergecalls (sa3cg rcpt, sa3cg src) {
 	CALL_API(saret, getbypref (src->db, pref, strlen(pref), &lst));
 
 	{
-		sa3listit it = NULL;
-		SA3_FORLST (it, lst) {
-			sa3call* call = (sa3call*)sa3resolveit (lst, it);
-			// if (NULL != call)
-			CALL_API(saret, sa3addcall (rcpt, PI2PTR(call, call->cr), PI2PTR(call, call->cd)));
-		}
+	sa3listit it = NULL;
+	SA3_FORLST (it, lst) {
+		sa3call* call = (sa3call*)sa3resolveit (lst, it);
+		// if (NULL != call)
+		// CALL_API(saret, adddeps (rcpt, PI2PTR(call, call->cr), PI2PTR(call, call->cd)));
+	}
 	}
 
 CLEANUP:
@@ -195,3 +194,4 @@ CLEANUP:
 		sa3freelist (&lst);
 	return saret;
 }
+*/

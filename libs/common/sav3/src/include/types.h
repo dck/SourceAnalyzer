@@ -44,24 +44,26 @@ struct list {
 typedef struct list* sa3list;
 typedef void** sa3listit;
 
-/*
-struct _dep {
-	char*           func;
-	uint16          flen;
-	uint32          fid;
-	struct _dep**   dpds;
-	uint32          dpdsnum;
-	uint32          bfsize;
+#define CR  ( 0 )
+#define CD  ( 1 )
+#define DL  ( 2 )
+#define CHD ( 3 )
+#define PRN ( 4 )
+
+struct berkeleydb_t {
+	DB_ENV* pdb_en;
+	DB*     pdb;     // primary database
+	DB*     pdb_cr;  // secondary database
+	DB*     pdb_cd;  // secondary database
+	DB*     pdb_dl;
+	DB*     pdb_chd;
+	DB*     pdb_prn;
+	uint32  db_cnt;
 };
-typedef struct _dep dep;
-*/
+typedef struct berkeleydb_t database_t;
 
 struct cg {
-	DB*     db;
-/*	dep*    cld;
-	dep*    prn;
-	uint32  fnnum;
-	uint32  bfsize;*/
+	database_t* pdb;
 };
 typedef struct cg* sa3cg;
 

@@ -51,10 +51,10 @@ void printbuf (void* ptr) {
 int checkboundaries (void* ptr) {
 	int     saret = 0;
 	size_t* psize = NULL;
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_PTR (ptr, saret);
-	CHK_GTZERO (*BUF2SIZE(ptr), saret)
-#endif
+
+	CHK_I_PTR (ptr, saret);
+	CHK_I_GTZERO (*BUF2SIZE(ptr), saret)
+
 	psize = BUF2SIZE(ptr);
 	GOTO_CLEANUP_IF(BOUND_BYTE != *PI2PTR(ptr, *psize), saret, SA3_MALLOC_ERR);
 
@@ -75,10 +75,8 @@ int _wrapmalloc (void** pptr, size_t len) {
 	size_t     oldlen = 0;
 	size_t*  arraylen = 0;
 
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_PTR (pptr, saret);
-	CHK_GTZERO (len, saret);
-#endif
+	CHK_I_PTR (pptr, saret);
+	CHK_I_GTZERO (len, saret);
 
 	tmp = *pptr;
 	if( NULL != tmp ) {
@@ -115,10 +113,9 @@ void _wrapfree (void** pptr) {
 	int saret = 0;
 #endif
 
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_PTR (pptr, saret);
-	CHK_PTR (*pptr, saret);
-#endif
+	CHK_I_PTR (pptr, saret);
+	CHK_I_PTR (*pptr, saret);
+	
 	{
 		void* ptr = BUF2SIZE (*pptr);
 #ifdef MALLOC_CHECKS

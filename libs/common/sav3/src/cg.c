@@ -27,145 +27,179 @@
 #include "include/api.h"
 
 #ifdef TRACE
-	void __tabint(int n) {
-		static uint16 in = 0;
-		uint16 i = 0;
-		if (0 > n) {
-			in = in + n;
-		//for (i = 0; i < in; i++)
-			fprintf (stderr, "%d", in);
-		} if (0 < n)
-			in = in + n;
-	}
+void __tabint(int n) {
+	static uint16 in = 0;
+	uint16 i = 0;
+	if (n < 0)
+		in = in + n;
+	for (i = 0; i < in; i++)
+		fprintf (stderr, "  ");
+	if (n > 0)
+		in = in + n;
+}
 #endif
 
-int opencg (sa3cg* cg, const char* name, u_int32_t flags) {
-	DB *dbp = NULL;    /* DB structure handle */
-	int saret = 0;     /* SA function return value */
-	sa3cg _cg  = NULL;
+int open_cg (sa3cg* cg, const char* name) {
+	database_t *dbp  = NULL;
+	int   saret      = 0;
+	sa3cg _cg        = NULL;
 
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_PTR (cg, saret);
-	CHK_STR (name, saret);
-#endif
+	CHK_I_PTR (cg, saret);
+	CHK_I_STR (name, saret);
 
 	CALL_API (saret, wrapmalloc (&_cg, sizeof (struct cg)));
-	CALL_API (saret, opendb (&dbp, name, flags));
+    CALL_API (saret, open_db (&dbp, name));
 
-	_cg->db = dbp;
+    _cg->pdb  = dbp;
+    (*cg) = _cg;
 
 CLEANUP:
 	if (0 != saret) {
-		if (NULL != dbp) {
-			dbp->close(dbp, 0);
-		}
-	} else {
-		(*cg) = _cg;
+		if (NULL != dbp)
+			close_db (&dbp);
+        if (NULL != _cg)
+			wrapfree (&_cg);
 	}
 
 	return saret;
 }
 
-int closecg (sa3cg* pcg) {
+int create_cg (sa3cg* cg, const char* name) {
+	database_t *dbp  = NULL;
+	int   saret      = 0;
+	sa3cg _cg        = NULL;
+
+	CHK_I_PTR (cg, saret);
+	CHK_I_STR (name, saret);
+
+	CALL_API (saret, wrapmalloc (&_cg, sizeof (struct cg)));
+    CALL_API (saret, create_db (&dbp, name));
+
+    _cg->pdb  = dbp;
+    (*cg) = _cg;
+
+CLEANUP:
+	if (0 != saret) {
+		if (NULL != dbp)
+			close_db (&dbp);
+        if (NULL != _cg)
+			wrapfree (&_cg);
+	}
+
+	return saret;
+}
+
+int close_cg (sa3cg* pcg) {
 	int saret = 0;
 	int i = 0;
 	sa3cg cg = NULL;
 
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_PTR (pcg,  saret);
-	CHK_CG  (*pcg, saret);
-#endif
+	CHK_I_PTR (pcg,  saret);
+	CHK_I_CG  (*pcg, saret);
 
 	cg = *pcg;
-	CALL_API (saret, closedb (cg));
+	CALL_API (saret, close_db (&cg->pdb));
 
-	wrapfree ((void**)pcg);
+	wrapfree (pcg);
 
 CLEANUP:
+
 	return saret;
 }
 
-int addcld (DB* db, char* func, char* initfunc) {
-	int saret = 0;
-	uint16 kl    = 0;
-	char*  k     = NULL;
-	sa3list l    = NULL;
-	sa3listit it = NULL;
-	uint8 flag = 0;
+int addcld (sa3cg cg, char* func, char* initfunc) {
+	int         saret       = 0;
+	uint16      funclen     = 0;
+	uint16      initfunclen = 0;
+	sa3list     l    = NULL;
+	sa3listit   it   = NULL;
+	uint8       flag = 0;
+	database_t* db   = NULL;
 
-	fprintf(stderr, "--> %s\n", func);
-	// printf(".");
-	CALL_API (saret, getkey ("cld \0", func, &kl, &k));
-	CALL_API (saret, getbykey (db, k, kl, &l));
+	// add params checks
+
+	db = cg->pdb;
+
+	// fprintf(stderr, "--> %s\n", func);
+
+	funclen     = strlen(func) + 1;
+	initfunclen = strlen(initfunc) + 1;
+
+	CALL_API (saret, get_ent (db, func, funclen, &l, CHD));
 
 	if (NULL == l) {
-		freekey(&k);
-		CALL_API (saret, getkey ("cr \0", func, &kl, &k));
-		CALL_API (saret, getbykey (db, k, kl, &l));
-		freekey(&k);
-		CALL_API (saret, getkey ("cld \0", initfunc, &kl, &k));
+		CALL_API (saret, get_ent (db, func, funclen, &l, CR));
 		SA3_FORLST(it, l) {
-			char*   cd = NULL;
-			sa3call* c = (sa3call*)sa3resolveit (l, it);
-			cd = PI2PTR(c, c->cd);
-			CALL_API (saret, ispairexists (db, k, kl, cd, c->cdlen, &flag));
-			CALL_API (saret, put2db (db, k, kl, cd, c->cdlen));
-			if (0 == flag) CALL_API (saret, addcld (db, cd, initfunc));
+			char*    cd = NULL;
+			sa3call* c  = NULL;
+
+			c  = (sa3call*)sa3resolveit (l, it);
+			cd = (char*)PI2PTR(c, c->cd);
+
+			CALL_API (saret, is_ent_exist (db, initfunc, initfunclen, cd, c->cdlen, CHD, &flag));
+			CALL_API (saret, put_ent (db, initfunc, initfunclen, cd, c->cdlen, CHD));
+
+			if (0 == flag)
+				CALL_API (saret, addcld (cg, cd, initfunc));
 		}
 	} else if (func != initfunc) {
-		freekey(&k);
-		CALL_API (saret, getkey ("cld \0", initfunc, &kl, &k));
 		SA3_FORLST(it, l) {
 			char* fn = (char*)sa3resolveit (l, it);
-			CALL_API (saret, put2db(db, k, kl, fn, strlen(fn)+1));
+			CALL_API (saret, put_ent (db, initfunc, initfunclen, fn, strlen(fn) + 1, CHD));
 		}
 	}
 
 CLEANUP:
-	if (NULL != k)
-		freekey(&k);
+
+	if (NULL != l)
+		sa3freelist(&l);
 	return saret;
 }
 
-int addprn (DB* db, char* func, char* initfunc) {
-	int saret = 0;
-	uint16 kl    = 0;
-	char*  k     = NULL;
-	sa3list l    = NULL;
-	sa3listit it = NULL;
-	uint8   flag = 0;
+int addprn (sa3cg cg, char* func, char* initfunc) {
+	int         saret       = 0;
+	uint16      funclen     = 0;
+	uint16      initfunclen = 0;
+	sa3list     l      = NULL;
+	sa3listit   it     = NULL;
+	uint8       flag   = 0;
+	database_t* db     = NULL;
 
-	fprintf(stderr, "--> %s\n", func);
-	CALL_API (saret, getkey ("prn \0", func, &kl, &k));
-	CALL_API (saret, getbykey (db, k, kl, &l));
+	// add params checks
+
+	db = cg->pdb;
+
+	// fprintf(stderr, "--> %s\n", func);
+
+	funclen     = strlen(func) + 1;
+	initfunclen = strlen(initfunc) + 1;
+
+	CALL_API (saret, get_ent (db, func, funclen, &l, PRN));
 
 	if (NULL == l) {
-		freekey(&k);
-		CALL_API (saret, getseckey (db, "cd \0", func, &kl, &k));
-		if (NULL != k) {
-			CALL_API (saret, getbykey (db, k, kl, &l));
-			CALL_API (saret, getkey ("prn \0", initfunc, &kl, &k));
-			SA3_FORLST(it, l) {
-				char*   cr = NULL;
-				sa3call* c = (sa3call*)sa3resolveit (l, it);
-				cr = PI2PTR(c, c->cr);
-				CALL_API (saret, ispairexists (db, k, kl, cr, c->crlen, &flag));
-				CALL_API (saret, put2db (db, k, kl, cr, c->crlen));
-				if (0 == flag) CALL_API (saret, addprn (db, cr, initfunc));
-			}
+		CALL_API (saret, get_ent (db, func, funclen, &l, CD));
+		SA3_FORLST(it, l) {
+			char*    cr = NULL;
+			sa3call* c  = NULL;
+
+			c  = (sa3call*) sa3resolveit (l, it);
+			cr = (char*) PI2PTR(c, c->cr);
+
+			CALL_API (saret, is_ent_exist (db, initfunc, initfunclen, cr, c->crlen, PRN, &flag));
+			CALL_API (saret, put_ent (db, initfunc, initfunclen, cr, c->crlen, PRN));
+
+			if (0 == flag)
+				CALL_API (saret, addprn (cg, cr, initfunc));
 		}
 	} else if (func != initfunc) {
-		freekey(&k);
-		CALL_API (saret, getkey ("prn \0", initfunc, &kl, &k));
 		SA3_FORLST(it, l) {
 			char* fn = (char*)sa3resolveit (l, it);
-			CALL_API (saret, put2db(db, k, kl, fn, strlen(fn)+1));
+			CALL_API (saret, put_ent (db, initfunc, initfunclen, fn, strlen(fn) + 1, PRN));
 		}
 	}
 
 CLEANUP:
-	if (NULL != k)
-		freekey(&k);
+
 	if (NULL != l)
 		sa3freelist(&l);
 	return saret;

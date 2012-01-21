@@ -27,12 +27,15 @@
 #ifndef DB_H
 #define DB_H
 
-int getbypref     (DB*  pdb, void* pref, uint16 preflen, sa3list* lst);
-int getbykey      (DB*  pdb, void* key,  uint16 keylen,  sa3list* lst);
-int getfirstbykey (DB*  pdb, void* key,  uint16 keylen,  void** data, uint32* datalen);
-int put2db        (DB*  pdb, void* key,  uint16 keylen,  void*  data, uint32  datalen);
-int opendb        (DB** ppdb, const char* name, u_int32_t flags);
-int closedb       (sa3cg cg);
-int ispairexists  (DB* db, void* key, uint16 keylen, void* data, uint32 datalen, uint8* flag);
+int create_db    (database_t** ppdb, const char* name);
+int open_db      (database_t** ppdb, const char* name);
+int close_db     (database_t** ppdb);
+int put_ent      (database_t*  pdb, void* pPK, uint16 keylen, void* pdata, uint32 datalen, uint8 ID);
+int get_ent      (database_t*  pdb, void* pFK, uint16 keylen, sa3list*  lst, uint8 ID);
+int get_all_ent  (database_t*  pdb, sa3list* lst, uint8 ID);
+int is_ent_exist (database_t*  pdb, void* pkey, uint16 keylen, void* pdata, uint32 datalen, uint8 ID, uint8* p_existance_flag);
+
+// int get_ent_pk    (database_t* pdb, void* pFK,  uint16 keylen, void** ppdata, uint32* datalen);
+// int getfirstbykey (database_t* pdb, void* key,  uint16 keylen, void** data,   uint32* datalen);
 
 #endif // DB_H
