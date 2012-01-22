@@ -37,8 +37,8 @@
             ASTBuilder ();
             virtual ~ASTBuilder ();
             virtual void  pushNode  ( INode* node );
-            virtual void  buildNode ( INode* node, const size_t childrenNodeNumber );
-            virtual IAST* getAST    ();
+            virtual void  buildNode ( INode* node, const size_t childrenNodeNumber ) throw();
+            virtual IAST* getAST    () throw();
 
         protected:
             virtual INodeStack* getINodeStack   () const;

@@ -29,7 +29,8 @@
 
     #include "inode.h"
 
-    class IAbstractSyntaxTree {
+    class IAbstractSyntaxTree
+    {
         public:
             virtual ~IAbstractSyntaxTree() = 0;
 
@@ -39,7 +40,8 @@
             virtual INode* getRBottom () const = 0;
             virtual INode* getLBottom () const = 0;
 
-            class iterator {
+            class iterator
+            {
                 public:
                     iterator ( IAbstractSyntaxTree* ast = NULL );
                     iterator ( const iterator& _iterator );
@@ -54,9 +56,9 @@
                     virtual iterator& operator++ ();
                     virtual iterator  operator++ (int);
 
-                    virtual iterator& up       ();
-                    virtual iterator& downToR  ();
-                    virtual iterator& downToL  ();
+                    virtual iterator& up       () throw();
+                    virtual iterator& downToR  () throw();
+                    virtual iterator& downToL  () throw();
 
                     virtual iterator& operator= ( const iterator& _iterator );
 

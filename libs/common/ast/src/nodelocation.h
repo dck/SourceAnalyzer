@@ -31,7 +31,8 @@
 
     #include "inodelocation.h"
 
-    class NodeLocation : public INodeLocation {
+    class NodeLocation : public INodeLocation
+    {
         public:
             virtual size_t      getPos  () const;
             virtual size_t      getLine () const;

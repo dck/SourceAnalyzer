@@ -29,7 +29,8 @@
 
     #include "inode.h"
 
-    class Node : public INode {
+    class Node : public INode
+    {
         public:
             Node ();
             virtual ~Node();

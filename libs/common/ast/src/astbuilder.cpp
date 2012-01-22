@@ -25,6 +25,7 @@
 // or implied, of SourceAnalyzer team.
 
 #include "astbuilder.h"
+#include "iexception.h"
 
 ///////////// public /////////////
 
@@ -43,12 +44,11 @@ void ASTBuilder::pushNode( INode* node )
     getINodeStack()->push(node);
 }
 
-void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber )
+void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber ) throw()
 {
     if( getINodeStack()->size() < childrenNodeNumber )
     {
-        // we must to throw exception here
-        // can't to build node
+        throw StackException("ast_builder: buildNode: number of nodes are less");
     }
     for( size_t i = 0; i<childrenNodeNumber; i++ )
     {
@@ -58,12 +58,11 @@ void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber )
     getINodeStack()->push(node);
 }
 
-IAST* ASTBuilder::getAST ()
+IAST* ASTBuilder::getAST () throw()
 {
     if( getINodeStack()->size() != 1 )
     {
-        // we have to throw exception here
-        // can't get ast
+        throw StackException("ast_builder: getAST: number of nodes are less");
     }
     IAST* ast = new AbstractSyntaxTree(getINodeStack()->top());
     getINodeStack()->pop();

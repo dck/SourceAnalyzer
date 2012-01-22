@@ -29,7 +29,8 @@
 
     #include "inode.h"
 
-    class IPath {
+    class IPath
+    {
         public:
             virtual void setRoot  ( const INode* node ) = 0;
             virtual void addSheet ( const INode* node ) = 0;

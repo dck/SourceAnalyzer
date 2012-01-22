@@ -24,20 +24,19 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
-// this file have to be removed from the project ASAP
-
 #ifndef IAST_BUILDER_H
 #define IAST_BUILDER_H
 
     #include "inode.h"
     #include "iast.h"
 
-    class IASTBuilder {
+    class IASTBuilder
+    {
         public:
             virtual ~IASTBuilder   () = 0;
             virtual void pushNode  ( INode* node ) = 0;
-            virtual void buildNode ( INode* node, const size_t childrenNodeNumber ) = 0;
-            virtual IAST* getAST   () = 0;
+            virtual void buildNode ( INode* node, const size_t childrenNodeNumber ) throw() = 0;
+            virtual IAST* getAST   () throw() = 0;
     };
 
 #endif // IAST_BUILDER_H

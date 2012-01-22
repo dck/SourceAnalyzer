@@ -25,6 +25,7 @@
 // or implied, of SourceAnalyzer team.
 
 #include "iast.h"
+#include "iexception.h"
 
 ///////////// public /////////////
 
@@ -45,29 +46,26 @@ IAST::iterator& IAST::iterator::root()
     return *this;
 }
 
-IAST::iterator& IAST::iterator::up()
+IAST::iterator& IAST::iterator::up() throw()
 {
-    // here must be thrown exception instead of returnign NULL
     if( getCurrentNode()->isParentNull() == true )
-        return *this;
+        throw BadPointer("iterator: up: pointer is NULL");
     setCurrentNode( getCurrentNode()->getParent() );
     return *this;
 }
 
-IAST::iterator& IAST::iterator::downToL()
+IAST::iterator& IAST::iterator::downToL() throw()
 {
-    // here must be thrown exception instead of returnign NULL
     if( getCurrentNode()->isChildrenEmpty() == true )
-        return *this;
+        throw BadPointer("iterator: downToL: pointer is NULL");
     setCurrentNode( getCurrentNode()->getLeftChild() );
     return *this;
 }
 
-IAST::iterator& IAST::iterator::downToR()
+IAST::iterator& IAST::iterator::downToR() throw()
 {
-    // here must be thrown exception instead of returnign NULL
     if( getCurrentNode()->isChildrenEmpty() == true )
-        return *this;
+        throw BadPointer("iterator: downToR: pointer is NULL");
     setCurrentNode( getCurrentNode()->getRightChild() );
     return *this;
 }

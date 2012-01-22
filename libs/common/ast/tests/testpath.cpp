@@ -3,7 +3,8 @@
 
 #include "path.h"
 
-/*class TestPath : public CppUnit::TestCase {
+/*class TestPath : public CppUnit::TestCase
+{
 public:
   TestPath( std::string name ) : CppUnit::TestCase( name ) {}
 
