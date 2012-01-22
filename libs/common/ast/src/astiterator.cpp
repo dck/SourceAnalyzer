@@ -117,14 +117,20 @@ IAST::iterator& IAST::iterator::operator= ( const iterator& _iterator )
     return *this;
 }
 
-INode* IAST::iterator::operator* () const
+INode* IAST::iterator::operator* () const throw()
 {
-    return getCurrentNode();
+    INode* node = getCurrentNode();
+    if( node->isNull() )
+        throw BadPointer("iterator: operator*: pointer is NULL");
+    return node;
 }
 
-INode* IAST::iterator::operator-> () const
+INode* IAST::iterator::operator-> () const throw()
 {
-    return getCurrentNode();
+    INode* node = getCurrentNode();
+    if( node->isNull() )
+        throw BadPointer("iterator: operator->: pointer is NULL");
+    return node;
 }
 
 ///////////// protected /////////////

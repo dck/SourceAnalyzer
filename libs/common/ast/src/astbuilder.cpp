@@ -46,13 +46,21 @@ void ASTBuilder::pushNode( INode* node )
 
 void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber ) throw()
 {
+    INode* previousChild = NULL;
     if( getINodeStack()->size() < childrenNodeNumber )
     {
         throw StackException("ast_builder: buildNode: number of nodes are less");
     }
     for( size_t i = 0; i<childrenNodeNumber; i++ )
     {
-        node->getChildren().push_back(getINodeStack()->top());
+        INode* nextChild = getINodeStack()->top();
+        if( previousChild->isNull() == false )
+        {
+            previousChild->setRightNeighbor(nextChild);
+            nextChild->setLeftNeighbor(previousChild);
+        }
+        node->getChildren().push_back(nextChild);
+        previousChild = nextChild;
         getINodeStack()->pop();
     }
     getINodeStack()->push(node);

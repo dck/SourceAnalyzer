@@ -34,6 +34,8 @@ Node::Node()
 {
     setParent       ( NULL );
     setNodeLocation ( NULL );
+    setRightNeighbor( NULL );
+    setLeftNeighbor ( NULL );
     setInstrType    ( Node::unknown );
     getValue().clear();
 }

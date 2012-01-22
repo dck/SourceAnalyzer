@@ -62,8 +62,8 @@
 
                     virtual iterator& operator= ( const iterator& _iterator );
 
-                    virtual INode*        operator*  () const;
-                    virtual INode*        operator-> () const;
+                    virtual INode*        operator*  () const throw();
+                    virtual INode*        operator-> () const throw();
 
                 protected:
                     virtual INode*                getCurrentNode () const;
