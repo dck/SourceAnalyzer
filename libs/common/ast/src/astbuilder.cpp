@@ -25,59 +25,54 @@
 // or implied, of SourceAnalyzer team.
 
 #include "astbuilder.h"
+#include "iexception.h"
 
 ///////////// public /////////////
 
 ASTBuilder::ASTBuilder()
 {
-//    setRoot( new Node() );
+    setINodeStack( new INodeStack );
 }
 
 ASTBuilder::~ASTBuilder()
 {
+    delete getINodeStack();
 }
 
-void ASTBuilder::push( INode* node )
+void ASTBuilder::pushNode( INode* node )
 {
-/*
-    INode* root = getRoot();
-    INode* rightChild = root->getRightChild();
+    getINodeStack()->push(node);
+}
 
-    if( root->isChildrenEmpty() == false ) {
-        rightChild->setRightNeighbor(node);
-        node->setLeftNeighbor( rightChild );
+void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber ) throw()
+{
+    INode* previousChild = NULL;
+    if( getINodeStack()->size() < childrenNodeNumber )
+    {
+        throw StackException("ast_builder: buildNode: number of nodes are less");
     }
-    root->addChild(node);
-*/
+    for( size_t i = 0; i<childrenNodeNumber; i++ )
+    {
+        INode* nextChild = getINodeStack()->top();
+        if( previousChild->isNull() == false )
+        {
+            previousChild->setRightNeighbor(nextChild);
+            nextChild->setLeftNeighbor(previousChild);
+        }
+        node->getChildren().push_back(nextChild);
+        previousChild = nextChild;
+        getINodeStack()->pop();
+    }
+    getINodeStack()->push(node);
 }
 
-void ASTBuilder::buildNode ()
+IAST* ASTBuilder::getAST () throw()
 {
-/*
-    INode* newRoot = new Node();
-    getRoot()->setParent(newRoot);
-    setRoot(newRoot);
-*/
-}
-
-IAST* ASTBuilder::getAST ()
-{
-    return new AbstractSyntaxTree(getRoot());
-}
-
-void ASTBuilder::clear()
-{
-    delete this->_root;
-}
-
-///////////// protected /////////////
-
-INode* ASTBuilder::getRoot() const
-{
-    return this->_root;
-}
-
-void ASTBuilder::setRoot( INode *root )
-{
-    this->_root = root;
+    if( getINodeStack()->size() != 1 )
+    {
+        throw StackException("ast_builder: getAST: number of nodes are less");
+    }
+    IAST* ast = new AbstractSyntaxTree(getINodeStack()->top());
+    getINodeStack()->pop();
+    return ast;
 }

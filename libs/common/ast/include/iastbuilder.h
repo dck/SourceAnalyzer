@@ -30,13 +30,13 @@
     #include "inode.h"
     #include "iast.h"
 
-    class IASTBuilder {
+    class IASTBuilder
+    {
         public:
             virtual ~IASTBuilder   () = 0;
-            virtual void push ( INode* node ) = 0;
-            virtual void buildNode () = 0;
-            virtual IAST* getAST   () = 0;
-            virtual void clear     () = 0;
+            virtual void pushNode  ( INode* node ) = 0;
+            virtual void buildNode ( INode* node, const size_t childrenNodeNumber ) throw() = 0;
+            virtual IAST* getAST   () throw() = 0;
     };
 
 #endif // IAST_BUILDER_H

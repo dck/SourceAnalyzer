@@ -24,44 +24,26 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
-#ifndef ASTITERATOR_H
-#define ASTITERATOR_H
+#include <iexception.h>
 
-    #include "iastiterator.h"    
-    #include "node.h"
-    #include "ast.h"
+using std::string;
 
-    class ASTIterator : public IASTIterator {
-        public:
-            ASTIterator( IAST* ast = NULL );
-            ASTIterator( const ASTIterator& _ASTIterator );
+IException::IException(const std::string msg) throw()
+{
+    setMsg(msg);
+}
 
-            virtual IASTIterator& root       ();
+IException::~IException() throw()
+{
+}
 
-            virtual IASTIterator& left       ();
-            virtual IASTIterator& operator-- ();
-            virtual ASTIterator   operator-- (int);
+void IException::setMsg(const std::string msg)
+{
+    this->_msg = msg;
+}
 
-            virtual IASTIterator& right      ();
-            virtual IASTIterator& operator++ ();
-            virtual ASTIterator   operator++ (int);
+string IException::getMsg() const
+{
+    return this->_msg;
+}
 
-            virtual IASTIterator& up       ();
-            virtual IASTIterator& downToR  ();
-            virtual IASTIterator& downToL  ();
-
-            virtual IASTIterator& operator= ( const ASTIterator& _ASTIterator );
-
-        protected:
-            virtual INode* getCurrentNode () const;
-            virtual IAST*  getAST         () const;
-
-            virtual void setCurrentNode ( INode* currentNode );
-            virtual void setAST         ( IAST* ast );
-
-        private:
-            IAST*   _ast;
-            INode*  _currentNode;
-    };
-
-#endif //ASTITERATOR_H

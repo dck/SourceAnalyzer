@@ -29,7 +29,8 @@
 
     #include "inode.h"
 
-    class IAbstractSyntaxTree {
+    class IAbstractSyntaxTree
+    {
         public:
             virtual ~IAbstractSyntaxTree() = 0;
 
@@ -38,6 +39,44 @@
 
             virtual INode* getRBottom () const = 0;
             virtual INode* getLBottom () const = 0;
+
+            class iterator
+            {
+                public:
+                    iterator ( IAbstractSyntaxTree* ast = NULL );
+                    iterator ( const iterator& _iterator );
+
+                    virtual iterator& root       ();
+
+                    virtual iterator& left       ();
+                    virtual iterator& operator-- ();
+                    virtual iterator  operator-- (int);
+
+                    virtual iterator& right      ();
+                    virtual iterator& operator++ ();
+                    virtual iterator  operator++ (int);
+
+                    virtual iterator& up       () throw();
+                    virtual iterator& downToR  () throw();
+                    virtual iterator& downToL  () throw();
+
+                    virtual iterator& operator= ( const iterator& _iterator );
+
+                    virtual INode*        operator*  () const throw();
+                    virtual INode*        operator-> () const throw();
+
+                protected:
+                    virtual INode*                getCurrentNode () const;
+                    virtual IAbstractSyntaxTree*  getAST         () const;
+
+                    virtual void setCurrentNode ( INode* currentNode );
+                    virtual void setAST         ( IAbstractSyntaxTree* ast );
+
+                private:
+                    IAbstractSyntaxTree*   _ast;
+                    INode*                 _currentNode;
+            };
+
     };
 
     typedef IAbstractSyntaxTree IAST;

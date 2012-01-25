@@ -24,13 +24,38 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
-#ifndef COMMON_H
-#define COMMON_H
-/*
-    #include <list>
+#ifndef IEXCEPTION_H
+#define IEXCEPTION_H
 
-    #include "inode.h"
+    #include <exception>
+    #include <string>
 
-    typedef std::list<INode*> NodeList;
-*/
-#endif // COMMON_H
+    class IException : std::exception
+    {
+        public:
+            IException( const std::string msg ) throw();
+            virtual ~IException() throw();
+
+            virtual void setMsg( const std::string msg );
+            virtual std::string getMsg() const;
+
+        private:
+            std::string _msg;
+    };
+
+    class StackException : IException
+    {
+        public:
+            StackException( std::string msg ) throw()
+                : IException(msg) {}
+    };
+
+    class BadPointer : IException
+    {
+    public:
+        BadPointer( std::string msg ) throw()
+            : IException(msg) {}
+    };
+
+
+#endif // IEXCEPTION_H

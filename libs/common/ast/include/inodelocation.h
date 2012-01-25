@@ -29,7 +29,8 @@
 
     #include <string>
 
-    class INodeLocation {
+    class INodeLocation
+    {
         public:
             INodeLocation () {}
             INodeLocation ( const size_t pos,

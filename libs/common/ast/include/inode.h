@@ -28,18 +28,22 @@
 #define INODE_H
 
     #include <list>
+    #include <stack>
 
     #include "inodelocation.h"
 
     class string;
     class INode;
 
-    typedef std::list<INode*>  INodeList;
+    typedef std::list<INode*>   INodeList;
+    typedef std::stack<INode*>  INodeStack;
     typedef INodeList::iterator INodeIterator;
 
-    class INode {
+    class INode
+    {
         public:
-            enum InstrType {
+            enum InstrType
+            {
                 unknown   = -1,
                 realInstr = 0,
                 virtInstr = 1

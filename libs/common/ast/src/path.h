@@ -29,7 +29,8 @@
 
     #include "ipath.h"
 
-    class Path : public IPath {
+    class Path : public IPath
+    {
         public:
             virtual void setRoot  ( INode* node );
             virtual void addSheet ( INode* node );

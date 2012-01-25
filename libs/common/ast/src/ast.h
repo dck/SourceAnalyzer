@@ -30,7 +30,8 @@
     #include "inode.h"
     #include "iast.h"
 
-    class AbstractSyntaxTree : public IAbstractSyntaxTree {
+    class AbstractSyntaxTree : public IAbstractSyntaxTree
+    {
         public:
             AbstractSyntaxTree( INode* root = NULL );
             virtual ~AbstractSyntaxTree();

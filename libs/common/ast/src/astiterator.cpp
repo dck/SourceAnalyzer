@@ -24,55 +24,53 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
-#include "astiterator.h"
+#include "iast.h"
+#include "iexception.h"
 
 ///////////// public /////////////
 
-ASTIterator::ASTIterator(IAST *ast)
+IAST::iterator::iterator(IAST *ast)
 {
     setAST(ast);
     setCurrentNode(getAST()->getRoot());
 }
 
-ASTIterator::ASTIterator(const ASTIterator& _ASTIterator)
+IAST::iterator::iterator(const IAST::iterator& _iterator)
 {
-    setCurrentNode  (_ASTIterator.getCurrentNode());
-    setAST          (_ASTIterator.getAST());
+    setCurrentNode  (_iterator.getCurrentNode());
+    setAST          (_iterator.getAST());
 }
 
-IASTIterator& ASTIterator::root()
+IAST::iterator& IAST::iterator::root()
 {
     return *this;
 }
 
-IASTIterator& ASTIterator::up()
+IAST::iterator& IAST::iterator::up() throw()
 {
-    // here must be thrown exception instead of returnign NULL
     if( getCurrentNode()->isParentNull() == true )
-        return *this;
+        throw BadPointer("iterator: up: pointer is NULL");
     setCurrentNode( getCurrentNode()->getParent() );
     return *this;
 }
 
-IASTIterator& ASTIterator::downToL()
+IAST::iterator& IAST::iterator::downToL() throw()
 {
-    // here must be thrown exception instead of returnign NULL
     if( getCurrentNode()->isChildrenEmpty() == true )
-        return *this;
+        throw BadPointer("iterator: downToL: pointer is NULL");
     setCurrentNode( getCurrentNode()->getLeftChild() );
     return *this;
 }
 
-IASTIterator& ASTIterator::downToR()
+IAST::iterator& IAST::iterator::downToR() throw()
 {
-    // here must be thrown exception instead of returnign NULL
     if( getCurrentNode()->isChildrenEmpty() == true )
-        return *this;
+        throw BadPointer("iterator: downToR: pointer is NULL");
     setCurrentNode( getCurrentNode()->getRightChild() );
     return *this;
 }
 
-IASTIterator& ASTIterator::left()
+IAST::iterator& IAST::iterator::left()
 {
     INode* leftNeighbor = getCurrentNode()->getLeftNeighbor();
     if( leftNeighbor != NULL )
@@ -80,19 +78,19 @@ IASTIterator& ASTIterator::left()
     return *this;
 }
 
-IASTIterator& ASTIterator::operator-- ()
+IAST::iterator& IAST::iterator::operator-- ()
 {
     return left();
 }
 
-ASTIterator ASTIterator::operator-- (int)
+IAST::iterator IAST::iterator::operator-- (int)
 {
-    ASTIterator it_copy(*this);
+    iterator it_copy(*this);
     left();
     return it_copy;
 }
 
-IASTIterator& ASTIterator::right()
+IAST::iterator& IAST::iterator::right()
 {
     INode* rightNeighbor = getCurrentNode()->getRightChild();
     if( rightNeighbor != NULL )
@@ -100,43 +98,59 @@ IASTIterator& ASTIterator::right()
     return *this;
 }
 
-IASTIterator& ASTIterator::operator++ ()
+IAST::iterator& IAST::iterator::operator++ ()
 {
     return right();
 }
 
-ASTIterator ASTIterator::operator++ (int)
+IAST::iterator IAST::iterator::operator++ (int)
 {
-    ASTIterator it_copy(*this);
+    iterator it_copy(*this);
     right();
     return it_copy;
 }
 
-IASTIterator& ASTIterator::operator= ( const ASTIterator& _ASTIterator )
+IAST::iterator& IAST::iterator::operator= ( const iterator& _iterator )
 {
-    setAST(_ASTIterator.getAST());
-    setCurrentNode(_ASTIterator.getCurrentNode());
+    setAST(_iterator.getAST());
+    setCurrentNode(_iterator.getCurrentNode());
     return *this;
+}
+
+INode* IAST::iterator::operator* () const throw()
+{
+    INode* node = getCurrentNode();
+    if( node->isNull() )
+        throw BadPointer("iterator: operator*: pointer is NULL");
+    return node;
+}
+
+INode* IAST::iterator::operator-> () const throw()
+{
+    INode* node = getCurrentNode();
+    if( node->isNull() )
+        throw BadPointer("iterator: operator->: pointer is NULL");
+    return node;
 }
 
 ///////////// protected /////////////
 
-INode* ASTIterator::getCurrentNode() const
+INode* IAST::iterator::getCurrentNode() const
 {
     return this->_currentNode;
 }
 
-IAST* ASTIterator::getAST() const
+IAST* IAST::iterator::getAST() const
 {
     return this->_ast;
 }
 
-void ASTIterator::setCurrentNode(INode *currentNode)
+void IAST::iterator::setCurrentNode(INode *currentNode)
 {
     this->_currentNode = currentNode;
 }
 
-void ASTIterator::setAST(IAST *ast)
+void IAST::iterator::setAST(IAST *ast)
 {
     this->_ast = ast;
 }
