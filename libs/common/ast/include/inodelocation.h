@@ -44,6 +44,9 @@
             virtual void setPos  ( const size_t pos  ) = 0;
             virtual void setLine ( const size_t line ) = 0;
             virtual void setFile ( const std::string& file ) = 0;
+
+            virtual bool operator == ( const INodeLocation& nodeLocation ) const = 0;
+            virtual bool operator != ( const INodeLocation& nodeLocation ) const = 0;
     };
 
 #endif //INODELOCATION_H

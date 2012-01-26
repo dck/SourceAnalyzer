@@ -57,6 +57,9 @@
             virtual bool isParentNull    ();
             virtual bool isChildrenEmpty ();
 
+            virtual bool operator == ( const INode& node ) const;
+            virtual bool operator != ( const INode& node ) const;
+
         private:
             INodeList      _children;
             INode*         _parent;

@@ -73,6 +73,9 @@
             virtual bool isParentNull    () = 0;
             virtual bool isChildrenEmpty () = 0;
 
+            virtual bool operator == ( const INode& node ) const = 0;
+            virtual bool operator != ( const INode& node ) const = 0;
+
             /*
                 virtual IASTIterator& hbegin () const = 0;
                 virtual IASTIterator& hend   () const = 0;

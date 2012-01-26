@@ -148,3 +148,14 @@ bool Node::isChildrenEmpty()
     return false;
 }
 
+bool Node::operator ==( const INode& node ) const
+{
+    if ( this->getValue         () == node.getValue         () &&
+         this->getInstrType     () == node.getInstrType     () &&
+         this->getNodeLocation  () == node.getNodeLocation  ()  );
+}
+
+bool Node::operator !=( const INode& node ) const
+{
+    return !(*this == node);
+}

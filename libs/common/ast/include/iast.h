@@ -44,7 +44,7 @@
             {
                 public:
                     iterator ( IAbstractSyntaxTree* ast = NULL );
-                    iterator ( const iterator& _iterator );
+                    iterator ( const iterator& iterator );
 
                     virtual iterator& root       ();
 
@@ -60,10 +60,12 @@
                     virtual iterator& downToR  () throw();
                     virtual iterator& downToL  () throw();
 
-                    virtual iterator& operator= ( const iterator& _iterator );
+                    virtual iterator& operator =  ( const iterator& iterator );
+                    virtual bool      operator == ( const iterator& iterator ) const;
+                    virtual bool      operator != ( const iterator& iterator ) const;
 
-                    virtual INode*        operator*  () const throw();
-                    virtual INode*        operator-> () const throw();
+                    virtual INode*    operator*  () const throw();
+                    virtual INode*    operator-> () const throw();
 
                 protected:
                     virtual INode*                getCurrentNode () const;

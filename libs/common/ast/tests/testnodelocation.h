@@ -26,6 +26,7 @@ public:
       // Expected fail
       CPPUNIT_ASSERT( node1.getPos() == 15 );
     }
+
 };
 
 #endif // TESTNODELOCATION_H
