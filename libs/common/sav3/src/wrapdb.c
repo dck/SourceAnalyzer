@@ -26,9 +26,40 @@
 
 #include "include/api.h"
 
-static int getfromdb (DB* dbp, void* key, uint16 keylen, u_int32_t flag, sa3list* ppdata) {
+int get_ent_pk (database_t* pdb, void* key, uint16 keylen, void** ppdata, uint32* pdatalen) {
+	int saret = 0;
+	DBT keyt, datat;
+	void* tmp = NULL;
+
+	CHK_I_PTR (pdb, saret);
+	CHK_I_PTR (key, saret);
+	CHK_I_PTR (ppdata, saret);
+	CHK_I_PTR (pdatalen, saret);
+	CHK_I_NOTZERO (keylen, saret);
+	
+	/* Zero out the DBTs before using them. */
+	memset(&keyt,  0, sizeof(DBT));
+	memset(&datat, 0, sizeof(DBT));
+
+	keyt.data = key;
+	keyt.size = keylen;
+
+	CALL_BD_API(saret, pdb->pdb->get(pdb->pdb, NULL, &keyt, &datat, 0));
+	CALL_API (saret, wrapmalloc (&tmp, datat.size));
+	memcpy(tmp, datat.data, datat.size);
+	*ppdata   = tmp;
+	*pdatalen = (uint32)datat.size;
+
+CLEANUP:
+
+	return saret;
+}
+
+// FK: TODO: refactor, function is too big
+static int get_ent_internal (database_t* pdb, void* key, uint16 keylen, sa3list* pdata, uint8 FK_ID, u_int32_t flag) {
 	int         saret  = 0;
 	int         ret    = 0;
+	DB*         dbp    = NULL;
 	DBC*        cur    = NULL;
 	DBT         keyt, datat;
 	sa3list     data   = NULL;
@@ -36,15 +67,25 @@ static int getfromdb (DB* dbp, void* key, uint16 keylen, u_int32_t flag, sa3list
 	uint32      i      = 0;
 	u_int32_t   _flag  = 0;
 
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_PTR (dbp, saret);
-	CHK_PTR (key, saret);
-	CHK_PTR (ppdata, saret);
-	CHK_NOTZERO (keylen, saret);
-#endif
+	CHK_I_PTR (pdb, saret);
+	CHK_I_PTR (pdata, saret);
+
+	if        (CR  == FK_ID) {
+		dbp = pdb->pdb_cr;
+	} else if (CD  == FK_ID) {
+		dbp = pdb->pdb_cd;
+	} else if (DL  == FK_ID) {
+		dbp = pdb->pdb_dl;
+	} else if (CHD == FK_ID) {
+		dbp = pdb->pdb_chd;
+	} else if (PRN == FK_ID) {
+		dbp = pdb->pdb_prn;
+	} else {
+		GOTO_CLEANUP(saret, SA3_INTERNAL_ERR);
+	}
 
 	/* Get a cursor */
-	dbp->cursor(dbp, NULL, &cur, 0);
+	CALL_BD_API(saret, dbp->cursor(dbp, NULL, &cur, 0));
 
 	/* Zero out the DBTs before using them. */
 	memset(&keyt,  0, sizeof(DBT));
@@ -57,22 +98,18 @@ static int getfromdb (DB* dbp, void* key, uint16 keylen, u_int32_t flag, sa3list
 	dupnum = 0;
 	_flag = flag;
 	while ((ret = cur->get(cur, &keyt, &datat, _flag)) == 0) {
-		if (DB_SET == flag && keylen != keyt.size)
-			break;
-		if (keylen > keyt.size ||
-		    0 != strncmp((const char*)key, (const char*)keyt.data, keylen))
+		if (DB_SET == flag && (keylen != keyt.size || 0 != memcmp(keyt.data, key, keylen)))
 			break;
 		dupnum++;
-		// fprintf (stderr, "...%d (%s)", dupnum, (char*)datat.data);
 		_flag = DB_NEXT;
 	}
 	// fprintf (stderr, "\n");
 	if (ret != DB_NOTFOUND && ret != 0) {
-		saret = SA3_DB_ERR;
+		GOTO_CLEANUP(saret, SA3_DB_ERR);
 	}
 
 	if (0 == dupnum) {
-		(*ppdata) = NULL;
+		(*pdata) = NULL;
 		goto CLEANUP;
 	}
 
@@ -84,9 +121,7 @@ static int getfromdb (DB* dbp, void* key, uint16 keylen, u_int32_t flag, sa3list
 	keyt.size = keylen;
 	// get entries
 	_flag = flag;
-	for (i = 0;
-	     i < data->num && (ret = cur->get(cur, &keyt, &datat, _flag)) == 0;
-	     i++) {
+	for (i = 0; i < data->num && (ret = cur->get(cur, &keyt, &datat, _flag)) == 0; i++) {
 		void* tmp = NULL;
 		CALL_API (saret, wrapmalloc (&tmp, datat.size));
 		memcpy(tmp, datat.data, datat.size);
@@ -94,93 +129,100 @@ static int getfromdb (DB* dbp, void* key, uint16 keylen, u_int32_t flag, sa3list
 		_flag = DB_NEXT;
 	}
 	if (ret != DB_NOTFOUND && ret != 0) {
-		saret = SA3_DB_ERR;
+		GOTO_CLEANUP (saret, SA3_DB_ERR);
 	}
 
 	data->cur = cur;
-	(*ppdata) = data;
+	(*pdata) = data;
 
 CLEANUP:
-	if (NULL == (*ppdata) && NULL != cur) {
+
+	if (NULL == (*pdata) && NULL != cur) {
 		cur->close(cur);
 	}
-
-	return saret;
-}
-
-int getbypref (DB* cg, void* pref, uint16 preflen, sa3list* lst) {
-	return getfromdb (cg, pref, preflen, DB_SET_RANGE, lst);
-}
-
-int getbykey  (DB* cg, void* key,  uint16 keylen,  sa3list* lst) {
-	return getfromdb (cg, key, keylen,  DB_SET,       lst);
-}
-
-int getfirstbykey (DB* pdb, void* key, uint16 keylen, void** data, uint32* datalen) {
-	int    saret = 0;
-	int    ret   = 0;
-	DBT keyt, datat;
-
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_PTR (pdb,  saret);
-	CHK_PTR (key,  saret);
-	CHK_PTR (data, saret);
-	// CHK_PTR (!(*data), saret); // FK: not sure if I need this.
-	CHK_PTR (datalen, saret);
-	// CHK_NOTZERO ((*datalen), saret); // FK: same stuff.
-#endif
-
-	memset(&keyt,  0, sizeof(DBT));
-	memset(&datat, 0, sizeof(DBT));
-
-	keyt.data = key;
-	keyt.size = keylen;
-
-	ret = pdb->get(pdb, NULL, &keyt, &datat, 0);
-
-	if (0 != ret) {
-		if (DB_NOTFOUND == ret) {
-			(*datalen) = 0;
-			(*data)    = 0;
-		} else {
-			// FK: log here ret value.
-			saret = SA3_DB_ERR;
-			goto CLEANUP;
+	if (0 != saret) {
+		if (NULL != data) {
+			if (NULL != data->lst) {
+				for (i = 0; i < dupnum; i++) {
+					if (NULL != data->lst[i]) {
+						wrapfree(&(data->lst[i]));
+					}
+				}
+				wrapfree(&(data->lst));
+			}
+			wrapfree(&data);
 		}
-	} else {
-		(*datalen) = datat.size;
-		(*data)    = datat.data;
+		// (*pdata) = 0; // FK: TODO: think twice if I need this.
 	}
 
-CLEANUP:
 	return saret;
 }
 
-int put2db (DB* pdb, void* key, uint16 keylen, void* data, uint32 datalen) {
+int get_ent (database_t* pdb, void* key, uint16 keylen, sa3list* pdata, uint8 ID) {
+	return get_ent_internal (pdb, key, keylen, pdata, ID, DB_SET);
+}
+
+int get_all_ent  (database_t*  pdb, sa3list* pdata, uint8 ID) {
+	return get_ent_internal (pdb, NULL, 0, pdata, ID, DB_FIRST);
+}
+
+int put_ent (database_t* pdb, void* key, uint16 keylen, void* data, uint32 datalen, uint8 ID) {
 	int saret = 0;
+	DB* db = NULL;
 	DBT keyt, datat;
 	DBC* cur  = NULL;
+	u_int32_t flags;
+	uint32 tmpkey = 0;
 
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_PTR     (pdb,     saret);
-	CHK_PTR     (key,     saret);
-	CHK_PTR     (data,    saret);
-	CHK_NOTZERO (datalen, saret);
-#endif
+	CHK_I_PTR     (pdb,     saret);
+	CHK_I_PTR     (data,    saret);
+	CHK_I_NOTZERO (datalen, saret);
+
+	flags = 0;
+	if        (CR  == ID || CD  == ID) {
+		db = pdb->pdb;
+	} else if (DL  == ID) {
+		db = pdb->pdb_dl;
+	} else if (CHD == ID) {
+		db = pdb->pdb_chd;
+	} else if (PRN == ID) {
+		db = pdb->pdb_prn;
+	} else {
+		GOTO_CLEANUP(saret, SA3_INTERNAL_ERR);
+	}
 
 	/* Zero out the DBTs before using them. */
 	memset(&keyt,  0, sizeof(DBT));
 	memset(&datat, 0, sizeof(DBT));
 
-	keyt.data = key;
-	keyt.size = keylen;
+	if (NULL != key && 0 != keylen) {
+		keyt.data = key;
+		keyt.size = keylen;
+	} else if (NULL == key && 0 == keylen) {
+		tmpkey = pdb->db_cnt;
+		keyt.data = (void*)&tmpkey;
+		keyt.size = sizeof(uint32);
+		pdb->db_cnt++;
+	} else {
+		GOTO_CLEANUP(saret, SA3_INTERNAL_ERR);
+	}
 
 	datat.data = data;
 	datat.size = datalen;
 	
-	/* Get the cursor */
-	CALL_BD_API(saret, pdb->cursor (pdb, NULL, &cur, 0));
-	CALL_BD_API(saret, cur->put (cur, &keyt, &datat, /*DB_KEYLAST |*/ DB_NODUPDATA));
+	if (DL  == ID || CHD == ID || PRN == ID) {
+		/* http://docs.oracle.com/cd/E17076_02/html/programmer_reference/general_am_conf.html
+		  It is an error to attempt to store identical duplicate data items
+		  when duplicates are being stored in a sorted order. Any such attempt
+		  results in the error message "Duplicate data items are not supported
+		  with sorted data" with a DB_KEYEXIST return code.
+
+		  Note that you can suppress the error message "Duplicate data items
+		  are not supported with sorted data" by using the DB_NODUPDATA flag. */
+		flags = DB_NODUPDATA;
+	}
+
+	CALL_BD_API(saret, db->put  (db, NULL, &keyt, &datat, flags));
 
 CLEANUP:
 	if (cur != NULL) {
@@ -190,23 +232,22 @@ CLEANUP:
 	return saret;
 }
 
-int ispairexists (DB* db, void* key, uint16 keylen, void* data, uint32 datalen, uint8* flag) {
+int is_ent_exist (database_t* pdb, void* key, uint16 keylen, void* data, uint32 datalen, uint8 ID, uint8* flag) {
 	int      saret = 0;
 	sa3list    lst = NULL;
 	sa3listit   it = NULL;
 
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_PTR     (db,      saret);
-	CHK_PTR     (key,     saret);
-	CHK_PTR     (data,    saret);
-	CHK_NOTZERO (datalen, saret);
-	CHK_PTR     (flag,    saret);
-#endif
+	CHK_I_PTR     (pdb,      saret);
+	CHK_I_PTR     (key,     saret);
+	CHK_I_PTR     (data,    saret);
+	CHK_I_NOTZERO (datalen, saret);
+	CHK_I_PTR     (flag,    saret);
 
 	*flag = 0;
-	CALL_API (saret, getbykey (db, key, keylen, &lst));
+	CALL_API (saret, get_ent (pdb, key, keylen, &lst, ID));
 	SA3_FORLST (it, lst) {
-		void* buf = sa3resolveit (lst, it);
+		void* buf = NULL;
+		buf = (void*) sa3resolveit (lst, it);
 		if (datalen == getbufsize(buf) && 0 == memcmp(buf, data, datalen)) {
 			*flag = 1;
 			break;
@@ -221,37 +262,109 @@ CLEANUP:
 	return saret;
 }
 
-int opendb (DB** ppdb, const char* name, u_int32_t flags) {
-	int saret = 0;
-	DB* pdb   = NULL;
+static int open_db_internal (database_t** ppdb, const char* name, u_int32_t flags, u_int32_t first_flags) {
+	int     saret   = 0;
+	DB*     pdb     = NULL;
+	DB*     pdb_cr  = NULL;
+	DB*     pdb_cd  = NULL;
+	DB*     pdb_dl  = NULL;
+	DB*     pdb_chd = NULL;
+	DB*     pdb_prn = NULL;
+	DB_ENV* pdb_en  = NULL;
+	database_t* phandle = NULL;
 
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_PTR (ppdb, saret);
-#endif
+	CHK_I_PTR (ppdb,  saret);
+	CHK_I_STR (name,  saret);
 
-	CALL_BD_API(saret, db_create (&pdb, NULL, 0));
-	CALL_BD_API(saret, pdb->set_flags (pdb, DB_DUPSORT));
-	CALL_BD_API(saret, pdb->open (pdb, NULL, name, NULL, DB_BTREE, flags, 0));
+	CALL_BD_API(saret, db_env_create (&pdb_en, 0));
+	CALL_BD_API(saret, pdb_en->open  (pdb_en, NULL, DB_CREATE | DB_INIT_MPOOL | DB_THREAD, 0));
+	CALL_BD_API(saret, db_create (&pdb,     pdb_en, 0));
+	CALL_BD_API(saret, db_create (&pdb_cr,  pdb_en, 0));
+	CALL_BD_API(saret, db_create (&pdb_cd,  pdb_en, 0));
+	CALL_BD_API(saret, db_create (&pdb_dl,  pdb_en, 0));
+	CALL_BD_API(saret, db_create (&pdb_chd, pdb_en, 0));
+	CALL_BD_API(saret, db_create (&pdb_prn, pdb_en, 0));
+	// CALL_BD_API(saret, pdb->set_flags     (pdb,     DB_DUPSORT));
+	CALL_BD_API(saret, pdb_cr->set_flags  (pdb_cr,  DB_DUPSORT));
+	CALL_BD_API(saret, pdb_cd->set_flags  (pdb_cd,  DB_DUPSORT));
+	CALL_BD_API(saret, pdb_dl->set_flags  (pdb_dl,  DB_DUPSORT));
+	CALL_BD_API(saret, pdb_chd->set_flags (pdb_chd, DB_DUPSORT));
+	CALL_BD_API(saret, pdb_prn->set_flags (pdb_prn, DB_DUPSORT));
+	flags = flags | DB_THREAD;
+	CALL_BD_API(saret, pdb->open      (pdb,     NULL, name, "id_keys",  DB_BTREE, flags | first_flags, 0));
+	CALL_BD_API(saret, pdb_cr->open   (pdb_cr,  NULL, name, "cr_keys",  DB_BTREE, flags, 0));
+	CALL_BD_API(saret, pdb_cd->open   (pdb_cd,  NULL, name, "cd_keys",  DB_BTREE, flags, 0));
+	CALL_BD_API(saret, pdb_dl->open   (pdb_dl,  NULL, name, "dl_keys",  DB_BTREE, flags, 0));
+	CALL_BD_API(saret, pdb_chd->open  (pdb_chd, NULL, name, "chd_keys", DB_BTREE, flags, 0));
+	CALL_BD_API(saret, pdb_prn->open  (pdb_prn, NULL, name, "prn_keys", DB_BTREE, flags, 0));
+	CALL_BD_API(saret, pdb->associate (pdb, NULL, pdb_cr, gen_cr, 0));
+	CALL_BD_API(saret, pdb->associate (pdb, NULL, pdb_cd, gen_cd, 0));
+	
+	CALL_API(saret, wrapmalloc(&phandle, sizeof(database_t)));
+	
+	phandle->pdb = pdb;
+	phandle->pdb_cr  = pdb_cr;
+	phandle->pdb_cd  = pdb_cd;
+	phandle->pdb_en  = pdb_en;
+	phandle->pdb_dl  = pdb_dl;
+	phandle->pdb_chd = pdb_chd;
+	phandle->pdb_prn = pdb_prn;
+	phandle->db_cnt  = 0;
+	*ppdb = phandle;
 
-	(*ppdb) = pdb;
 CLEANUP:
 	if (0 != saret) {
-		pdb->close(pdb, 0);
+		if (NULL != pdb_dl)
+			pdb_dl->close (pdb_dl, 0);
+		if (NULL != pdb_chd)
+			pdb_chd->close (pdb_chd, 0);
+		if (NULL != pdb_cr)
+			pdb_cr->close (pdb_cr, 0);
+		if (NULL != pdb_cd)
+			pdb_cd->close (pdb_cd, 0);
+		if (NULL != pdb)
+			pdb->close    (pdb, 0);
+		if (NULL != pdb_en)
+			pdb_en->close (pdb_en, 0);
+		if (NULL != phandle)
+			wrapfree(&phandle);
 	}
 
 	return saret;
 }
 
-int closedb (sa3cg cg) {
-	int saret = 0;
+int create_db (database_t** ppdb, const char* name) {
+	return open_db_internal (ppdb, name, DB_CREATE, DB_TRUNCATE);
+}
 
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_CG (cg, saret);
-#endif
-	// CALL_API (saret, putrelinfo2db (cg));
-	cg->db->close(cg->db, 0);
-	cg->db = NULL;
+int open_db (database_t** ppdb, const char* name) {
+	return open_db_internal (ppdb, name, 0, 0);
+}
+
+int close_db (database_t** ppdb) {
+
+#define CLOSE_DB(pdb) { if (NULL != pdb) pdb->close (pdb, 0); }
+
+	int saret = 0;
+	database_t* pdb = NULL;
+
+	CHK_I_PTR (ppdb, saret);
+
+	pdb = *ppdb;
+	if (NULL != pdb) {
+		CLOSE_DB(pdb->pdb_cr);
+		CLOSE_DB(pdb->pdb_cd);
+		CLOSE_DB(pdb->pdb);
+		CLOSE_DB(pdb->pdb_dl);
+		CLOSE_DB(pdb->pdb_chd);
+		CLOSE_DB(pdb->pdb_prn);
+		CLOSE_DB(pdb->pdb_en);
+		wrapfree(ppdb);
+	}
+
+#undef CLOSE_DB
 
 CLEANUP:
+
 	return saret;
 }

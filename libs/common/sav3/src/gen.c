@@ -27,25 +27,22 @@
 #include "include/api.h"
 
 int getkey (const char* pref, const char* val, uint16* keylen, char** pkey) {
-        int saret = 0;
-        uint16 preflen = 0;
-        uint16 vallen = 0;
-        char* key = NULL;
+	int saret = 0;
+	uint16 preflen = 0;
+	uint16 vallen = 0;
+	char* key = NULL;
 
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_STR (pref,   saret);
-	CHK_STR (val,    saret);
-	CHK_PTR (keylen, saret);
-	CHK_PTR (pkey,   saret);
-#endif
+	CHK_I_STR (pref,   saret);
+	CHK_I_STR (val,    saret);
+	CHK_I_PTR (keylen, saret);
+	CHK_I_PTR (pkey,   saret);
 
 	preflen   = strlen(pref);
 	vallen    = strlen(val) + 1;
-        (*keylen) = preflen + vallen;
+	(*keylen) = preflen + vallen;
 	CALL_API (saret, wrapmalloc (&key, *keylen));
-        strncpy (key, pref, preflen);
-        strncpy (key + preflen, val, vallen);
-	//strncpy (key + (*keylen), "\0", 1);
+	strncpy (key, pref, preflen);
+	strncpy (key + preflen, val, vallen);
 
 CLEANUP:
 	if (0 != saret && NULL != key) {
@@ -54,30 +51,49 @@ CLEANUP:
 		(*pkey) = key;
 	}
 
-        return saret;
+	return saret;
 }
 
-int getseckey (DB* db, const char* pref, const char* val, uint16* keylen, char** pkey) {
-	int saret = 0;
-	char* key = NULL;
-
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_STR (pref,   saret);
-	CHK_STR (val,    saret);
-	CHK_PTR (keylen, saret);
-	CHK_PTR (pkey,   saret);
+#ifdef TRACE
+static void dump_sa3call(sa3call* c, char* pref) {
+	char* cr;
+	char* cd;
+	cr = (char*)PI2PTR (c, c->cr);
+	cd = (char*)PI2PTR (c, c->cd);
+	fprintf(stderr, "struct addr: 0x%x; will add %s: cr: %s (%d), cd: %s (%d)",
+		(unsigned int) c, pref, cr, c->crlen, cd, c->cdlen);
+}
 #endif
 
-	CALL_API (saret, getkey (pref, val, keylen, &key));
-	if (NULL != key)
-		CALL_API (saret, getfirstbykey(db, key, *keylen, (void**)pkey, (uint32*)keylen));
+static int genfk(DB *fdb, const DBT *pkey, const DBT *data, DBT *fkey, char* fkey_str) {
+	memset(fkey, 0, sizeof(DBT));
+	fkey->data = fkey_str;
+	fkey->size = strlen(fkey_str) + 1;
+#ifdef TRACE
+	fprintf(stderr, "; FK: %s (%d)\n", (char*)fkey->data, fkey->size);
+#endif
+	// not sure how to fail correctly, so call-back is fail-proof
+	// with assumption that correct data is sent via arguments
+	return 0;	
+}
 
-CLEANUP:
-	if (NULL != key) {
-		wrapfree (&key);
-	}
+int  gen_cr (DB *fdb, const DBT *pkey, const DBT *data, DBT *fkey) {
+	sa3call* c = (sa3call*)data->data;
+#ifdef TRACE
+	dump_sa3call(c, "cr");
+#endif
+	return genfk(fdb, pkey, data, fkey, (char*)PI2PTR (c, c->cr));
+}
 
-	return saret;
+int  gen_cd (DB *fdb, const DBT *pkey, const DBT *data, DBT *fkey) {
+	sa3call* c = (sa3call*)data->data;
+
+#ifdef TRACE
+	fprintf(stderr, "\n");
+	dump_sa3call(c, "cd");
+#endif
+
+	return genfk(fdb, pkey, data, fkey, (char*)PI2PTR (c, c->cd));
 }
 
 void freekey (char** pkey) {
@@ -92,42 +108,40 @@ int getstruct (uint32* size, void** struc, uint8 cnt, ...) {
 	uint8*  buf       = NULL;
 	uint16* pArgLen   = NULL;
 
-#ifdef INTERNAL_PARAM_CHECKS
-	CHK_NOTZERO (cnt,   saret);
-	CHK_PTR     (struc, saret);
-#endif
+	CHK_I_NOTZERO (cnt,   saret);
+	CHK_I_PTR     (struc, saret);
 
 	CALL_API (saret, wrapmalloc (&pArgLen, sizeof(uint16)*cnt));
 
-        (*size) = cnt * sizeof(struct model);        
-        shiftData = (*size);
-        
-        FOREACH_ARG_BEGIN(i, cnt, str) {
-                pArgLen[i] = strlen(str)+1;
-                (*size) += pArgLen[i];
-        } FOREACH_ARG_END
-        
+		(*size) = cnt * sizeof(struct model);        
+		shiftData = (*size);
+		
+		FOREACH_ARG_BEGIN(i, cnt, str) {
+				pArgLen[i] = strlen(str)+1;
+				(*size) += pArgLen[i];
+		} FOREACH_ARG_END
+		
 	CALL_API (saret, wrapmalloc(&buf, (*size)));
 
-        FOREACH_ARG_BEGIN(i, cnt, str) {
-                uint8*  pair   = NULL;
-                char*   pArg   = NULL;
-                uint16* pArgSh = NULL;
-                uint16* pLen   = NULL;
-                
-                pair = PI2PTR (buf, i*sizeof(struct model));
-                pArg = (char*) PI2PTR (buf, shiftData);
-                
-                strncpy(pArg, str, pArgLen[i]);
+		FOREACH_ARG_BEGIN(i, cnt, str) {
+				uint8*  pair   = NULL;
+				char*   pArg   = NULL;
+				uint16* pArgSh = NULL;
+				uint16* pLen   = NULL;
+				
+				pair = PI2PTR (buf, i*sizeof(struct model));
+				pArg = (char*) PI2PTR (buf, shiftData);
+				
+				strncpy(pArg, str, pArgLen[i]);
 
-                pArgSh  = (uint16*) PI2PTR (pair, 0);
-                *pArgSh = shiftData;
+				pArgSh  = (uint16*) PI2PTR (pair, 0);
+				*pArgSh = shiftData;
 
-                pLen  = (uint16*) PI2PTR(pair, sizeof(char*));
-                *pLen = pArgLen[i];
+				pLen  = (uint16*) PI2PTR(pair, sizeof(char*));
+				*pLen = pArgLen[i];
 
-                shiftData += pArgLen[i];
-        } FOREACH_ARG_END
+				shiftData += pArgLen[i];
+		} FOREACH_ARG_END
 
 	(*struc) = buf;
 
@@ -136,7 +150,7 @@ CLEANUP:
 		wrapfree(&pArgLen);
 	}
 
-        return saret;
+	return saret;
 }
 
 void freestruct (void** struc) {

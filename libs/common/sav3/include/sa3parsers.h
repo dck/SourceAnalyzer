@@ -56,15 +56,6 @@ int sa3addcall (sa3cg cg, char* cr, char* cd);
  sa3addcall(). */
 int sa3adddecl (sa3cg cg, char* type, char* func, char* param);
 
-/** Merges dependency information (parents/children relations) between two
- call graphs.
- NOTE that dependency information (parents/children relations) will NOT be
- stored in the DB until sa3close_p() will be executed. Returns zero on success.
- parameters:
-	rcpt - sa3cg handle. A recipient of merge between itself and src graph.
-	src  - sa3cg handle. A graph to merge to rcpt. */
-int sa3mergedeps  (sa3cg rcpt, sa3cg src);
-
 /** Merges information about calls between two call graphs. Returns zero on
  success.
  parameters:
@@ -78,6 +69,15 @@ int sa3mergecalls (sa3cg rcpt, sa3cg src);
 	rcpt - sa3cg handle. A recipient of merge between itself and src graph.
 	src  - sa3cg handle. A graph to merge to rcpt. */
 int sa3mergedecls (sa3cg rcpt, sa3cg src);
+
+/** Merges dependency information (parents/children relations) between two
+ call graphs.
+ NOTE that dependency information (parents/children relations) will NOT be
+ stored in the DB until sa3close_p() will be executed. Returns zero on success.
+ parameters:
+	rcpt - sa3cg handle. A recipient of merge between itself and src graph.
+	src  - sa3cg handle. A graph to merge to rcpt. */
+/* int sa3mergedeps  (sa3cg rcpt, sa3cg src); */
 
 #endif /* SA3PARSER_H */
 

@@ -27,9 +27,11 @@
 #ifndef CG_H
 #define CG_H
 
-int opencg  (sa3cg* cg, const char* name, u_int32_t flags);
-int closecg (sa3cg* cg);
-int addcld (DB* db, char* func, char* initfunc);
-int addprn (DB* db, char* func, char* initfunc);
+int open_cg   (sa3cg* cg, const char* name);
+int create_cg (sa3cg* cg, const char* name);
+int close_cg  (sa3cg* cg);
+
+int addcld  (sa3cg cg, char* func, char* initfunc);
+int addprn  (sa3cg cg, char* func, char* initfunc);
 
 #endif // CG_H

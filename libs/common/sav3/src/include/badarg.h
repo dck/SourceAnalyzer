@@ -30,14 +30,33 @@
 /* FK: why 300? This is SPARTA? */
 #define MAX_STR_LEN  (300)
 
-#define CHK_PTR(ptr, saret)      { GOTO_CLEANUP_IF (NULL == (ptr),    saret, SA3_NULLPTR_ERR); }
-#define CHK_CG( cg,  saret)      { GOTO_CLEANUP_IF (NULL == (cg),     saret, SA3_NULLPTR_ERR); \
-				   GOTO_CLEANUP_IF (NULL == (cg)->db, saret, SA3_NULLPTR_ERR); }
-#define CHK_STR(str, saret)      { void* nullch = NULL;                                        \
-				   GOTO_CLEANUP_IF (NULL == (str),  saret, SA3_NULLPTR_ERR);        \
+#define CHK_PTR(ptr, saret)      {                                              \
+					GOTO_CLEANUP_IF (NULL == (ptr),    saret, SA3_NULLPTR_ERR); \
+				}
+#define CHK_CG( cg,  saret)      {                                              \
+					GOTO_CLEANUP_IF (NULL == (cg),     saret, SA3_NULLPTR_ERR); \
+					GOTO_CLEANUP_IF (NULL == (cg)->pdb, saret, SA3_NULLPTR_ERR); \
+				}
+#define CHK_STR(str, saret)      { void* nullch = NULL;                            \
+				   GOTO_CLEANUP_IF (NULL == (str),  saret, SA3_NULLPTR_ERR);       \
 				   nullch = (void*) memchr((const void*)(str), '\0', MAX_STR_LEN); \
-				   GOTO_CLEANUP_IF (NULL == nullch, saret, SA3_PARAM_ERR);     }
-#define CHK_NOTZERO(num, saret)  { GOTO_CLEANUP_IF (0    == num,    saret, SA3_PARAM_ERR);     }
-#define CHK_GTZERO( num, saret)  { GOTO_CLEANUP_IF (0    >= num,    saret, SA3_PARAM_ERR);     }
+				   GOTO_CLEANUP_IF (NULL == nullch, saret, SA3_PARAM_ERR);         \
+				}
+#define CHK_NOTZERO(num, saret)  { GOTO_CLEANUP_IF (0 == num, saret, SA3_PARAM_ERR); }
+#define CHK_GTZERO( num, saret)  { GOTO_CLEANUP_IF (0 >= num, saret, SA3_PARAM_ERR); }
+
+#ifdef INTERNAL_PARAM_CHECKS
+	#define CHK_I_PTR(ptr, saret)     CHK_PTR(ptr, saret)
+	#define CHK_I_CG( cg,  saret)     CHK_CG( cg,  saret)
+	#define CHK_I_STR(str, saret)     CHK_STR(str, saret)
+	#define CHK_I_NOTZERO(num, saret) CHK_NOTZERO(num, saret) 
+	#define CHK_I_GTZERO( num, saret) CHK_GTZERO( num, saret)
+#else
+	#define CHK_I_PTR(ptr, saret)     {};
+	#define CHK_I_CG( cg,  saret)     {};
+	#define CHK_I_STR(str, saret)     {};
+	#define CHK_I_NOTZERO(num, saret) {};
+	#define CHK_I_GTZERO( num, saret) {};
+#endif
 
 #endif // BADARG_H

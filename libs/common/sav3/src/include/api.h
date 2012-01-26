@@ -27,9 +27,9 @@
 #ifndef API_H
 #define API_H
 
-//#define MALLOC_CHECKS
-//#define INTERNAL_PARAM_CHECKS
-//#define TRACE
+// #define MALLOC_CHECKS
+// #define INTERNAL_PARAM_CHECKS
+// #define TRACE
 #define ERROR_LOGGING
 
 #include <stdint.h>
