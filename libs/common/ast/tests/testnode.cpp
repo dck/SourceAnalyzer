@@ -71,6 +71,7 @@ void TestNode::testEquality()
 {
     CPPUNIT_ASSERT(   *_node1 == *_node2  );
     CPPUNIT_ASSERT( !(*_node1 == *_node3) );
+    CPPUNIT_ASSERT( !(*_node1 == *_node4) );
 }
 
 void TestNode::testNotEquality()
