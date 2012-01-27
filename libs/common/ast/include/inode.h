@@ -49,8 +49,6 @@
                 virtInstr = 1
             };
 
-            virtual ~INode() = 0;
-
             virtual INode*         getParent()        const = 0;
             virtual InstrType      getInstrType()     const = 0;
             virtual std::string    getValue()         const = 0;

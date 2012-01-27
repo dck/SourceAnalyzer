@@ -34,6 +34,12 @@
     class NodeLocation : public INodeLocation
     {
         public:
+            NodeLocation () {}
+            NodeLocation ( const size_t pos,
+                           const size_t line,
+                           const std::string& file )
+                : _pos(pos), _line(line), _file(file){}
+
             virtual size_t      getPos  () const;
             virtual size_t      getLine () const;
             virtual std::string getFile () const;

@@ -1,18 +1,17 @@
 #include <iostream>
 #include <cppunit/TestCaller.h>
 #include <cppunit/TestResult.h>
+#include <cppunit/ui/text/TestRunner.h>
 
-#include "testnodelocation.h"
+#include "testnode.h"
 
 int main(int argc, char** argv)
 {
-    std::cout << "Hello" << std::endl;
-    //CppUnit::TestCaller<TestNodeLocation> test( "testBaseFunc",
-    //                                             &TestNodeLocation::runTest );
-    //CppUnit::TestResult result;
-    //test.run( &result );
+    CppUnit::TextUi::TestRunner runner;
+    CppUnit::TestResult result;
 
-    //TestNodeLocation test1;
-    //test1.runTest();
+    runner.addTest( TestNode::suite() );
+    runner.run( result );
+
     return 0;
 }
