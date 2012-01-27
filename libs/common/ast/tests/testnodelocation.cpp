@@ -26,6 +26,30 @@
 
 #include "testnodelocation.h"
 
-TestNodeLocation::TestNodeLocation()
+void TestNodeLocation::setUp()
 {
+    this->_nloc1 = new NodeLocation( 1, 2, "hello" );
+    this->_nloc2 = new NodeLocation( 2, 2, "hello" );
+    this->_nloc3 = new NodeLocation( 1, 2, "foo" );
+}
+
+void TestNodeLocation::tearDown()
+{
+    delete this->_nloc1;
+    delete this->_nloc2;
+    delete this->_nloc3;
+}
+
+void TestNodeLocation::testEquality()
+{
+    CPPUNIT_ASSERT(   *_nloc1 == *_nloc1  );
+    CPPUNIT_ASSERT( !(*_nloc1 == *_nloc2) );
+    CPPUNIT_ASSERT( !(*_nloc1 == *_nloc3) );
+}
+
+void TestNodeLocation::testNotEquality()
+{
+    CPPUNIT_ASSERT( !( *_nloc1 != *_nloc1 ) );
+    CPPUNIT_ASSERT(    *_nloc1 != *_nloc2   );
+    CPPUNIT_ASSERT(    *_nloc1 != *_nloc3   );
 }

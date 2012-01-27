@@ -24,18 +24,16 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
-#include <iostream>
-#include <cppunit/TestCaller.h>
-#include <cppunit/TestResult.h>
 #include <cppunit/ui/text/TestRunner.h>
 
 #include "testnode.h"
+#include "testnodelocation.h"
 
 int main(int argc, char** argv)
 {
     CppUnit::TextUi::TestRunner runner;
-    CppUnit::TestResult result;
 
+    runner.addTest( TestNodeLocation::suite() );
     runner.addTest( TestNode::suite() );
     runner.run();
 
