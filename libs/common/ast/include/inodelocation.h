@@ -45,8 +45,8 @@
             virtual void setLine ( const size_t line ) = 0;
             virtual void setFile ( const std::string& file ) = 0;
 
-            virtual bool operator == ( const INodeLocation& nodeLocation ) const = 0;
-            virtual bool operator != ( const INodeLocation& nodeLocation ) const = 0;
+            friend bool operator == ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );
+            friend bool operator != ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );
     };
 
 #endif //INODELOCATION_H

@@ -148,14 +148,14 @@ bool Node::isChildrenEmpty()
     return false;
 }
 
-bool Node::operator ==( const INode& node ) const
+bool operator == ( const INode& node1, const INode& node2 )
 {
-    if ( this->getValue         () == node.getValue         () &&
-         this->getInstrType     () == node.getInstrType     () &&
-         this->getNodeLocation  () == node.getNodeLocation  ()  );
+    if ( (  node1.getValue         () == node2.getValue         () &&
+            node1.getInstrType     () == node2.getInstrType     () &&
+            node1.getNodeLocation  () == node2.getNodeLocation  ()  ));
 }
 
-bool Node::operator !=( const INode& node ) const
+bool operator != ( const INode& node1, const INode& node2 )
 {
-    return !(*this == node);
+    return !(node1 == node2);
 }

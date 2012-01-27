@@ -58,14 +58,14 @@ void NodeLocation::setFile ( const string& file )
     this->_file = file;
 }
 
-bool NodeLocation::operator == ( const INodeLocation& nodeLocation ) const
+bool operator == ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 )
 {
-    return ( this->getFile () == nodeLocation.getFile () &&
-             this->getLine () == nodeLocation.getLine () &&
-             this->getPos  () == nodeLocation.getPos  ()   );
+    return ( nodeLocation1.getFile () == nodeLocation2.getFile () &&
+             nodeLocation1.getLine () == nodeLocation2.getLine () &&
+             nodeLocation1.getPos  () == nodeLocation2.getPos  ()   );
 }
 
-bool NodeLocation::operator != ( const INodeLocation& nodeLocation ) const
+bool operator != ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 )
 {
-    return !(*this == nodeLocation);
+    return !(nodeLocation1 == nodeLocation2);
 }
