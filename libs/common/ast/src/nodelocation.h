@@ -48,8 +48,8 @@
             virtual void setLine ( const size_t line );
             virtual void setFile ( const std::string& file );
 
-            friend bool operator == ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );
-            friend bool operator != ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );
+           // friend bool operator == ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );
+           // friend bool operator != ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );
 
         private:
             size_t       _pos;

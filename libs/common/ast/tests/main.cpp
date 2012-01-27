@@ -11,7 +11,7 @@ int main(int argc, char** argv)
     CppUnit::TestResult result;
 
     runner.addTest( TestNode::suite() );
-    runner.run( result );
+    runner.run();
 
     return 0;
 }

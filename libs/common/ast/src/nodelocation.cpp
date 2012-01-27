@@ -60,9 +60,9 @@ void NodeLocation::setFile ( const string& file )
 
 bool operator == ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 )
 {
-    return ( nodeLocation1.getFile () == nodeLocation2.getFile () &&
-             nodeLocation1.getLine () == nodeLocation2.getLine () &&
-             nodeLocation1.getPos  () == nodeLocation2.getPos  ()   );
+    return ( ( nodeLocation1.getFile () == nodeLocation2.getFile () ) &&
+             ( nodeLocation1.getLine () == nodeLocation2.getLine () ) &&
+             ( nodeLocation1.getPos  () == nodeLocation2.getPos  () )  );
 }
 
 bool operator != ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 )

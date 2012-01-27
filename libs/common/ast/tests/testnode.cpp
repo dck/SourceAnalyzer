@@ -47,6 +47,7 @@ void TestNode::testEquality()
 
 void TestNode::testNotEquality()
 {
+    CPPUNIT_ASSERT( !(*node1 != *node2) );
     CPPUNIT_ASSERT(   *node1 != *node3  );
-    CPPUNIT_ASSERT( !(*node1 != *node4) );
+    CPPUNIT_ASSERT(   *node1 != *node4  );
 }
