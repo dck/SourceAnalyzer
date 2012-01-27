@@ -26,6 +26,8 @@
 
 #include "testnodelocation.h"
 
+CPPUNIT_TEST_SUITE_REGISTRATION( TestNodeLocation );
+
 void TestNodeLocation::setUp()
 {
     this->_nloc1 = new NodeLocation( 1, 2, "hello" );

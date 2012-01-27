@@ -25,17 +25,13 @@
 // or implied, of SourceAnalyzer team.
 
 #include <cppunit/ui/text/TestRunner.h>
-
-#include "testnode.h"
-#include "testnodelocation.h"
+#include <cppunit/extensions/TestFactoryRegistry.h>
 
 int main(int argc, char** argv)
 {
     CppUnit::TextUi::TestRunner runner;
-
-    runner.addTest( TestNodeLocation::suite() );
-    runner.addTest( TestNode::suite() );
-    runner.run();
-
-    return 0;
+    CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
+    runner.addTest( registry.makeTest() );
+    bool wasSuccessful = runner.run( "", false );
+    return wasSuccessful;
 }

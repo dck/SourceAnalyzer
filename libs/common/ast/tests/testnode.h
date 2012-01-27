@@ -35,7 +35,6 @@
 
     class TestNode : public CppUnit::TestFixture
     {
-
         CPPUNIT_TEST_SUITE( TestNode );
             CPPUNIT_TEST(testEquality);
             CPPUNIT_TEST(testNotEquality);

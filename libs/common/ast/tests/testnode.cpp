@@ -26,6 +26,8 @@
 
 #include "testnode.h"
 
+CPPUNIT_TEST_SUITE_REGISTRATION( TestNode );
+
 void TestNode::setUp()
 {
     this->_node1 = new Node();

@@ -27,27 +27,26 @@
 
 #define TESTNODELOCATION_H
 
-#include <cppunit/TestFixture.h>
-#include <cppunit/extensions/HelperMacros.h>
+    #include <cppunit/TestFixture.h>
+    #include <cppunit/extensions/HelperMacros.h>
 
-#include "nodelocation.h"
+    #include "nodelocation.h"
 
-class TestNodeLocation : public CppUnit::TestFixture
-{
+    class TestNodeLocation : public CppUnit::TestFixture
+    {
+        CPPUNIT_TEST_SUITE( TestNodeLocation );
+            CPPUNIT_TEST(testEquality);
+            CPPUNIT_TEST(testNotEquality);
+        CPPUNIT_TEST_SUITE_END();
 
-    CPPUNIT_TEST_SUITE( TestNodeLocation );
-        CPPUNIT_TEST(testEquality);
-        CPPUNIT_TEST(testNotEquality);
-    CPPUNIT_TEST_SUITE_END();
+        public:
+            virtual void setUp();
+            virtual void tearDown();
+            void testEquality();
+            void testNotEquality();
 
-    public:
-        virtual void setUp();
-        virtual void tearDown();
-        void testEquality();
-        void testNotEquality();
-
-    private:
-        INodeLocation *_nloc1, *_nloc2, *_nloc3;
-};
+        private:
+            INodeLocation *_nloc1, *_nloc2, *_nloc3;
+    };
 
 #endif // TESTNODELOCATION_H
