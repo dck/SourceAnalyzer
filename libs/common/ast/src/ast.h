@@ -27,24 +27,24 @@
 #ifndef ABSTRACT_SYNTAX_TREE_H
 #define ABSTRACT_SYNTAX_TREE_H
 
-    #include "inode.h"
-    #include "iast.h"
+#include "inode.h"
+#include "iast.h"
 
-    class AbstractSyntaxTree : public IAbstractSyntaxTree
-    {
-        public:
-            AbstractSyntaxTree( INode* root = NULL );
-            virtual ~AbstractSyntaxTree();
+class AbstractSyntaxTree : public IAbstractSyntaxTree
+{
+    public:
+        AbstractSyntaxTree( INode* root = NULL );
+        virtual ~AbstractSyntaxTree();
 
-            virtual iterator getRoot() const;
-            virtual void     setRoot( INode* root );
-            virtual void     setRoot( const iterator& root );
+        virtual iterator getRoot() const;
+        virtual void     setRoot( INode* root );
+        virtual void     setRoot( const iterator& root );
 
-            virtual iterator getRBottom () const;
-            virtual iterator getLBottom () const;
+        virtual iterator getRBottom () const;
+        virtual iterator getLBottom () const;
 
-        private:
-            INode* _root;
-    };
+    private:
+        INode* _root;
+};
 
 #endif // ABSTRACT_SYNTAX_TREE_H

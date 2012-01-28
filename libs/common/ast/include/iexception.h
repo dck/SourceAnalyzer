@@ -27,35 +27,35 @@
 #ifndef IEXCEPTION_H
 #define IEXCEPTION_H
 
-    #include <exception>
-    #include <string>
+#include <exception>
+#include <string>
 
-    class IException : std::exception
-    {
-        public:
-            IException( const std::string msg ) throw();
-            virtual ~IException() throw();
-
-            virtual void setMsg( const std::string msg );
-            virtual std::string getMsg() const;
-
-        private:
-            std::string _msg;
-    };
-
-    class StackException : IException
-    {
-        public:
-            StackException( std::string msg ) throw()
-                : IException(msg) {}
-    };
-
-    class BadPointer : IException
-    {
+class IException : std::exception
+{
     public:
-        BadPointer( std::string msg ) throw()
+        IException( const std::string msg ) throw();
+        virtual ~IException() throw();
+
+        virtual void setMsg( const std::string msg );
+        virtual std::string getMsg() const;
+
+    private:
+        std::string _msg;
+};
+
+class StackException : IException
+{
+    public:
+        StackException( std::string msg ) throw()
             : IException(msg) {}
-    };
+};
+
+class BadPointer : IException
+{
+public:
+    BadPointer( std::string msg ) throw()
+        : IException(msg) {}
+};
 
 
 #endif // IEXCEPTION_H

@@ -27,34 +27,34 @@
 #ifndef NODELOCATION_H
 #define NODELOCATION_H
 
-    #include <string>
+#include <string>
 
-    #include "inodelocation.h"
+#include "inodelocation.h"
 
-    class NodeLocation : public INodeLocation
-    {
-        public:
-            NodeLocation () {}
-            NodeLocation ( const size_t pos,
-                           const size_t line,
-                           const std::string& file )
-                : _pos(pos), _line(line), _file(file){}
+class NodeLocation : public INodeLocation
+{
+    public:
+        NodeLocation () {}
+        NodeLocation ( const size_t pos,
+                       const size_t line,
+                       const std::string& file )
+            : _pos(pos), _line(line), _file(file){}
 
-            virtual size_t      getPos  () const;
-            virtual size_t      getLine () const;
-            virtual std::string getFile () const;
+        virtual size_t      getPos  () const;
+        virtual size_t      getLine () const;
+        virtual std::string getFile () const;
 
-            virtual void setPos  ( const size_t pos  );
-            virtual void setLine ( const size_t line );
-            virtual void setFile ( const std::string& file );
+        virtual void setPos  ( const size_t pos  );
+        virtual void setLine ( const size_t line );
+        virtual void setFile ( const std::string& file );
 
-           // friend bool operator == ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );
-           // friend bool operator != ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );
+       // friend bool operator == ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );
+       // friend bool operator != ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );
 
-        private:
-            size_t       _pos;
-            size_t       _line;
-            std::string  _file;
-    };
+    private:
+        size_t       _pos;
+        size_t       _line;
+        std::string  _file;
+};
 
 #endif //NODELOCATION_H

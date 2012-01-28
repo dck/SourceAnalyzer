@@ -27,55 +27,55 @@
 #ifndef IABSTRACT_SYNTAX_TREE_H
 #define IABSTRACT_SYNTAX_TREE_H
 
-    #include "inode.h"
+#include "inode.h"
 
-    class IAbstractSyntaxTree
-    {
-        public:
-            class iterator
-            {
-                public:
-                    iterator ( INode* node = NULL );
-                    iterator ( const iterator& iterator );
+class IAbstractSyntaxTree
+{
+    public:
+        class iterator
+        {
+            public:
+                iterator ( INode* node = NULL );
+                iterator ( const iterator& iterator );
 
-                    virtual iterator& left       ();
-                    virtual iterator& operator-- ();
-                    virtual iterator  operator-- (int);
+                virtual iterator& left       ();
+                virtual iterator& operator-- ();
+                virtual iterator  operator-- (int);
 
-                    virtual iterator& right      ();
-                    virtual iterator& operator++ ();
-                    virtual iterator  operator++ (int);
+                virtual iterator& right      ();
+                virtual iterator& operator++ ();
+                virtual iterator  operator++ (int);
 
-                    virtual iterator& up       () throw();
-                    virtual iterator& downToR  () throw();
-                    virtual iterator& downToL  () throw();
+                virtual iterator& up       () throw();
+                virtual iterator& downToR  () throw();
+                virtual iterator& downToL  () throw();
 
-                    virtual iterator& operator =  ( const iterator& iterator );
-                    virtual bool      operator == ( const iterator& iterator ) const;
-                    virtual bool      operator != ( const iterator& iterator ) const;
+                virtual iterator& operator =  ( const iterator& iterator );
+                virtual bool      operator == ( const iterator& iterator ) const;
+                virtual bool      operator != ( const iterator& iterator ) const;
 
-                    virtual INode*    operator*  () const throw();
-                    virtual INode*    operator-> () const throw();
+                virtual INode*    operator*  () const throw();
+                virtual INode*    operator-> () const throw();
 
-                protected:
-                    virtual INode* getCurrentNode () const;
-                    virtual void   setCurrentNode ( INode* currentNode );
+            protected:
+                virtual INode* getCurrentNode () const;
+                virtual void   setCurrentNode ( INode* currentNode );
 
-                private:
-                    INode* _currentNode;
-            };
+            private:
+                INode* _currentNode;
+        };
 
-            virtual ~IAbstractSyntaxTree() = 0;
+        virtual ~IAbstractSyntaxTree() = 0;
 
-            virtual iterator getRoot() const = 0;
-            virtual void     setRoot( INode* root ) = 0;
-            virtual void     setRoot( const iterator& root ) = 0;
+        virtual iterator getRoot() const = 0;
+        virtual void     setRoot( INode* root ) = 0;
+        virtual void     setRoot( const iterator& root ) = 0;
 
-            virtual iterator getRBottom () const = 0;
-            virtual iterator getLBottom () const = 0;
+        virtual iterator getRBottom () const = 0;
+        virtual iterator getLBottom () const = 0;
 
-    };
+};
 
-    typedef IAbstractSyntaxTree IAST;
+typedef IAbstractSyntaxTree IAST;
 
 #endif // IABSTRACT_SYNTAX_TREE_H

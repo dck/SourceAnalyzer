@@ -27,48 +27,48 @@
 #ifndef NODE_H
 #define NODE_H
 
-    #include "inode.h"
+#include "inode.h"
 
-    class Node : public INode
-    {
-        public:
-            Node ();
-            virtual ~Node();
+class Node : public INode
+{
+    public:
+        Node ();
+        virtual ~Node();
 
-            virtual void setParent        ( INode* parent );
-            virtual void setInstrType     ( const InstrType instrType );
-            virtual void setNodeLocation  ( INodeLocation* nodeLocation );
-            virtual void setValue         ( const std::string& value );
-            virtual void setLeftNeighbor  ( INode* lneighbor );
-            virtual void setRightNeighbor ( INode* rneighbor );
-            virtual void addChild         ( INode* child );
+        virtual void setParent        ( INode* parent );
+        virtual void setInstrType     ( const InstrType instrType );
+        virtual void setNodeLocation  ( INodeLocation* nodeLocation );
+        virtual void setValue         ( const std::string& value );
+        virtual void setLeftNeighbor  ( INode* lneighbor );
+        virtual void setRightNeighbor ( INode* rneighbor );
+        virtual void addChild         ( INode* child );
 
-            virtual INodeList        getChildren()      const;
-            virtual INode*           getLeftChild()     const;
-            virtual INode*           getRightChild()    const;
-            virtual INode*           getParent()        const;
-            virtual INode*           getLeftNeighbor()  const;
-            virtual INode*           getRightNeighbor() const;
-            virtual InstrType        getInstrType()     const;
-            virtual std::string      getValue()         const;
-            virtual INodeLocation*   getNodeLocation()  const;
+        virtual INodeList        getChildren()      const;
+        virtual INode*           getLeftChild()     const;
+        virtual INode*           getRightChild()    const;
+        virtual INode*           getParent()        const;
+        virtual INode*           getLeftNeighbor()  const;
+        virtual INode*           getRightNeighbor() const;
+        virtual InstrType        getInstrType()     const;
+        virtual std::string      getValue()         const;
+        virtual INodeLocation*   getNodeLocation()  const;
 
-            virtual bool isNull          ();
-            virtual bool isParentNull    ();
-            virtual bool isChildrenEmpty ();
+        virtual bool isNull          ();
+        virtual bool isParentNull    ();
+        virtual bool isChildrenEmpty ();
 
-           // friend bool operator == ( const INode& node1, const INode& node2 );
-           // friend bool operator != ( const INode& node1, const INode& node2 );
+       // friend bool operator == ( const INode& node1, const INode& node2 );
+       // friend bool operator != ( const INode& node1, const INode& node2 );
 
-        private:
-            INodeList      _children;
-            INode*         _parent;
-            INode*         _lneighbor;
-            INode*         _rneighbor;
-            std::string    _value;
-            InstrType      _instrType;
-            INodeLocation* _nodeLocation;
-    };
+    private:
+        INodeList      _children;
+        INode*         _parent;
+        INode*         _lneighbor;
+        INode*         _rneighbor;
+        std::string    _value;
+        InstrType      _instrType;
+        INodeLocation* _nodeLocation;
+};
 
 
 #endif // NODE_H

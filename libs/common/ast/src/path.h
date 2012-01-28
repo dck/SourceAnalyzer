@@ -27,20 +27,20 @@
 #ifndef PATH_H
 #define PATH_H
 
-    #include "ipath.h"
+#include "ipath.h"
 
-    class Path : public IPath
-    {
-        public:
-            virtual void setRoot  ( INode* node );
-            virtual void addSheet ( INode* node );
+class Path : public IPath
+{
+    public:
+        virtual void setRoot  ( INode* node );
+        virtual void addSheet ( INode* node );
 
-            virtual INode*    getRoot   () const;
-            virtual INodeList getSheets () const;
+        virtual INode*    getRoot   () const;
+        virtual INodeList getSheets () const;
 
-        private:
-            INode*    _root;
-            INodeList _sheets;
-    };
+    private:
+        INode*    _root;
+        INodeList _sheets;
+};
 
 #endif // PATH_H

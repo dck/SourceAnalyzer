@@ -27,26 +27,26 @@
 #ifndef AST_BUILDER_H
 #define AST_BUILDER_H
 
-    #include "iastbuilder.h"
-    #include "node.h"
-    #include "ast.h"
+#include "iastbuilder.h"
+#include "node.h"
+#include "ast.h"
 
-    class ASTBuilder : public IASTBuilder
-    {
-        public:
-            ASTBuilder ();
-            virtual ~ASTBuilder ();
-            virtual void  pushNode  ( INode* node );
-            virtual void  buildNode ( INode* node, const size_t childrenNodeNumber ) throw();
-            virtual IAST* getAST    () throw();
+class ASTBuilder : public IASTBuilder
+{
+    public:
+        ASTBuilder ();
+        virtual ~ASTBuilder ();
+        virtual void  pushNode  ( INode* node );
+        virtual void  buildNode ( INode* node, const size_t childrenNodeNumber ) throw();
+        virtual IAST* getAST    () throw();
 
-        protected:
-            virtual INodeStack* getINodeStack   () const;
-            virtual void        setINodeStack   ( INodeStack* inodeStack );
+    protected:
+        virtual INodeStack* getINodeStack   () const;
+        virtual void        setINodeStack   ( INodeStack* inodeStack );
 
-        private:
-            INodeStack* _inodeStack;
-    };
+    private:
+        INodeStack* _inodeStack;
+};
 
 #endif // AST_BUILDER_H
 

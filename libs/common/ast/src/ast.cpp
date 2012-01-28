@@ -49,7 +49,6 @@ void AbstractSyntaxTree::setRoot( INode *root )
     this->_root = root;
 }
 
-
 IAST::iterator AbstractSyntaxTree::setRoot(const iterator &root)
 {
     this->_root = *root;
