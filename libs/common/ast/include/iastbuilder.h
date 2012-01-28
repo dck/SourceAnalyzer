@@ -33,7 +33,7 @@
 class IASTBuilder
 {
     public:
-        virtual ~IASTBuilder   () = 0;
+        virtual ~IASTBuilder   () {}
         virtual void pushNode  ( INode* node ) = 0;
         virtual void buildNode ( INode* node, const size_t childrenNodeNumber ) throw() = 0;
         virtual IAST* getAST   () throw() = 0;

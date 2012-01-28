@@ -41,8 +41,8 @@ class ASTBuilder : public IASTBuilder
         virtual IAST* getAST    () throw();
 
     protected:
-        virtual INodeStack* getINodeStack   () const;
-        virtual void        setINodeStack   ( INodeStack* inodeStack );
+        inline INodeStack* getINodeStack   () const                   { return _inodeStack;      }
+        inline void        setINodeStack   ( INodeStack* inodeStack ) {_inodeStack = inodeStack; }
 
     private:
         INodeStack* _inodeStack;

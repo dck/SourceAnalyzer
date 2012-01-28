@@ -31,7 +31,7 @@
 
 ASTBuilder::ASTBuilder()
 {
-    setINodeStack( new INodeStack );
+    setINodeStack( new INodeStack() );
 }
 
 ASTBuilder::~ASTBuilder()

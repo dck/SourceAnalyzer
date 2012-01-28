@@ -65,7 +65,7 @@ class IAbstractSyntaxTree
                 INode* _currentNode;
         };
 
-        virtual ~IAbstractSyntaxTree() = 0;
+        virtual ~IAbstractSyntaxTree() {}
 
         virtual iterator getRoot() const = 0;
         virtual void     setRoot( INode* root ) = 0;
