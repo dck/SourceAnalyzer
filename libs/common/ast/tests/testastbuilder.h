@@ -44,6 +44,8 @@ class TestASTBuilder : public CppUnit::TestFixture
         virtual void tearDown();
 
     private:
+        void buildSimpleTree();
+
         IAST*        _ast;
         IASTBuilder* _astBuilder;
 };

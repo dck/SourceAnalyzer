@@ -44,3 +44,8 @@ void TestASTBuilder::tearDown()
         delete _ast;
     _ast = NULL;
 }
+
+void TestASTBuilder::buildSimpleTree()
+{
+
+}
