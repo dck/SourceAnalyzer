@@ -29,21 +29,14 @@
 
 ///////////// public /////////////
 
-IAST::iterator::iterator(IAST *ast)
+IAST::iterator::iterator(INode *node)
 {
-    setAST(ast);
-    setCurrentNode(getAST()->getRoot());
+     setCurrentNode(node);
 }
 
 IAST::iterator::iterator(const IAST::iterator& iterator)
 {
-    setCurrentNode  (iterator.getCurrentNode());
-    setAST          (iterator.getAST());
-}
-
-IAST::iterator& IAST::iterator::root()
-{
-    return *this;
+    setCurrentNode(iterator.getCurrentNode());
 }
 
 IAST::iterator& IAST::iterator::up() throw()
@@ -112,7 +105,6 @@ IAST::iterator IAST::iterator::operator++ (int)
 
 IAST::iterator& IAST::iterator::operator= ( const iterator& iterator )
 {
-    setAST(iterator.getAST());
     setCurrentNode(iterator.getCurrentNode());
     return *this;
 }
@@ -150,17 +142,8 @@ INode* IAST::iterator::getCurrentNode() const
     return this->_currentNode;
 }
 
-IAST* IAST::iterator::getAST() const
-{
-    return this->_ast;
-}
-
 void IAST::iterator::setCurrentNode(INode *currentNode)
 {
     this->_currentNode = currentNode;
 }
 
-void IAST::iterator::setAST(IAST *ast)
-{
-    this->_ast = ast;
-}

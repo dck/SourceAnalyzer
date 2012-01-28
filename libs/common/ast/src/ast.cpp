@@ -39,9 +39,9 @@ AbstractSyntaxTree::AbstractSyntaxTree(INode *root)
     setRoot(root);
 }
 
-INode* AbstractSyntaxTree::getRoot () const
+IAST::iterator AbstractSyntaxTree::getRoot () const
 {
-    return this->_root;
+    return IAST::iterator(this->_root);
 }
 
 void AbstractSyntaxTree::setRoot( INode *root )
@@ -49,14 +49,21 @@ void AbstractSyntaxTree::setRoot( INode *root )
     this->_root = root;
 }
 
-INode* AbstractSyntaxTree::getLBottom() const
+
+IAST::iterator AbstractSyntaxTree::setRoot(const iterator &root)
 {
-    // have to implement
-    return NULL;
+    this->_root = *root;
 }
 
-INode* AbstractSyntaxTree::getRBottom() const
+IAST::iterator AbstractSyntaxTree::getLBottom() const
 {
-    // have to implement
-    return NULL;
+    // have to write right implementation
+    return IAST::iterator(NULL);
 }
+
+IAST::iterator AbstractSyntaxTree::getRBottom() const
+{
+    // have to write right implementation
+    return IAST::iterator(NULL);
+}
+

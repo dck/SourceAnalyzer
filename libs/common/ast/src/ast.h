@@ -36,11 +36,12 @@
             AbstractSyntaxTree( INode* root = NULL );
             virtual ~AbstractSyntaxTree();
 
-            virtual INode* getRoot() const;
-            virtual void   setRoot( INode* root );
+            virtual iterator getRoot() const;
+            virtual void     setRoot( INode* root );
+            virtual void     setRoot( const iterator& root );
 
-            virtual INode* getRBottom () const;
-            virtual INode* getLBottom () const;
+            virtual iterator getRBottom () const;
+            virtual iterator getLBottom () const;
 
         private:
             INode* _root;

@@ -32,21 +32,11 @@
     class IAbstractSyntaxTree
     {
         public:
-            virtual ~IAbstractSyntaxTree() = 0;
-
-            virtual INode* getRoot() const = 0;
-            virtual void   setRoot( INode* root ) = 0;
-
-            virtual INode* getRBottom () const = 0;
-            virtual INode* getLBottom () const = 0;
-
             class iterator
             {
                 public:
-                    iterator ( IAbstractSyntaxTree* ast = NULL );
+                    iterator ( INode* node = NULL );
                     iterator ( const iterator& iterator );
-
-                    virtual iterator& root       ();
 
                     virtual iterator& left       ();
                     virtual iterator& operator-- ();
@@ -68,16 +58,21 @@
                     virtual INode*    operator-> () const throw();
 
                 protected:
-                    virtual INode*                getCurrentNode () const;
-                    virtual IAbstractSyntaxTree*  getAST         () const;
-
-                    virtual void setCurrentNode ( INode* currentNode );
-                    virtual void setAST         ( IAbstractSyntaxTree* ast );
+                    virtual INode* getCurrentNode () const;
+                    virtual void   setCurrentNode ( INode* currentNode );
 
                 private:
-                    IAbstractSyntaxTree*   _ast;
-                    INode*                 _currentNode;
+                    INode* _currentNode;
             };
+
+            virtual ~IAbstractSyntaxTree() = 0;
+
+            virtual iterator getRoot() const = 0;
+            virtual void     setRoot( INode* root ) = 0;
+            virtual void     setRoot( const iterator& root ) = 0;
+
+            virtual iterator getRBottom () const = 0;
+            virtual iterator getLBottom () const = 0;
 
     };
 
