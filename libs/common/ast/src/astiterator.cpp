@@ -27,8 +27,6 @@
 #include "iast.h"
 #include "iexception.h"
 
-///////////// public /////////////
-
 IAST::iterator::iterator(INode *node)
 {
      setCurrentNode(node);
@@ -134,16 +132,3 @@ INode* IAST::iterator::operator-> () const throw()
         throw BadPointer("iterator: operator->: pointer is NULL");
     return node;
 }
-
-///////////// protected /////////////
-
-INode* IAST::iterator::getCurrentNode() const
-{
-    return this->_currentNode;
-}
-
-void IAST::iterator::setCurrentNode(INode *currentNode)
-{
-    this->_currentNode = currentNode;
-}
-

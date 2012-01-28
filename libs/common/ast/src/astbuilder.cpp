@@ -27,13 +27,6 @@
 #include "astbuilder.h"
 #include "iexception.h"
 
-///////////// public /////////////
-
-ASTBuilder::ASTBuilder()
-{
-    setINodeStack( new INodeStack() );
-}
-
 ASTBuilder::~ASTBuilder()
 {
     delete getINodeStack();

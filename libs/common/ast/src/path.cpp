@@ -26,23 +26,4 @@
 
 #include "path.h"
 
-void Path::setRoot ( INode* node )
-{
-    this->_root = node;
-}
-
-void Path::addSheet ( INode* node )
-{
-    this->getSheets().push_back(node);
-}
-
-INode* Path::getRoot () const
-{
-    return this->_root;
-}
-
-INodeList Path::getSheets () const
-{
-    return this->_sheets;
-}
 

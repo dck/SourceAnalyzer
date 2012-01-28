@@ -58,8 +58,8 @@ class IAbstractSyntaxTree
                 virtual INode*    operator-> () const throw();
 
             protected:
-                virtual INode* getCurrentNode () const;
-                virtual void   setCurrentNode ( INode* currentNode );
+                inline INode* getCurrentNode () const               { return _currentNode;        }
+                inline void   setCurrentNode ( INode* currentNode ) { _currentNode = currentNode; }
 
             private:
                 INode* _currentNode;

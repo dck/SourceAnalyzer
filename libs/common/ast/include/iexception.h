@@ -33,11 +33,12 @@
 class IException : std::exception
 {
     public:
-        IException( const std::string msg ) throw();
-        virtual ~IException() throw();
+        IException( const std::string msg ) throw()
+            : _msg(msg) {}
+        virtual ~IException() throw() {}
 
-        virtual void setMsg( const std::string msg );
-        virtual std::string getMsg() const;
+        inline virtual void setMsg( const std::string msg ) { this->_msg = msg; }
+        inline virtual std::string getMsg() const           { return _msg;      }
 
     private:
         std::string _msg;
@@ -56,6 +57,5 @@ public:
     BadPointer( std::string msg ) throw()
         : IException(msg) {}
 };
-
 
 #endif // IEXCEPTION_H

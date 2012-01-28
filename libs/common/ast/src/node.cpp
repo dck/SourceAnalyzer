@@ -50,46 +50,6 @@ Node::~Node()
             delete *it;
 }
 
-void Node::setParent ( INode* parent )
-{
-    this->_parent = parent;
-}
-
-void Node::setInstrType ( const InstrType instrType )
-{
-    this->_instrType = instrType;
-}
-
-void Node::setNodeLocation ( INodeLocation& nodeLocation )
-{
-    *_nodeLocation = nodeLocation;
-}
-
-void Node::setValue ( const string& value )
-{
-    this->_value = value;
-}
-
-void Node::setLeftNeighbor(INode *lneighbor)
-{
-    this->_lneighbor = lneighbor;
-}
-
-void Node::setRightNeighbor(INode *rneighbor)
-{
-    this->_rneighbor;
-}
-
-void Node::addChild ( INode* child )
-{
-    this->getChildren().push_back(child);
-}
-
-INodeList Node::getChildren() const
-{
-    return this->_children;
-}
-
 INode* Node::getLeftChild() const
 {
     return *(getChildren().begin());
@@ -98,57 +58,6 @@ INode* Node::getLeftChild() const
 INode* Node::getRightChild() const
 {
     return *(getChildren().end());
-}
-
-INode* Node::getParent () const
-{
-    return this->_parent;
-}
-
-INode::InstrType Node::getInstrType () const
-{
-    return this->_instrType;
-}
-
-string Node::getValue () const
-{
-    return this->_value;
-}
-
-INodeLocation& Node::getNodeLocation () const
-{
-    return *_nodeLocation;
-}
-
-INode* Node::getLeftNeighbor() const
-{
-    return this->_lneighbor;
-}
-
-INode* Node::getRightNeighbor() const
-{
-    return this->_rneighbor;
-}
-
-bool Node::isNull()
-{
-    if( this == NULL )
-        return true;
-    return false;
-}
-
-bool Node::isParentNull()
-{
-    if( getParent() == NULL )
-        return true;
-    return false;
-}
-
-bool Node::isChildrenEmpty()
-{
-    if( getChildren().size() == 0 )
-        return true;
-    return false;
 }
 
 bool operator == ( const INode& node1, const INode& node2 )

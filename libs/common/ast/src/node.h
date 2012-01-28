@@ -36,27 +36,28 @@ class Node : public INode
         Node ();
         virtual ~Node();
 
-        virtual void setParent        ( INode* parent );
-        virtual void setInstrType     ( const InstrType instrType );
-        virtual void setValue         ( const std::string& value );
-        virtual void setNodeLocation  ( INodeLocation& nodeLocation );
-        virtual void setLeftNeighbor  ( INode* lneighbor );
-        virtual void setRightNeighbor ( INode* rneighbor );
-        virtual void addChild         ( INode* child );
+        inline void setParent        ( INode* parent )               { _parent = parent;                }
+        inline void setInstrType     ( const InstrType instrType )   { _instrType = instrType;          }
+        inline void setValue         ( const std::string& value )    { _value = value;                  }
+        inline void setNodeLocation  ( INodeLocation& nodeLocation ) { *_nodeLocation = nodeLocation;   }
+        inline void setLeftNeighbor  ( INode* lneighbor )            { _lneighbor = lneighbor;          }
+        inline void setRightNeighbor ( INode* rneighbor )            { _rneighbor = rneighbor;          }
+        inline void addChild         ( INode* child )                { _children.push_back(child);      }
 
-        virtual INodeList        getChildren()      const;
-        virtual INode*           getLeftChild()     const;
-        virtual INode*           getRightChild()    const;
-        virtual INode*           getParent()        const;
-        virtual INode*           getLeftNeighbor()  const;
-        virtual INode*           getRightNeighbor() const;
-        virtual InstrType        getInstrType()     const;
-        virtual std::string      getValue()         const;
-        virtual INodeLocation&   getNodeLocation()  const;
+        inline INodeList        getChildren()      const { return _children;      }
+        inline INode*           getParent()        const { return _parent;        }
+        inline INode*           getLeftNeighbor()  const { return _lneighbor;     }
+        inline INode*           getRightNeighbor() const { return _rneighbor;     }
+        inline InstrType        getInstrType()     const { return _instrType;     }
+        inline std::string      getValue()         const { return _value;         }
+        inline INodeLocation&   getNodeLocation()  const { return *_nodeLocation; }
 
-        virtual bool isNull          ();
-        virtual bool isParentNull    ();
-        virtual bool isChildrenEmpty ();
+        virtual INode*          getLeftChild()     const;
+        virtual INode*          getRightChild()    const;
+
+        inline bool isNull          () const { return (this == NULL);    }
+        inline bool isParentNull    () const { return (_parent == NULL); }
+        inline bool isChildrenEmpty () const { return _children.empty(); }
 
         // friend bool operator == ( const INode& node1, const INode& node2 );
         // friend bool operator != ( const INode& node1, const INode& node2 );

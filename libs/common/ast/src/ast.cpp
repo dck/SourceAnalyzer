@@ -33,36 +33,3 @@ AbstractSyntaxTree::~AbstractSyntaxTree()
     if( getRoot() != NULL )
         delete this->_root;
 }
-
-AbstractSyntaxTree::AbstractSyntaxTree(INode *root)
-{
-    setRoot(root);
-}
-
-IAST::iterator AbstractSyntaxTree::getRoot () const
-{
-    return IAST::iterator(this->_root);
-}
-
-void AbstractSyntaxTree::setRoot( INode *root )
-{
-    this->_root = root;
-}
-
-void AbstractSyntaxTree::setRoot(const iterator &root)
-{
-    this->_root = *root;
-}
-
-IAST::iterator AbstractSyntaxTree::getLBottom() const
-{
-    // have to write right implementation
-    return IAST::iterator(NULL);
-}
-
-IAST::iterator AbstractSyntaxTree::getRBottom() const
-{
-    // have to write right implementation
-    return IAST::iterator(NULL);
-}
-

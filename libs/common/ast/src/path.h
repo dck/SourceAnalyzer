@@ -32,11 +32,11 @@
 class Path : public IPath
 {
     public:
-        virtual void setRoot  ( INode* node );
-        virtual void addSheet ( INode* node );
+        inline void setRoot  ( INode* node ) { _root = node;            }
+        inline void addSheet ( INode* node ) { _sheets.push_back(node); }
 
-        virtual INode*    getRoot   () const;
-        virtual INodeList getSheets () const;
+        inline INode*    getRoot   () const { return _root;   }
+        inline INodeList getSheets () const { return _sheets; }
 
     private:
         INode*    _root;

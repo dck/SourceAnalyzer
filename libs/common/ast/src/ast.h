@@ -33,15 +33,18 @@
 class AbstractSyntaxTree : public IAbstractSyntaxTree
 {
     public:
-        AbstractSyntaxTree( INode* root = NULL );
+        AbstractSyntaxTree( INode* root = NULL )
+            : _root(root) {}
+
         virtual ~AbstractSyntaxTree();
 
-        virtual iterator getRoot() const;
-        virtual void     setRoot( INode* root );
-        virtual void     setRoot( const iterator& root );
+        inline iterator getRoot() const                 { IAST::iterator(this->_root); }
+        inline void     setRoot( INode* root )          { this->_root = root;          }
+        inline void     setRoot( const iterator& root ) { this->_root = *root;         }
 
-        virtual iterator getRBottom () const;
-        virtual iterator getLBottom () const;
+        // [warning] have to write right implementation !!!
+        inline iterator getRBottom () const { return IAST::iterator(NULL); }
+        inline iterator getLBottom () const { return IAST::iterator(NULL); }
 
     private:
         INode* _root;

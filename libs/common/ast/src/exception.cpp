@@ -26,24 +26,3 @@
 
 #include <iexception.h>
 
-using std::string;
-
-IException::IException(const std::string msg) throw()
-{
-    setMsg(msg);
-}
-
-IException::~IException() throw()
-{
-}
-
-void IException::setMsg(const std::string msg)
-{
-    this->_msg = msg;
-}
-
-string IException::getMsg() const
-{
-    return this->_msg;
-}
-

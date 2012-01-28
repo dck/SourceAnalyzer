@@ -68,9 +68,9 @@ class INode
         virtual void setNodeLocation  ( INodeLocation& nodeLocation )  = 0;
         virtual void addChild         ( INode* child )                 = 0;
 
-        virtual bool isNull          () = 0;
-        virtual bool isParentNull    () = 0;
-        virtual bool isChildrenEmpty () = 0;
+        virtual bool isNull          () const = 0;
+        virtual bool isParentNull    () const = 0;
+        virtual bool isChildrenEmpty () const = 0;
 
         friend bool operator == ( const INode& node1, const INode& node2 );
         friend bool operator != ( const INode& node1, const INode& node2 );
