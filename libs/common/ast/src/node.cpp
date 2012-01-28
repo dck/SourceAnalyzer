@@ -54,6 +54,7 @@ INode* Node::getLeftChild() const
 {
     if( !getChildren().empty() )
         return getChildren().front();
+    // have to throw exception
     return NULL;
 }
 
@@ -61,6 +62,7 @@ INode* Node::getRightChild() const
 {
     if( !getChildren().empty() )
         return getChildren().back();
+    // have to throw exception
     return NULL;
 }
 
