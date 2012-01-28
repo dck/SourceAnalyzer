@@ -40,31 +40,31 @@ void TestNode::setUp()
 
     _node1->setInstrType(Node::realInstr);
     _node1->setValue("int");
-    _node1->setNodeLocation(_nloc1);
+    _node1->setNodeLocation(*_nloc1);
 
     _node2->setInstrType(Node::realInstr);
     _node2->setValue("int");
-    _node2->setNodeLocation(_nloc1);
+    _node2->setNodeLocation(*_nloc1);
 
     _node3->setInstrType(Node::virtInstr);
     _node3->setValue("int");
-    _node3->setNodeLocation(_nloc1);
+    _node3->setNodeLocation(*_nloc1);
 
     _node4->setInstrType(Node::realInstr);
     _node4->setValue("int");
-    _node4->setNodeLocation(_nloc2);
+    _node4->setNodeLocation(*_nloc2);
 
 }
 
 void TestNode::tearDown()
 {
-    delete this->_node1;
-    delete this->_node2;
-    delete this->_node3;
-    delete this->_node4;
+    delete _node1;
+    delete _node2;
+    delete _node3;
+    delete _node4;
 
-    delete this->_nloc1;
-    delete this->_nloc2;
+    delete _nloc1;
+    delete _nloc2;
 }
 
 void TestNode::testEquality()

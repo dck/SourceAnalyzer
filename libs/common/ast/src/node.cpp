@@ -33,18 +33,21 @@ using std::string;
 Node::Node()
 {
     setParent       ( NULL );
-    setNodeLocation ( NULL );
+    setNodeLocation ( new NodeLocation() );
     setRightNeighbor( NULL );
     setLeftNeighbor ( NULL );
     setInstrType    ( Node::unknown );
-    getValue().clear();
 }
 
 Node::~Node()
 {
-    delete this->_nodeLocation;
-    for( INodeIterator it = getChildren().begin(); it!=getChildren().end(); it++ )
-        delete *it;
+    if( NULL != _nodeLocation ) {
+        delete _nodeLocation;
+        _nodeLocation = NULL;
+    }
+    if( !getChildren().empty() )
+        for( INodeIterator it = getChildren().begin(); it!=getChildren().end(); ++it )
+            delete *it;
 }
 
 void Node::setParent ( INode* parent )
@@ -57,9 +60,9 @@ void Node::setInstrType ( const InstrType instrType )
     this->_instrType = instrType;
 }
 
-void Node::setNodeLocation ( INodeLocation* nodeLocation )
+void Node::setNodeLocation ( INodeLocation& nodeLocation )
 {
-    this->_nodeLocation = nodeLocation;
+    *_nodeLocation = nodeLocation;
 }
 
 void Node::setValue ( const string& value )
@@ -112,9 +115,9 @@ string Node::getValue () const
     return this->_value;
 }
 
-INodeLocation* Node::getNodeLocation () const
+INodeLocation& Node::getNodeLocation () const
 {
-    return this->_nodeLocation;
+    return *_nodeLocation;
 }
 
 INode* Node::getLeftNeighbor() const
@@ -150,12 +153,17 @@ bool Node::isChildrenEmpty()
 
 bool operator == ( const INode& node1, const INode& node2 )
 {
-    return ( ( node1.getValue         () == node2.getValue         () ) &&
-             ( node1.getInstrType     () == node2.getInstrType     () ) &&
-             ( node1.getNodeLocation  () == node2.getNodeLocation  () ) );
+    return ( ( node1.getValue        () == node2.getValue        ()  ) &&
+             ( node1.getInstrType    () == node2.getInstrType    ()  ) &&
+             ( node1.getNodeLocation () == node2.getNodeLocation ()  ) );
 }
 
 bool operator != ( const INode& node1, const INode& node2 )
 {
     return !(node1 == node2);
+}
+
+void Node::setNodeLocation ( INodeLocation* nodeLocation )
+{
+    this->_nodeLocation = nodeLocation;
 }

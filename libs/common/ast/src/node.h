@@ -28,6 +28,7 @@
 #define NODE_H
 
 #include "inode.h"
+#include "nodelocation.h"
 
 class Node : public INode
 {
@@ -37,8 +38,8 @@ class Node : public INode
 
         virtual void setParent        ( INode* parent );
         virtual void setInstrType     ( const InstrType instrType );
-        virtual void setNodeLocation  ( INodeLocation* nodeLocation );
         virtual void setValue         ( const std::string& value );
+        virtual void setNodeLocation  ( INodeLocation& nodeLocation );
         virtual void setLeftNeighbor  ( INode* lneighbor );
         virtual void setRightNeighbor ( INode* rneighbor );
         virtual void addChild         ( INode* child );
@@ -51,14 +52,17 @@ class Node : public INode
         virtual INode*           getRightNeighbor() const;
         virtual InstrType        getInstrType()     const;
         virtual std::string      getValue()         const;
-        virtual INodeLocation*   getNodeLocation()  const;
+        virtual INodeLocation&   getNodeLocation()  const;
 
         virtual bool isNull          ();
         virtual bool isParentNull    ();
         virtual bool isChildrenEmpty ();
 
-       // friend bool operator == ( const INode& node1, const INode& node2 );
-       // friend bool operator != ( const INode& node1, const INode& node2 );
+        // friend bool operator == ( const INode& node1, const INode& node2 );
+        // friend bool operator != ( const INode& node1, const INode& node2 );
+
+    protected:
+        virtual void setNodeLocation  ( INodeLocation* nodeLocation );
 
     private:
         INodeList      _children;

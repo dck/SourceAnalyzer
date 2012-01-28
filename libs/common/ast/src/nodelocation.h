@@ -40,13 +40,15 @@ class NodeLocation : public INodeLocation
                        const std::string& file )
             : _pos(pos), _line(line), _file(file){}
 
-        virtual size_t      getPos  () const;
-        virtual size_t      getLine () const;
-        virtual std::string getFile () const;
+        inline size_t      getPos  () const { return _pos;  }
+        inline size_t      getLine () const { return _line; }
+        inline std::string getFile () const { return _file; }
 
-        virtual void setPos  ( const size_t pos  );
-        virtual void setLine ( const size_t line );
-        virtual void setFile ( const std::string& file );
+        inline void setPos  ( const size_t pos  )       { _pos = pos;   }
+        inline void setLine ( const size_t line )       { _line = line; }
+        inline void setFile ( const std::string& file ) { _file = file; }
+
+        virtual INodeLocation& operator = ( const INodeLocation& nodeLocation );
 
        // friend bool operator == ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );
        // friend bool operator != ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 );

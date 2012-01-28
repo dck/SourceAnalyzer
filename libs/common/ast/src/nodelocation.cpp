@@ -28,34 +28,11 @@
 
 using std::string;
 
-size_t NodeLocation::getPos () const
+INodeLocation& NodeLocation::operator = ( const INodeLocation& nodeLocation )
 {
-    return this->_pos;
-}
-
-size_t NodeLocation::getLine () const
-{
-    return this->_line;
-}
-
-string NodeLocation::getFile () const
-{
-    return this->_file;
-}
-
-void NodeLocation::setPos ( const size_t pos  )
-{
-    this->_pos = pos;    
-}
-
-void NodeLocation::setLine ( const size_t line )
-{
-    this->_line = line;
-}
-
-void NodeLocation::setFile ( const string& file )
-{
-    this->_file = file;
+    this->setFile ( nodeLocation.getFile () );
+    this->setLine ( nodeLocation.getLine () );
+    this->setPos  ( nodeLocation.getPos  () );
 }
 
 bool operator == ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 )
