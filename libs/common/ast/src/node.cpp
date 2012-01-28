@@ -52,12 +52,16 @@ Node::~Node()
 
 INode* Node::getLeftChild() const
 {
-    return *(getChildren().begin());
+    if( !getChildren().empty() )
+        return getChildren().front();
+    return NULL;
 }
 
 INode* Node::getRightChild() const
 {
-    return *(getChildren().end());
+    if( !getChildren().empty() )
+        return getChildren().back();
+    return NULL;
 }
 
 bool operator == ( const INode& node1, const INode& node2 )
