@@ -72,7 +72,3 @@ bool operator != ( const INode& node1, const INode& node2 )
     return !(node1 == node2);
 }
 
-void Node::setNodeLocation ( INodeLocation* nodeLocation )
-{
-    this->_nodeLocation = nodeLocation;
-}

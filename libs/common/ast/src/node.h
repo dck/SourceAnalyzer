@@ -63,7 +63,7 @@ class Node : public INode
         // friend bool operator != ( const INode& node1, const INode& node2 );
 
     protected:
-        virtual void setNodeLocation  ( INodeLocation* nodeLocation );
+        virtual void setNodeLocation  ( INodeLocation* nodeLocation ) { _nodeLocation = nodeLocation; }
 
     private:
         INodeList      _children;

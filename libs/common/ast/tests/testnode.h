@@ -43,6 +43,8 @@ class TestNode : public CppUnit::TestFixture
     public:
         virtual void setUp();
         virtual void tearDown();
+
+        // test cases
         void testEquality();
         void testNotEquality();
 
