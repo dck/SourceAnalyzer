@@ -37,16 +37,20 @@ class TestNodeLocation : public CppUnit::TestFixture
     CPPUNIT_TEST_SUITE( TestNodeLocation );
         CPPUNIT_TEST(testEquality);
         CPPUNIT_TEST(testNotEquality);
+        CPPUNIT_TEST(testAssignment);
     CPPUNIT_TEST_SUITE_END();
 
     public:
         virtual void setUp();
         virtual void tearDown();
+
+        // test cases
         void testEquality();
         void testNotEquality();
+        void testAssignment();
 
     private:
-        INodeLocation *_nloc1, *_nloc2, *_nloc3;
+        INodeLocation *_nloc1, *_nloc2, *_nloc3, *_nloc4;
 };
 
 #endif // TESTNODELOCATION_H

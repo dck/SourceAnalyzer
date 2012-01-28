@@ -30,16 +30,19 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestNodeLocation );
 
 void TestNodeLocation::setUp()
 {
-    this->_nloc1 = new NodeLocation( 1, 2, "hello" );
-    this->_nloc2 = new NodeLocation( 2, 2, "hello" );
-    this->_nloc3 = new NodeLocation( 1, 2, "foo" );
+    _nloc1 = new NodeLocation( 1, 2, "hello" );
+    _nloc2 = new NodeLocation( 2, 2, "hello" );
+    _nloc3 = new NodeLocation( 1, 2, "foo" );
+    _nloc4 = new NodeLocation();
+
 }
 
 void TestNodeLocation::tearDown()
 {
-    delete this->_nloc1;
-    delete this->_nloc2;
-    delete this->_nloc3;
+    delete _nloc1;
+    delete _nloc2;
+    delete _nloc3;
+    delete _nloc4;
 }
 
 void TestNodeLocation::testEquality()
@@ -54,4 +57,10 @@ void TestNodeLocation::testNotEquality()
     CPPUNIT_ASSERT( !( *_nloc1 != *_nloc1 ) );
     CPPUNIT_ASSERT(    *_nloc1 != *_nloc2   );
     CPPUNIT_ASSERT(    *_nloc1 != *_nloc3   );
+}
+
+void TestNodeLocation::testAssignment()
+{
+    *_nloc4 = *_nloc1;
+    CPPUNIT_ASSERT( *_nloc4 == *_nloc1 );
 }
