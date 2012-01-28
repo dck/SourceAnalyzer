@@ -24,3 +24,25 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
+#include "testastbuilder.h"
+
+CPPUNIT_TEST_SUITE_REGISTRATION( TestASTBuilder );
+
+void TestASTBuilder::setUp()
+{
+    //_ast = NULL;
+    //_astBuilder = new ASTBuilder();
+}
+
+void TestASTBuilder::tearDown()
+{
+    /*
+    if( _astBuilder != NULL )
+        delete _astBuilder;
+    _astBuilder = NULL;
+
+    if( _ast != NULL )
+        delete _ast;
+    _ast = NULL;
+    */
+}

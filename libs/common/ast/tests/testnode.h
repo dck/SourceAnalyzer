@@ -27,28 +27,28 @@
 #ifndef TESTNODE_H
 #define TESTNODE_H
 
-    #include <cppunit/TestFixture.h>
-    #include <cppunit/extensions/HelperMacros.h>
+#include <cppunit/TestFixture.h>
+#include <cppunit/extensions/HelperMacros.h>
 
-    #include "node.h"
-    #include "nodelocation.h"
+#include "node.h"
+#include "nodelocation.h"
 
-    class TestNode : public CppUnit::TestFixture
-    {
-        CPPUNIT_TEST_SUITE( TestNode );
-            CPPUNIT_TEST(testEquality);
-            CPPUNIT_TEST(testNotEquality);
-        CPPUNIT_TEST_SUITE_END();
+class TestNode : public CppUnit::TestFixture
+{
+    CPPUNIT_TEST_SUITE( TestNode );
+        CPPUNIT_TEST(testEquality);
+        CPPUNIT_TEST(testNotEquality);
+    CPPUNIT_TEST_SUITE_END();
 
-        public:
-            virtual void setUp();
-            virtual void tearDown();
-            void testEquality();
-            void testNotEquality();
+    public:
+        virtual void setUp();
+        virtual void tearDown();
+        void testEquality();
+        void testNotEquality();
 
-        private:
-            INode         *_node1, *_node2, *_node3, *_node4;
-            INodeLocation *_nloc1, *_nloc2;
-    };
+    private:
+        INode         *_node1, *_node2, *_node3, *_node4;
+        INodeLocation *_nloc1, *_nloc2;
+};
 
 #endif // TESTNODE_H

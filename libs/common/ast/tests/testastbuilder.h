@@ -24,3 +24,28 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
+#ifndef TESTASTBUILDER_H
+#define TESTASTBUILDER_H
+
+#include <cppunit/TestFixture.h>
+#include <cppunit/extensions/HelperMacros.h>
+
+#include "astbuilder.h"
+
+class TestASTBuilder : public CppUnit::TestFixture
+{
+    CPPUNIT_TEST_SUITE( TestASTBuilder );
+        //CPPUNIT_TEST(testEquality);
+        //CPPUNIT_TEST(testNotEquality);
+    CPPUNIT_TEST_SUITE_END();
+
+    public:
+        virtual void setUp();
+        virtual void tearDown();
+
+    private:
+        IAST*        _ast;
+        IASTBuilder* _astBuilder;
+};
+
+#endif // TESTASTBUILDER_H
