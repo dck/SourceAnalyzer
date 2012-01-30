@@ -31,11 +31,12 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "astbuilder.h"
+#include "iexception.h"
 
 class TestASTBuilder : public CppUnit::TestFixture
 {
     CPPUNIT_TEST_SUITE( TestASTBuilder );
-        //CPPUNIT_TEST(testEquality);
+        CPPUNIT_TEST(test);
         //CPPUNIT_TEST(testNotEquality);
     CPPUNIT_TEST_SUITE_END();
 
@@ -43,11 +44,19 @@ class TestASTBuilder : public CppUnit::TestFixture
         virtual void setUp();
         virtual void tearDown();
 
+        void test();
+
     private:
+        //        c = 8 * 5 + 1;
+        //             |=|
+        //         |c|     |+|
+        //             |*|     |1|
+        //          |8|   |5|
         void buildSimpleTree();
 
-        IAST*        _ast;
-        IASTBuilder* _astBuilder;
+        IAST*           _ast;
+        IASTBuilder*    _astBuilder;
+        INodeLocation*  _nloc;
 };
 
 #endif // TESTASTBUILDER_H

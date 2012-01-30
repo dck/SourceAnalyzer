@@ -47,12 +47,12 @@ void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber ) throw
     for( size_t i = 0; i<childrenNodeNumber; i++ )
     {
         INode* nextChild = getINodeStack()->top();
-        if( previousChild->isNull() == false )
+        if( previousChild != NULL )
         {
             previousChild->setRightNeighbor(nextChild);
             nextChild->setLeftNeighbor(previousChild);
         }
-        node->getChildren().push_back(nextChild);
+        node->addChild(nextChild);
         previousChild = nextChild;
         getINodeStack()->pop();
     }

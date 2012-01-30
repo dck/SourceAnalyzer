@@ -53,7 +53,6 @@ void TestNode::setUp()
     _node4->setInstrType(Node::realInstr);
     _node4->setValue("int");
     _node4->setNodeLocation(*_nloc2);
-
 }
 
 void TestNode::tearDown()

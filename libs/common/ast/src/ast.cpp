@@ -30,6 +30,6 @@
 
 AbstractSyntaxTree::~AbstractSyntaxTree()
 {
-    if( getRoot() != NULL )
+    if( this->_root != NULL )
         delete this->_root;
 }

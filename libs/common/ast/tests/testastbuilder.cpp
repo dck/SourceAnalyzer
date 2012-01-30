@@ -30,12 +30,14 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestASTBuilder );
 
 void TestASTBuilder::setUp()
 {
-    _ast = NULL;
+    _ast        = NULL;
     _astBuilder = new ASTBuilder();
+    _nloc       = new NodeLocation();
 }
 
 void TestASTBuilder::tearDown()
 {
+    //std::cout << "in TestASTBuilder" << std::endl;
     if( _astBuilder != NULL )
         delete _astBuilder;
     _astBuilder = NULL;
@@ -43,9 +45,77 @@ void TestASTBuilder::tearDown()
     if( _ast != NULL )
         delete _ast;
     _ast = NULL;
+
+    if( _nloc != NULL )
+        delete _nloc;
+    _nloc = NULL;
+    //std::cout << "out of TestASTBuilder" << std::endl;
+}
+
+void TestASTBuilder::test()
+{
+    buildSimpleTree();
+    _ast = _astBuilder->getAST();
 }
 
 void TestASTBuilder::buildSimpleTree()
 {
+    try
+    {
+        INode* _node = NULL;
 
+        _node = new Node();
+        _node->setInstrType(INode::realInstr);
+        _node->setValue("c");
+        _nloc->setPos(1); _nloc->setLine(1); _nloc->setFile("test.cpp");
+        _node->setNodeLocation( *_nloc );
+        _astBuilder->pushNode(_node);
+
+        _node = new Node();
+        _node->setInstrType(INode::realInstr);
+        _node->setValue("8");
+        _nloc->setPos(5);
+        _node->setNodeLocation( *_nloc );
+        _astBuilder->pushNode(_node);
+
+        _node = new Node();
+        _node->setInstrType(INode::realInstr);
+        _node->setValue("5");
+        _nloc->setPos(9);
+        _node->setNodeLocation( *_nloc );
+        _astBuilder->pushNode(_node);
+
+        _node = new Node();
+        _node->setInstrType(INode::realInstr);
+        _node->setValue("*");
+        _nloc->setPos(7);
+        _node->setNodeLocation( *_nloc );
+        _astBuilder->buildNode(_node, 2);
+
+        _node = new Node();
+        _node->setInstrType(INode::realInstr);
+        _node->setValue("1");
+        _nloc->setPos(13);
+        _node->setNodeLocation( *_nloc );
+        _astBuilder->pushNode(_node);
+
+        _node = new Node();
+        _node->setInstrType(INode::realInstr);
+        _node->setValue("+");
+        _nloc->setPos(11);
+        _node->setNodeLocation( *_nloc );
+        _astBuilder->buildNode(_node, 2);
+
+        _node = new Node();
+        _node->setInstrType(INode::realInstr);
+        _node->setValue("=");
+        _nloc->setPos(3);
+        _node->setNodeLocation( *_nloc );
+        _astBuilder->buildNode(_node, 2);
+
+    }
+    catch ( IException& exception )
+    {
+        std::cout << exception.getMsg() << std::endl;
+    }
 }
