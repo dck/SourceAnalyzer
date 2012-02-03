@@ -66,7 +66,8 @@ class INode
         virtual void setLeftNeighbor  ( INode* lneighbor )             = 0;
         virtual void setRightNeighbor ( INode* rneighbor )             = 0;
         virtual void setNodeLocation  ( INodeLocation& nodeLocation )  = 0;
-        virtual void addChild         ( INode* child )                 = 0;
+        virtual void addChildFront    ( INode* child )                 = 0;
+        virtual void addChildBack     ( INode* child )                 = 0;
 
         virtual bool isNull          () const = 0;
         virtual bool isParentNull    () const = 0;

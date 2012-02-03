@@ -31,6 +31,8 @@
 #include "node.h"
 #include "ast.h"
 
+// Abstract ASTBuilder
+
 class ASTBuilder : public IASTBuilder
 {
     public:
@@ -38,9 +40,11 @@ class ASTBuilder : public IASTBuilder
             : _inodeStack(new INodeStack()) {}
 
         virtual ~ASTBuilder ();
-        virtual void  pushNode  ( INode* node );
-        virtual void  buildNode ( INode* node, const size_t childrenNodeNumber ) throw();
-        virtual IAST* getAST    () throw();
+        virtual void  pushNode     ( INode* node );
+        virtual void  buildNode    ( INode* node, const size_t childrenNodeNumber ) throw();
+        virtual void  connectNodes ( INode* left, INode* right ) = 0;
+        virtual void  addChild     ( INode* parent, INode* child ) = 0;
+        virtual IAST* getAST       () throw();
 
     protected:
         inline INodeStack* getINodeStack   () const                   { return _inodeStack;      }
@@ -50,5 +54,26 @@ class ASTBuilder : public IASTBuilder
         INodeStack* _inodeStack;
 };
 
-#endif // AST_BUILDER_H
+// ASTBuilder with the spcified RIGHT to LEFT building direction
 
+class ASTR2LBuilder : public ASTBuilder
+{
+    public:
+    ASTR2LBuilder() : ASTBuilder() {}
+        virtual ~ASTR2LBuilder()  {}
+        virtual void connectNodes ( INode* left, INode* right   );
+        virtual void addChild     ( INode *parent, INode *child );
+};
+
+// ASTBuilder with the spcified LEFT to RIGHT building direction
+
+class ASTL2RBuilder : public ASTBuilder
+{
+    public:
+        ASTL2RBuilder() : ASTBuilder() {}
+        virtual ~ASTL2RBuilder()  {}
+        virtual void connectNodes ( INode* left, INode* right   );
+        virtual void addChild     ( INode *parent, INode *child );
+};
+
+#endif // AST_BUILDER_H

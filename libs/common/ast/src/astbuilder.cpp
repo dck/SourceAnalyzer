@@ -47,12 +47,8 @@ void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber ) throw
     for( size_t i = 0; i<childrenNodeNumber; i++ )
     {
         INode* nextChild = getINodeStack()->top();
-        if( previousChild != NULL )
-        {
-            previousChild->setRightNeighbor(nextChild);
-            nextChild->setLeftNeighbor(previousChild);
-        }
-        node->addChild(nextChild);
+        connectNodes    ( previousChild, nextChild );
+        addChild        ( node, nextChild          );
         previousChild = nextChild;
         getINodeStack()->pop();
     }
@@ -68,4 +64,36 @@ IAST* ASTBuilder::getAST () throw()
     IAST* ast = new AbstractSyntaxTree(getINodeStack()->top());
     getINodeStack()->pop();
     return ast;
+}
+
+////////////////////////////////////////////////////////////////////////////
+
+void ASTR2LBuilder::connectNodes(INode *previousChild, INode *nextChild)
+{
+    if( previousChild != NULL )
+    {
+        nextChild->setRightNeighbor(previousChild);
+        previousChild->setLeftNeighbor(nextChild);
+    }
+}
+
+void ASTR2LBuilder::addChild(INode *parent, INode *child)
+{
+    parent->addChildFront(child);
+}
+
+////////////////////////////////////////////////////////////////////////////
+
+void ASTL2RBuilder::connectNodes(INode *previousChild, INode *nextChild)
+{
+    if( previousChild != NULL )
+    {
+        previousChild->setRightNeighbor(nextChild);
+        nextChild->setLeftNeighbor(previousChild);
+    }
+}
+
+void ASTL2RBuilder::addChild(INode *parent, INode *child)
+{
+    parent->addChildBack(child);
 }

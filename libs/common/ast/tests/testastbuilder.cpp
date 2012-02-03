@@ -31,13 +31,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TestASTBuilder );
 void TestASTBuilder::setUp()
 {
     _ast        = NULL;
-    _astBuilder = new ASTBuilder();
+    _astBuilder = new ASTR2LBuilder();
     _nloc       = new NodeLocation();
 }
 
 void TestASTBuilder::tearDown()
 {
-    //std::cout << "in TestASTBuilder" << std::endl;
     if( _astBuilder != NULL )
         delete _astBuilder;
     _astBuilder = NULL;
@@ -49,7 +48,6 @@ void TestASTBuilder::tearDown()
     if( _nloc != NULL )
         delete _nloc;
     _nloc = NULL;
-    //std::cout << "out of TestASTBuilder" << std::endl;
 }
 
 void TestASTBuilder::test()

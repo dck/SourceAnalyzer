@@ -38,13 +38,14 @@ class Node : public INode
         Node ();
         virtual ~Node();
 
-        inline void setParent        ( INode* parent )               { _parent = parent;                }
-        inline void setInstrType     ( const InstrType instrType )   { _instrType = instrType;          }
-        inline void setValue         ( const std::string& value )    { _value = value;                  }
-        inline void setNodeLocation  ( INodeLocation& nodeLocation ) { *_nodeLocation = nodeLocation;   }
-        inline void setLeftNeighbor  ( INode* lneighbor )            { _lneighbor = lneighbor;          }
-        inline void setRightNeighbor ( INode* rneighbor )            { _rneighbor = rneighbor;          }
-        inline void addChild         ( INode* child )                { _children.push_back(child);      }
+        inline void setParent        ( INode* parent )               { _parent = parent;              }
+        inline void setInstrType     ( const InstrType instrType )   { _instrType = instrType;        }
+        inline void setValue         ( const std::string& value )    { _value = value;                }
+        inline void setNodeLocation  ( INodeLocation& nodeLocation ) { *_nodeLocation = nodeLocation; }
+        inline void setLeftNeighbor  ( INode* lneighbor )            { _lneighbor = lneighbor;        }
+        inline void setRightNeighbor ( INode* rneighbor )            { _rneighbor = rneighbor;        }
+        inline void addChildFront    ( INode* child )                { _children.push_front(child);   }
+        inline void addChildBack     ( INode* child )                { _children.push_back(child);    }
 
         inline INodeList        getChildren()      const { return _children;      }
         inline INode*           getParent()        const { return _parent;        }
