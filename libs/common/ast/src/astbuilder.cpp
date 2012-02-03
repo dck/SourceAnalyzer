@@ -80,6 +80,7 @@ void ASTR2LBuilder::connectNodes(INode *previousChild, INode *nextChild)
 void ASTR2LBuilder::addChild(INode *parent, INode *child)
 {
     parent->addChildFront(child);
+    child->setParent(parent);
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -96,4 +97,5 @@ void ASTL2RBuilder::connectNodes(INode *previousChild, INode *nextChild)
 void ASTL2RBuilder::addChild(INode *parent, INode *child)
 {
     parent->addChildBack(child);
+    child->setParent(parent);
 }

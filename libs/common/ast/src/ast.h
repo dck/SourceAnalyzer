@@ -38,7 +38,7 @@ class AbstractSyntaxTree : public IAbstractSyntaxTree
 
         virtual ~AbstractSyntaxTree();
 
-        inline iterator getRoot() const                 { IAST::iterator(this->_root); }
+        inline iterator getRoot() const                 { return IAST::iterator(this->_root); }
         inline void     setRoot( INode* root )          { this->_root = root;          }
         inline void     setRoot( const iterator& root ) { this->_root = *root;         }
 

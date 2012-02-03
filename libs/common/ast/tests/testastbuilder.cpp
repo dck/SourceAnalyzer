@@ -54,6 +54,20 @@ void TestASTBuilder::test()
 {
     buildSimpleTree();
     _ast = _astBuilder->getAST();
+    IAST::iterator it = _ast->getRoot();
+    std::cout << it->getValue() << std::endl;
+    it.downToL();
+    std::cout << it->getValue() << std::endl;
+    it.up().downToR();
+    std::cout << it->getValue() << std::endl;
+    it.downToL();
+    std::cout << it->getValue() << std::endl;
+    it.downToL();
+    std::cout << it->getValue() << std::endl;
+    it.up().downToR();
+    std::cout << it->getValue() << std::endl;
+    it.up().up().downToR();
+    std::cout << it->getValue() << std::endl;
 }
 
 void TestASTBuilder::buildSimpleTree()
