@@ -27,6 +27,8 @@
 #ifndef TESTASTBUILDER_H
 #define TESTASTBUILDER_H
 
+#include <vector>
+
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -36,15 +38,14 @@
 class TestASTBuilder : public CppUnit::TestFixture
 {
     CPPUNIT_TEST_SUITE( TestASTBuilder );
-        CPPUNIT_TEST(test);
-        //CPPUNIT_TEST(testNotEquality);
+        CPPUNIT_TEST(testASTBuilder);
     CPPUNIT_TEST_SUITE_END();
 
     public:
         virtual void setUp();
         virtual void tearDown();
 
-        void test();
+        void testASTBuilder();
 
     private:
         //        c = 8 * 5 + 1;
@@ -52,11 +53,15 @@ class TestASTBuilder : public CppUnit::TestFixture
         //         |c|     |+|
         //             |*|     |1|
         //          |8|   |5|
-        void buildSimpleTree();
+        void buildSimpleTree( IASTBuilder* astBuilder );
+        void initSymbols();
+        int testR2LBuilder();
+        int testL2RBuilder();
 
-        IAST*           _ast;
-        IASTBuilder*    _astBuilder;
         INodeLocation*  _nloc;
+        std::vector<std::string>    symbols;
+        std::vector<std::string>    sr2lres;
+        std::vector<std::string>    sl2rres;
 };
 
 #endif // TESTASTBUILDER_H

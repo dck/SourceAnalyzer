@@ -26,108 +26,186 @@
 
 #include "testastbuilder.h"
 
+using std::vector;
+
 CPPUNIT_TEST_SUITE_REGISTRATION( TestASTBuilder );
 
 void TestASTBuilder::setUp()
 {
-    _ast        = NULL;
-    _astBuilder = new ASTR2LBuilder();
-    _nloc       = new NodeLocation();
+    _nloc = new NodeLocation();
+    initSymbols();
 }
 
 void TestASTBuilder::tearDown()
 {
-    if( _astBuilder != NULL )
-        delete _astBuilder;
-    _astBuilder = NULL;
-
-    if( _ast != NULL )
-        delete _ast;
-    _ast = NULL;
-
     if( _nloc != NULL )
         delete _nloc;
     _nloc = NULL;
 }
 
-void TestASTBuilder::test()
+void TestASTBuilder::testASTBuilder()
 {
-    buildSimpleTree();
-    _ast = _astBuilder->getAST();
-    IAST::iterator it = _ast->getRoot();
-    std::cout << it->getValue() << std::endl;
-    it.downToL();
-    std::cout << it->getValue() << std::endl;
-    it.up().downToR();
-    std::cout << it->getValue() << std::endl;
-    it.downToL();
-    std::cout << it->getValue() << std::endl;
-    it.downToL();
-    std::cout << it->getValue() << std::endl;
-    it.up().downToR();
-    std::cout << it->getValue() << std::endl;
-    it.up().up().downToR();
-    std::cout << it->getValue() << std::endl;
+    CPPUNIT_ASSERT( 0 == testR2LBuilder() );
+    CPPUNIT_ASSERT( 0 == testL2RBuilder() );
 }
 
-void TestASTBuilder::buildSimpleTree()
+int TestASTBuilder::testR2LBuilder()
+{
+    int i = 0;
+    int ret_code = 0;
+    IASTBuilder* astBuilder = new ASTR2LBuilder();
+    buildSimpleTree( astBuilder );
+    IAST* ast = astBuilder->getAST();
+
+    IAST::iterator it = ast->getRoot();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.up().downToR();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.up().downToR();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.up().up().downToR();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+
+    delete ast;
+    delete astBuilder;
+    return ret_code;
+}
+
+int TestASTBuilder::testL2RBuilder()
+{
+    int i = 0;
+    int ret_code = 0;
+
+    IASTBuilder* astBuilder = new ASTL2RBuilder();
+    buildSimpleTree( astBuilder );
+    IAST* ast = astBuilder->getAST();
+
+    IAST::iterator it = ast->getRoot();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.up().downToR();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.up().downToR();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.up().up().up().downToR();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+
+    delete ast;
+    delete astBuilder;
+    return 0;
+}
+
+void TestASTBuilder::buildSimpleTree( IASTBuilder* astBuilder )
 {
     try
     {
+        size_t i = 0;
         INode* _node = NULL;
 
         _node = new Node();
         _node->setInstrType(INode::realInstr);
-        _node->setValue("c");
+        _node->setValue(symbols[i++]);
         _nloc->setPos(1); _nloc->setLine(1); _nloc->setFile("test.cpp");
         _node->setNodeLocation( *_nloc );
-        _astBuilder->pushNode(_node);
+        astBuilder->pushNode(_node);
 
         _node = new Node();
         _node->setInstrType(INode::realInstr);
-        _node->setValue("8");
+        _node->setValue(symbols[i++]);
         _nloc->setPos(5);
         _node->setNodeLocation( *_nloc );
-        _astBuilder->pushNode(_node);
+        astBuilder->pushNode(_node);
 
         _node = new Node();
         _node->setInstrType(INode::realInstr);
-        _node->setValue("5");
+        _node->setValue(symbols[i++]);
         _nloc->setPos(9);
         _node->setNodeLocation( *_nloc );
-        _astBuilder->pushNode(_node);
+        astBuilder->pushNode(_node);
 
         _node = new Node();
         _node->setInstrType(INode::realInstr);
-        _node->setValue("*");
+        _node->setValue(symbols[i++]);
         _nloc->setPos(7);
         _node->setNodeLocation( *_nloc );
-        _astBuilder->buildNode(_node, 2);
+        astBuilder->buildNode(_node, 2);
 
         _node = new Node();
         _node->setInstrType(INode::realInstr);
-        _node->setValue("1");
+        _node->setValue(symbols[i++]);
         _nloc->setPos(13);
         _node->setNodeLocation( *_nloc );
-        _astBuilder->pushNode(_node);
+        astBuilder->pushNode(_node);
 
         _node = new Node();
         _node->setInstrType(INode::realInstr);
-        _node->setValue("+");
+        _node->setValue(symbols[i++]);
         _nloc->setPos(11);
         _node->setNodeLocation( *_nloc );
-        _astBuilder->buildNode(_node, 2);
+        astBuilder->buildNode(_node, 2);
 
         _node = new Node();
         _node->setInstrType(INode::realInstr);
-        _node->setValue("=");
+        _node->setValue(symbols[i++]);
         _nloc->setPos(3);
         _node->setNodeLocation( *_nloc );
-        _astBuilder->buildNode(_node, 2);
+        astBuilder->buildNode(_node, 2);
 
     }
     catch ( IException& exception )
     {
         std::cout << exception.getMsg() << std::endl;
     }
+}
+
+void TestASTBuilder::initSymbols()
+{
+    symbols.push_back("c");
+    symbols.push_back("8");
+    symbols.push_back("5");
+    symbols.push_back("*");
+    symbols.push_back("1");
+    symbols.push_back("+");
+    symbols.push_back("=");
+
+    sr2lres.push_back("=");
+    sr2lres.push_back("c");
+    sr2lres.push_back("+");
+    sr2lres.push_back("*");
+    sr2lres.push_back("8");
+    sr2lres.push_back("5");
+    sr2lres.push_back("1");
+
+    sl2rres.push_back("=");
+    sl2rres.push_back("+");
+    sl2rres.push_back("1");
+    sl2rres.push_back("*");
+    sl2rres.push_back("5");
+    sl2rres.push_back("8");
+    sl2rres.push_back("c");
 }
