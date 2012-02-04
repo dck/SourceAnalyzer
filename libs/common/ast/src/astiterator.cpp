@@ -30,6 +30,7 @@
 IAST::iterator::iterator(INode *node)
 {
      setCurrentNode(node);
+     _isNull = false;
 }
 
 IAST::iterator::iterator(const IAST::iterator& iterator)
@@ -107,14 +108,14 @@ IAST::iterator& IAST::iterator::operator= ( const iterator& iterator )
     return *this;
 }
 
-bool IAST::iterator::operator == ( const iterator& iterator) const
+bool operator == ( const IAST::iterator& it1, const IAST::iterator& it2 )
 {
-    return (iterator.getCurrentNode() == this->getCurrentNode());
+    return (it1.getCurrentNode() == it2.getCurrentNode());
 }
 
-bool IAST::iterator::operator != ( const iterator& iterator) const
+bool operator != ( const IAST::iterator& it1, const IAST::iterator& it2 )
 {
-    return !(iterator == *this);
+    return !(it1 == it2);
 }
 
 INode* IAST::iterator::operator* () const throw()
@@ -131,4 +132,104 @@ INode* IAST::iterator::operator-> () const throw()
     if( node->isNull() )
         throw BadPointer("iterator: operator->: pointer is NULL");
     return node;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+IAST::iterator& IAST::null_iterator::up() throw()
+{
+    throw BadPointer("null_iterator: up");
+    return *this;
+}
+
+IAST::iterator& IAST::null_iterator::downToL() throw()
+{
+    throw BadPointer("null_iterator: downToL");
+    return *this;
+}
+
+IAST::iterator& IAST::null_iterator::downToR() throw()
+{
+    throw BadPointer("null_iterator: downToR");
+    return *this;
+}
+
+IAST::iterator& IAST::null_iterator::left() throw()
+{
+    throw BadPointer("null_iterator: left");
+    return *this;
+}
+
+IAST::iterator& IAST::null_iterator::operator-- () throw()
+{
+    return left();
+}
+
+IAST::iterator IAST::null_iterator::operator-- (int) throw()
+{
+    iterator it_copy(*this);
+    left();
+    return it_copy;
+}
+
+IAST::iterator& IAST::null_iterator::right() throw()
+{
+    throw BadPointer("null_iterator: right");
+    return *this;
+}
+
+IAST::iterator& IAST::null_iterator::operator++ () throw()
+{
+    return right();
+}
+
+IAST::iterator IAST::null_iterator::operator++ (int) throw()
+{
+    iterator it_copy(*this);
+    right();
+    return it_copy;
+}
+
+bool operator == ( const IAST::null_iterator& it1, const IAST::iterator& it2 )
+{
+    return ( it1.isNull() == it2.isNull() );
+}
+
+bool operator != ( const IAST::null_iterator& it1, const IAST::iterator& it2 )
+{
+    return !( it1 == it2 );
+}
+
+bool operator == ( const IAST::null_iterator& it1, const IAST::null_iterator& it2 )
+{
+    return ( it1.isNull() == it2.isNull() );
+}
+
+bool operator != ( const IAST::null_iterator& it1, const IAST::null_iterator& it2 )
+{
+    return !( it1 == it2 );
+}
+
+bool operator == ( const IAST::iterator& it1, const IAST::null_iterator& it2 )
+{
+    return ( it2 == it1 );
+}
+
+bool operator != ( const IAST::iterator& it1, const IAST::null_iterator& it2 )
+{
+    return !( it2 == it1 );
+}
+
+
+INode* IAST::null_iterator::operator* () const throw()
+{
+    throw BadPointer("null_iterator: operator*");
+    return NULL;
+}
+
+INode* IAST::null_iterator::operator-> () const throw()
+{
+    throw BadPointer("null_iterator: operator->");
+    return NULL;
 }

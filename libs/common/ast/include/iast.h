@@ -32,38 +32,8 @@
 class IAbstractSyntaxTree
 {
     public:
-        class iterator
-        {
-            public:
-                iterator ( INode* node = NULL );
-                iterator ( const iterator& iterator );
-
-                virtual iterator& left       ();
-                virtual iterator& operator-- ();
-                virtual iterator  operator-- (int);
-
-                virtual iterator& right      ();
-                virtual iterator& operator++ ();
-                virtual iterator  operator++ (int);
-
-                virtual iterator& up       () throw();
-                virtual iterator& downToR  () throw();
-                virtual iterator& downToL  () throw();
-
-                virtual iterator& operator =  ( const iterator& iterator );
-                virtual bool      operator == ( const iterator& iterator ) const;
-                virtual bool      operator != ( const iterator& iterator ) const;
-
-                virtual INode*    operator*  () const throw();
-                virtual INode*    operator-> () const throw();
-
-            protected:
-                inline INode* getCurrentNode () const               { return _currentNode;        }
-                inline void   setCurrentNode ( INode* currentNode ) { _currentNode = currentNode; }
-
-            private:
-                INode* _currentNode;
-        };
+        class iterator;
+        class null_iterator;
 
         virtual ~IAbstractSyntaxTree() {}
 
@@ -73,6 +43,83 @@ class IAbstractSyntaxTree
 
         virtual iterator getRBottom () const = 0;
         virtual iterator getLBottom () const = 0;
+};
+
+class IAbstractSyntaxTree::iterator
+{
+    public:
+        iterator ( INode* node = NULL );
+        iterator ( const iterator& iterator );
+
+        virtual ~iterator() {}
+
+        virtual iterator& left       ();
+        virtual iterator& operator-- ();
+        virtual iterator  operator-- (int);
+
+        virtual iterator& right      ();
+        virtual iterator& operator++ ();
+        virtual iterator  operator++ (int);
+
+        virtual iterator& up       () throw();
+        virtual iterator& downToR  () throw();
+        virtual iterator& downToL  () throw();
+
+        virtual iterator& operator =  ( const iterator& iterator );
+        friend  bool      operator == ( const iterator& it1, const iterator& it2 );
+        friend  bool      operator != ( const iterator& it1, const iterator& it2 );
+
+        friend  bool      operator == ( const iterator& it1, const IAbstractSyntaxTree::null_iterator& it2 );
+        friend  bool      operator != ( const iterator& it1, const IAbstractSyntaxTree::null_iterator& it2 );
+
+        friend  bool      operator == ( const IAbstractSyntaxTree::null_iterator& it1, const iterator& it2 );
+        friend  bool      operator != ( const IAbstractSyntaxTree::null_iterator& it1, const iterator& it2 );
+
+        virtual INode*    operator*  () const throw();
+        virtual INode*    operator-> () const throw();
+
+    protected:
+        inline INode* getCurrentNode () const               { return _currentNode;        }
+        inline void   setCurrentNode ( INode* currentNode ) { _currentNode = currentNode; }
+        inline bool   isNull         () const               { return _isNull;             }
+        inline void   setNull        ( bool isNull )        { _isNull = isNull;           }
+
+    private:
+        INode* _currentNode;
+        bool   _isNull;
+};
+
+class IAbstractSyntaxTree::null_iterator : public IAbstractSyntaxTree::iterator
+{
+    public:
+        null_iterator( INode* node = NULL )
+            : iterator(node) { setNull(true); }
+
+        virtual iterator& left       ()     throw();
+        virtual iterator& operator-- ()     throw();
+        virtual iterator  operator-- (int)  throw();
+
+        virtual iterator& right      ()     throw();
+        virtual iterator& operator++ ()     throw();
+        virtual iterator  operator++ (int)  throw();
+
+        virtual iterator& up       () throw();
+        virtual iterator& downToR  () throw();
+        virtual iterator& downToL  () throw();
+
+        //virtual iterator& operator =  ( const iterator& iterator );
+
+        friend  bool      operator == ( const null_iterator& it1, const iterator& it2 );
+        friend  bool      operator != ( const null_iterator& it1, const iterator& it2 );
+
+        friend  bool      operator == ( const null_iterator& it1, const null_iterator& it2 );
+        friend  bool      operator != ( const null_iterator& it1, const null_iterator& it2 );
+
+        friend  bool      operator == ( const iterator& it1, const null_iterator& it2 );
+        friend  bool      operator != ( const iterator& it1, const null_iterator& it2 );
+
+        virtual INode*    operator*  () const throw();
+        virtual INode*    operator-> () const throw();
 };
 
 typedef IAbstractSyntaxTree IAST;
