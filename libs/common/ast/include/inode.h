@@ -53,7 +53,7 @@ class INode
         virtual INode*         getParent()        const = 0;
         virtual InstrType      getInstrType()     const = 0;
         virtual std::string    getValue()         const = 0;
-        virtual INodeLocation& getNodeLocation()  const = 0;
+        virtual INodeLocation* getNodeLocation()  const = 0;
         virtual INodeList      getChildren()      const = 0;
         virtual INode*         getLeftChild()     const = 0;
         virtual INode*         getRightChild()    const = 0;

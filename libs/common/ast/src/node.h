@@ -53,7 +53,7 @@ class Node : public INode
         inline INode*           getRightNeighbor() const { return _rneighbor;     }
         inline InstrType        getInstrType()     const { return _instrType;     }
         inline std::string      getValue()         const { return _value;         }
-        inline INodeLocation&   getNodeLocation()  const { return *_nodeLocation; }
+        inline INodeLocation*   getNodeLocation()  const { return _nodeLocation; }
 
         virtual INode*          getLeftChild()     const;
         virtual INode*          getRightChild()    const;

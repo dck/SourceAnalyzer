@@ -75,9 +75,9 @@ INode* Node::getRightChild() const
 
 bool operator == ( const INode& node1, const INode& node2 )
 {
-    return ( ( node1.getValue        () == node2.getValue        ()  ) &&
-             ( node1.getInstrType    () == node2.getInstrType    ()  ) &&
-             ( node1.getNodeLocation () == node2.getNodeLocation ()  ) );
+    return ( (  node1.getValue        () == node2.getValue         ()  ) &&
+             (  node1.getInstrType    () == node2.getInstrType     ()  ) &&
+             ( *node1.getNodeLocation () == *node2.getNodeLocation ()  ) );
 }
 
 bool operator != ( const INode& node1, const INode& node2 )
