@@ -43,6 +43,8 @@ class IAbstractSyntaxTree
 
         virtual iterator getRBottom () const = 0;
         virtual iterator getLBottom () const = 0;
+
+        static null_iterator null_it;
 };
 
 class IAbstractSyntaxTree::iterator

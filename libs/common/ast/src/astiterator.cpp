@@ -36,12 +36,13 @@ IAST::iterator::iterator(INode *node)
 IAST::iterator::iterator(const IAST::iterator& iterator)
 {
     setCurrentNode(iterator.getCurrentNode());
+    setNull(iterator.isNull());
 }
 
 IAST::iterator& IAST::iterator::up() throw()
 {
     if( getCurrentNode()->isParentNull() == true )
-        throw BadPointer("iterator: up: pointer is NULL");
+        return IAST::null_it;
     setCurrentNode( getCurrentNode()->getParent() );
     return *this;
 }
@@ -49,7 +50,7 @@ IAST::iterator& IAST::iterator::up() throw()
 IAST::iterator& IAST::iterator::downToL() throw()
 {
     if( getCurrentNode()->isChildrenEmpty() == true )
-        throw BadPointer("iterator: downToL: pointer is NULL");
+        return IAST::null_it;
     setCurrentNode( getCurrentNode()->getLeftChild() );
     return *this;
 }
@@ -57,7 +58,7 @@ IAST::iterator& IAST::iterator::downToL() throw()
 IAST::iterator& IAST::iterator::downToR() throw()
 {
     if( getCurrentNode()->isChildrenEmpty() == true )
-        throw BadPointer("iterator: downToR: pointer is NULL");
+        return IAST::null_it;
     setCurrentNode( getCurrentNode()->getRightChild() );
     return *this;
 }
@@ -65,8 +66,9 @@ IAST::iterator& IAST::iterator::downToR() throw()
 IAST::iterator& IAST::iterator::left()
 {
     INode* leftNeighbor = getCurrentNode()->getLeftNeighbor();
-    if( leftNeighbor != NULL )
-        setCurrentNode( leftNeighbor );
+    if( leftNeighbor == NULL )
+        return IAST::null_it;
+    setCurrentNode( leftNeighbor );
     return *this;
 }
 
@@ -85,8 +87,9 @@ IAST::iterator IAST::iterator::operator-- (int)
 IAST::iterator& IAST::iterator::right()
 {
     INode* rightNeighbor = getCurrentNode()->getRightChild();
-    if( rightNeighbor != NULL )
-        setCurrentNode( rightNeighbor );
+    if( rightNeighbor == NULL )
+        return IAST::null_it;
+    setCurrentNode( rightNeighbor );
     return *this;
 }
 
@@ -220,7 +223,6 @@ bool operator != ( const IAST::iterator& it1, const IAST::null_iterator& it2 )
 {
     return !( it2 == it1 );
 }
-
 
 INode* IAST::null_iterator::operator* () const throw()
 {

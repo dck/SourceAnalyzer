@@ -28,6 +28,8 @@
 
 #include "ast.h"
 
+IAST::null_iterator IAST::null_it = IAST::null_iterator();
+
 AbstractSyntaxTree::~AbstractSyntaxTree()
 {
     if( this->_root != NULL )
