@@ -43,8 +43,8 @@ class AbstractSyntaxTree : public IAbstractSyntaxTree
         inline void     setRoot( const iterator& root ) { this->_root = *root;         }
 
         // [warning] have to write right implementation !!!
-        inline iterator getRBottom () const { return IAST::iterator(NULL); }
-        inline iterator getLBottom () const { return IAST::iterator(NULL); }
+        inline iterator getRBottom () const { return IAST::null_it; }
+        inline iterator getLBottom () const { return IAST::null_it; }
 
     private:
         INode* _root;
