@@ -55,11 +55,9 @@ class IAbstractSyntaxTree::iterator
 
         virtual ~iterator() {}
 
-        virtual iterator& left       ();
         virtual iterator& operator-- ();
         virtual iterator  operator-- (int);
 
-        virtual iterator& right      ();
         virtual iterator& operator++ ();
         virtual iterator  operator++ (int);
 
@@ -81,6 +79,9 @@ class IAbstractSyntaxTree::iterator
         virtual INode*    operator-> () const throw();
 
     protected:
+        virtual iterator& left  ();
+        virtual iterator& right ();
+
         inline INode* getCurrentNode () const               { return _currentNode;        }
         inline void   setCurrentNode ( INode* currentNode ) { _currentNode = currentNode; }
         inline bool   isNull         () const               { return _isNull;             }
@@ -97,11 +98,9 @@ class IAbstractSyntaxTree::null_iterator : public IAbstractSyntaxTree::iterator
         null_iterator( INode* node = NULL )
             : iterator(node) { setNull(true); }
 
-        virtual iterator& left       ()     throw();
         virtual iterator& operator-- ()     throw();
         virtual iterator  operator-- (int)  throw();
 
-        virtual iterator& right      ()     throw();
         virtual iterator& operator++ ()     throw();
         virtual iterator  operator++ (int)  throw();
 
@@ -122,6 +121,11 @@ class IAbstractSyntaxTree::null_iterator : public IAbstractSyntaxTree::iterator
 
         virtual INode*    operator*  () const throw();
         virtual INode*    operator-> () const throw();
+
+    protected:
+        virtual iterator& left  () throw();
+        virtual iterator& right () throw();
+
 };
 
 typedef IAbstractSyntaxTree IAST;
