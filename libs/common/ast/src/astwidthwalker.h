@@ -23,3 +23,32 @@
 // The views and conclusions contained in the software and documentation are those of the
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
+
+#ifndef ASTWIDTHWALKER_H
+#define ASTWIDTHWALKER_H
+
+#include "iastwalker.h"
+
+class ASTWidthWalker : public IASTWalker
+{
+    public:
+        ASTWidthWalker( IASTWalker& astWalker )
+            : _it(astWalker.getIt()), _eot(true), _downIt(IAST::null_it) {}
+        ASTWidthWalker( const IAST::iterator& root )
+            : _it(root), _eot(true), _downIt(IAST::null_it) {}
+        virtual ~ASTWidthWalker(){}
+
+        virtual IASTWalker& next ();
+
+        inline INode*           element ()       { return *_it; }
+        inline bool             isNext  () const { return _eot; }
+        inline IAST::iterator&  getIt   ()       { return _it;  }
+        inline void             setIt   ( const IAST::iterator& root ) { _it = root; }
+
+    private:
+        IAST::iterator _it;
+        IAST::iterator _downIt;
+        bool           _eot;
+};
+
+#endif // ASTWIDTHWALKER_H

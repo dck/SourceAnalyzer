@@ -124,7 +124,7 @@ bool operator != ( const IAST::iterator& it1, const IAST::iterator& it2 )
 INode* IAST::iterator::operator* () const throw()
 {
     INode* node = getCurrentNode();
-    if( node->isNull() )
+    if( node == NULL )
         throw BadPointer("iterator: operator*: pointer is NULL");
     return node;
 }
@@ -132,7 +132,7 @@ INode* IAST::iterator::operator* () const throw()
 INode* IAST::iterator::operator-> () const throw()
 {
     INode* node = getCurrentNode();
-    if( node->isNull() )
+    if( node == NULL )
         throw BadPointer("iterator: operator->: pointer is NULL");
     return node;
 }

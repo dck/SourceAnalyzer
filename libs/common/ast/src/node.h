@@ -58,9 +58,10 @@ class Node : public INode
         virtual INode*          getLeftChild()     const;
         virtual INode*          getRightChild()    const;
 
-        inline bool isNull          () const { return (this == NULL);    }
-        inline bool isParentNull    () const { return (_parent == NULL); }
-        inline bool isChildrenEmpty () const { return _children.empty(); }
+        inline bool isParentNull    () const { return (_parent == NULL);    }
+        inline bool isChildrenEmpty () const { return _children.empty();    }
+        inline bool isRightNull     () const { return (_rneighbor == NULL); }
+        inline bool isLeftNull      () const { return (_lneighbor == NULL); }
 
         // friend bool operator == ( const INode& node1, const INode& node2 );
         // friend bool operator != ( const INode& node1, const INode& node2 );

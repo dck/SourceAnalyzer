@@ -69,9 +69,10 @@ class INode
         virtual void addChildFront    ( INode* child )                 = 0;
         virtual void addChildBack     ( INode* child )                 = 0;
 
-        virtual bool isNull          () const = 0;
         virtual bool isParentNull    () const = 0;
         virtual bool isChildrenEmpty () const = 0;
+        virtual bool isRightNull     () const = 0;
+        virtual bool isLeftNull      () const = 0;
 
         friend bool operator == ( const INode& node1, const INode& node2 );
         friend bool operator != ( const INode& node1, const INode& node2 );

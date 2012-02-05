@@ -23,3 +23,23 @@
 // The views and conclusions contained in the software and documentation are those of the
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
+
+#ifndef IASTWALKER_H
+#define IASTWALKER_H
+
+#include "iast.h"
+
+class IASTWalker
+{
+    public:
+        virtual ~IASTWalker();
+
+        virtual IASTWalker& next    () = 0;
+        virtual INode*      element () = 0;
+        virtual bool        isNext  () const = 0;
+
+        virtual IAST::iterator& getIt ()                  = 0;
+        virtual void setIt ( const IAST::iterator& root ) = 0;
+};
+
+#endif // IASTWALKER_H

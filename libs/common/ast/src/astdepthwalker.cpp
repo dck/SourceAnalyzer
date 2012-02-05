@@ -23,3 +23,19 @@
 // The views and conclusions contained in the software and documentation are those of the
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
+
+#include "astdepthwalker.h"
+
+IASTWalker& ASTDepthWalker::next()
+{
+    if( IAST::null_it != _it.downToL() )
+        return *this;
+    if( IAST::null_it != (++_it) )
+        return *this;
+    do
+    {
+        if ( IAST::null_it == _it.up() )
+            break;
+    } while ( IAST::null_it == (++_it) );
+    return *this;
+}

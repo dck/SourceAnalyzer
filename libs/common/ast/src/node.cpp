@@ -51,7 +51,9 @@ Node::~Node()
         //std::cout << "Go to children:" << std::endl;
         for( INodeIterator it = _children.begin(); it!=_children.end(); ++it )
         {
-            delete *it;
+            INode* node = *it;
+            delete node;
+            node = NULL;
         }
     }
     //std::cout << "End node deleting: " << _value << std::endl;
