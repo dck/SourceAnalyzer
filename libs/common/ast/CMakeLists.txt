@@ -24,7 +24,7 @@
 # authors and should not be interpreted as representing official policies, either expressed
 # or implied, of SourceAnalyzer team.
 
-cmake_minimum_required( VERSION 2.8.1 )
+cmake_minimum_required( VERSION 2.8.0 )
 
 if( SOURCE_ANALYZER_ROOT_DIR )
     message( STATUS "Building as part of SA. Root dir: ${SOURCE_ANALYZER_ROOT_DIR}" )
