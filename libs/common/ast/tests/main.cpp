@@ -29,9 +29,6 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 
-#include "iexception.h"
-#include "iast.h"
-
 int main(int argc, char** argv)
 {
     CppUnit::TextUi::TestRunner runner;
