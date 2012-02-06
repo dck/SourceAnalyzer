@@ -24,3 +24,36 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
+#ifndef TESTASTITERATOR_H
+#define TESTASTITERATOR_H
+
+#include <cppunit/TestFixture.h>
+#include <cppunit/extensions/HelperMacros.h>
+
+#include "testastbuilder.h"
+
+#include "iast.h"
+
+
+class TestASTIterator : public CppUnit::TestFixture, protected TreeBuilderMethod
+{
+    CPPUNIT_TEST_SUITE( TestASTIterator );
+        CPPUNIT_TEST(testNullIt);
+        CPPUNIT_TEST(testNullItForException);
+        CPPUNIT_TEST(testOperatorEqual);
+    CPPUNIT_TEST_SUITE_END();
+
+    public:
+        virtual void setUp();
+        virtual void tearDown();
+
+        void testNullIt();
+        void testNullItForException();
+        void testOperatorEqual();
+
+    private:
+        IASTBuilder* _builder;
+        IAST*        _ast;
+};
+
+#endif // TESTASTITERATOR_H

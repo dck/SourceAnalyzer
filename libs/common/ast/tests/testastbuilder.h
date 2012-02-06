@@ -35,31 +35,44 @@
 #include "astbuilder.h"
 #include "iexception.h"
 
+class TreeBuilderMethod
+{
+    public:
+        TreeBuilderMethod() { initSymbols(); }
+        //         c = 8 * 5 + 1;
+        //             |=|
+        //         |c|     |+|
+        //             |*|     |1|
+        //          |8|   |5|
+        virtual void build(  IASTBuilder* astBuilder );
+
+    protected:
+        virtual void initSymbols ();
+
+    private:
+        std::vector<std::string> symbols;
+};
+
 class TestASTBuilder : public CppUnit::TestFixture
+        , protected TreeBuilderMethod
 {
     CPPUNIT_TEST_SUITE( TestASTBuilder );
         CPPUNIT_TEST(testASTBuilder);
     CPPUNIT_TEST_SUITE_END();
 
     public:
-        virtual void setUp();
-        virtual void tearDown();
+        virtual void setUp      ();
+        virtual void tearDown   ();
+        void testASTBuilder     ();
 
-        void testASTBuilder();
+    protected:
+        virtual void initResSymbols ();
 
     private:
-        //        c = 8 * 5 + 1;
-        //             |=|
-        //         |c|     |+|
-        //             |*|     |1|
-        //          |8|   |5|
-        void buildSimpleTree( IASTBuilder* astBuilder );
-        void initSymbols();
-        int testR2LBuilder();
-        int testL2RBuilder();
 
-        INodeLocation*  _nloc;
-        std::vector<std::string>    symbols;
+        int  testR2LBuilder ();
+        int  testL2RBuilder ();
+
         std::vector<std::string>    sr2lres;
         std::vector<std::string>    sl2rres;
 };

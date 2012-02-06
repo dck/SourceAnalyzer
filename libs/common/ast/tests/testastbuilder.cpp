@@ -30,102 +30,13 @@ using std::vector;
 
 CPPUNIT_TEST_SUITE_REGISTRATION( TestASTBuilder );
 
-void TestASTBuilder::setUp()
-{
-    _nloc = new NodeLocation();
-    initSymbols();
-}
-
-void TestASTBuilder::tearDown()
-{
-    if( _nloc != NULL )
-        delete _nloc;
-    _nloc = NULL;
-}
-
-void TestASTBuilder::testASTBuilder()
-{
-    CPPUNIT_ASSERT( 0 == testR2LBuilder() );
-    CPPUNIT_ASSERT( 0 == testL2RBuilder() );
-}
-
-int TestASTBuilder::testR2LBuilder()
-{
-    int i = 0;
-    int ret_code = 0;
-    IASTBuilder* astBuilder = new ASTR2LBuilder();
-    buildSimpleTree( astBuilder );
-    IAST* ast = astBuilder->getAST();
-
-    IAST::iterator it = ast->getRoot();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
-        ret_code++;
-    it.downToL();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
-        ret_code++;
-    it.up().downToR();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
-        ret_code++;
-    it.downToL();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
-        ret_code++;
-    it.downToL();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
-        ret_code++;
-    it.up().downToR();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
-        ret_code++;
-    it.up().up().downToR();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
-        ret_code++;
-
-    delete ast;
-    delete astBuilder;
-    return ret_code;
-}
-
-int TestASTBuilder::testL2RBuilder()
-{
-    int i = 0;
-    int ret_code = 0;
-
-    IASTBuilder* astBuilder = new ASTL2RBuilder();
-    buildSimpleTree( astBuilder );
-    IAST* ast = astBuilder->getAST();
-
-    IAST::iterator it = ast->getRoot();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
-        ret_code++;
-    it.downToL();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
-        ret_code++;
-    it.downToL();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
-        ret_code++;
-    it.up().downToR();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
-        ret_code++;
-    it.downToL();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
-        ret_code++;
-    it.up().downToR();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
-        ret_code++;
-    it.up().up().up().downToR();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
-        ret_code++;
-
-    delete ast;
-    delete astBuilder;
-    return 0;
-}
-
-void TestASTBuilder::buildSimpleTree( IASTBuilder* astBuilder )
+void TreeBuilderMethod::build(IASTBuilder *astBuilder)
 {
     try
     {
         size_t i = 0;
         INode* _node = NULL;
+        INodeLocation* _nloc = new NodeLocation();
 
         _node = new Node();
         _node->setInstrType(INode::realInstr);
@@ -176,6 +87,8 @@ void TestASTBuilder::buildSimpleTree( IASTBuilder* astBuilder )
         _node->setNodeLocation( *_nloc );
         astBuilder->buildNode(_node, 2);
 
+        delete _nloc;
+        _nloc = NULL;
     }
     catch ( IException& exception )
     {
@@ -183,7 +96,7 @@ void TestASTBuilder::buildSimpleTree( IASTBuilder* astBuilder )
     }
 }
 
-void TestASTBuilder::initSymbols()
+void TreeBuilderMethod::initSymbols()
 {
     symbols.push_back("c");
     symbols.push_back("8");
@@ -192,7 +105,96 @@ void TestASTBuilder::initSymbols()
     symbols.push_back("1");
     symbols.push_back("+");
     symbols.push_back("=");
+}
 
+void TestASTBuilder::setUp()
+{
+    initResSymbols();
+}
+
+void TestASTBuilder::tearDown()
+{
+}
+
+void TestASTBuilder::testASTBuilder()
+{
+    CPPUNIT_ASSERT( 0 == testR2LBuilder() );
+    CPPUNIT_ASSERT( 0 == testL2RBuilder() );
+}
+
+int TestASTBuilder::testR2LBuilder()
+{
+    int i = 0;
+    int ret_code = 0;
+    IASTBuilder* astBuilder = new ASTR2LBuilder();
+    build( astBuilder );
+    IAST* ast = astBuilder->getAST();
+
+    IAST::iterator it = ast->getRoot();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.up().downToR();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.up().downToR();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+    it.up().up().downToR();
+    if( it->getValue().compare(sr2lres[i++]) != 0 )
+        ret_code++;
+
+    delete ast;
+    delete astBuilder;
+    return ret_code;
+}
+
+int TestASTBuilder::testL2RBuilder()
+{
+    int i = 0;
+    int ret_code = 0;
+
+    IASTBuilder* astBuilder = new ASTL2RBuilder();
+    build( astBuilder );
+    IAST* ast = astBuilder->getAST();
+
+    IAST::iterator it = ast->getRoot();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.up().downToR();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.downToL();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.up().downToR();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+    it.up().up().up().downToR();
+    if( it->getValue().compare(sl2rres[i++]) != 0 )
+        ret_code++;
+
+    delete ast;
+    delete astBuilder;
+    return 0;
+}
+
+void TestASTBuilder::initResSymbols()
+{
     sr2lres.push_back("=");
     sr2lres.push_back("c");
     sr2lres.push_back("+");

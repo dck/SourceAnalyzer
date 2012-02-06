@@ -27,15 +27,20 @@
 #ifndef ASTWIDTHWALKER_H
 #define ASTWIDTHWALKER_H
 
+#include <queue>
+
 #include "iastwalker.h"
 
 class ASTWidthWalker : public IASTWalker
 {
     public:
-        ASTWidthWalker( IASTWalker& astWalker )
-            : _it(astWalker.getIt()), _eot(true), _downIt(IAST::null_it) {}
+        //ASTWidthWalker( IASTWalker& astWalker )
+        //    : _it(astWalker.getIt()), _eot(true), _downIt(IAST::null_it) {}
         ASTWidthWalker( const IAST::iterator& root )
-            : _it(root), _eot(true), _downIt(IAST::null_it) {}
+            : _it(root), _eot(true)
+        {
+            itQueue.push(_it);
+        }
         virtual ~ASTWidthWalker(){}
 
         virtual IASTWalker& next ();
@@ -47,8 +52,8 @@ class ASTWidthWalker : public IASTWalker
 
     private:
         IAST::iterator _it;
-        IAST::iterator _downIt;
         bool           _eot;
+        std::queue<IAST::iterator> itQueue;
 };
 
 #endif // ASTWIDTHWALKER_H
