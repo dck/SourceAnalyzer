@@ -72,8 +72,8 @@ class TestASTBuilder : public CppUnit::TestFixture
         int  testR2LBuilder ();
         int  testL2RBuilder ();
 
-        std::vector<std::string>    sr2lres;
-        std::vector<std::string>    sl2rres;
+        std::vector<std::string> _sr2lres;
+        std::vector<std::string> _sl2rres;
 };
 
 #endif // TESTASTBUILDER_H

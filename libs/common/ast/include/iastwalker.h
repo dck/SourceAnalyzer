@@ -32,7 +32,7 @@
 class IASTWalker
 {
     public:
-        virtual ~IASTWalker();
+        virtual ~IASTWalker() {}
 
         virtual IASTWalker& next    () = 0;
         virtual INode*      element () = 0;

@@ -131,25 +131,25 @@ int TestASTBuilder::testR2LBuilder()
     IAST* ast = astBuilder->getAST();
 
     IAST::iterator it = ast->getRoot();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
+    if( it->getValue().compare(_sr2lres[i++]) != 0 )
         ret_code++;
     it.downToL();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
+    if( it->getValue().compare(_sr2lres[i++]) != 0 )
         ret_code++;
     it.up().downToR();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
+    if( it->getValue().compare(_sr2lres[i++]) != 0 )
         ret_code++;
     it.downToL();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
+    if( it->getValue().compare(_sr2lres[i++]) != 0 )
         ret_code++;
     it.downToL();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
+    if( it->getValue().compare(_sr2lres[i++]) != 0 )
         ret_code++;
     it.up().downToR();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
+    if( it->getValue().compare(_sr2lres[i++]) != 0 )
         ret_code++;
     it.up().up().downToR();
-    if( it->getValue().compare(sr2lres[i++]) != 0 )
+    if( it->getValue().compare(_sr2lres[i++]) != 0 )
         ret_code++;
 
     delete ast;
@@ -167,25 +167,25 @@ int TestASTBuilder::testL2RBuilder()
     IAST* ast = astBuilder->getAST();
 
     IAST::iterator it = ast->getRoot();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
+    if( it->getValue().compare(_sl2rres[i++]) != 0 )
         ret_code++;
     it.downToL();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
+    if( it->getValue().compare(_sl2rres[i++]) != 0 )
         ret_code++;
     it.downToL();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
+    if( it->getValue().compare(_sl2rres[i++]) != 0 )
         ret_code++;
     it.up().downToR();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
+    if( it->getValue().compare(_sl2rres[i++]) != 0 )
         ret_code++;
     it.downToL();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
+    if( it->getValue().compare(_sl2rres[i++]) != 0 )
         ret_code++;
     it.up().downToR();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
+    if( it->getValue().compare(_sl2rres[i++]) != 0 )
         ret_code++;
     it.up().up().up().downToR();
-    if( it->getValue().compare(sl2rres[i++]) != 0 )
+    if( it->getValue().compare(_sl2rres[i++]) != 0 )
         ret_code++;
 
     delete ast;
@@ -195,19 +195,19 @@ int TestASTBuilder::testL2RBuilder()
 
 void TestASTBuilder::initResSymbols()
 {
-    sr2lres.push_back("=");
-    sr2lres.push_back("c");
-    sr2lres.push_back("+");
-    sr2lres.push_back("*");
-    sr2lres.push_back("8");
-    sr2lres.push_back("5");
-    sr2lres.push_back("1");
+    _sr2lres.push_back("=");
+    _sr2lres.push_back("c");
+    _sr2lres.push_back("+");
+    _sr2lres.push_back("*");
+    _sr2lres.push_back("8");
+    _sr2lres.push_back("5");
+    _sr2lres.push_back("1");
 
-    sl2rres.push_back("=");
-    sl2rres.push_back("+");
-    sl2rres.push_back("1");
-    sl2rres.push_back("*");
-    sl2rres.push_back("5");
-    sl2rres.push_back("8");
-    sl2rres.push_back("c");
+    _sl2rres.push_back("=");
+    _sl2rres.push_back("+");
+    _sl2rres.push_back("1");
+    _sl2rres.push_back("*");
+    _sl2rres.push_back("5");
+    _sl2rres.push_back("8");
+    _sl2rres.push_back("c");
 }
