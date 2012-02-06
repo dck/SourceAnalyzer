@@ -33,6 +33,7 @@ void TestDepthWalker::setUp()
     _builder     = new ASTR2LBuilder();
     build(_builder);
     _ast = _builder->getAST();
+    initResSymbols();
 }
 
 void TestDepthWalker::tearDown()
@@ -49,12 +50,12 @@ void TestDepthWalker::testDepthWalker()
 {
     IAST::iterator it = _ast->getRoot();
     IASTWalker* astwalker = new ASTDepthWalker(it);
-
-    while( astwalker->isNext() == true ){
+    int i = 0;
+    while( astwalker->isNext() == true )
+    {
+        CPPUNIT_ASSERT( (_res[i++] == (astwalker->element()->getValue())) );
         astwalker->next();
-        std::cout << (astwalker->element()->getValue()) << std::endl;
     }
-
     delete astwalker;
 }
 
@@ -64,7 +65,7 @@ void TestDepthWalker::initResSymbols()
     _res.push_back("c");
     _res.push_back("+");
     _res.push_back("*");
-    _res.push_back("1");
     _res.push_back("8");
     _res.push_back("5");
+    _res.push_back("1");
 }

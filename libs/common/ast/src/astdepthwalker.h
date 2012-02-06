@@ -32,10 +32,10 @@
 class ASTDepthWalker : public IASTWalker
 {
     public:
-        ASTDepthWalker( IASTWalker& astWalker )
-            : _it(astWalker.getIt()), _eot(false) {}
+    //    ASTDepthWalker( IASTWalker& astWalker )
+       //     : _it(astWalker.getIt()), _eot(false) {}
         ASTDepthWalker( const IAST::iterator& root )
-            : _it(root), _eot(false) {}
+            : _it(root), _eot(true) {}
         virtual ~ASTDepthWalker(){}
 
         virtual IASTWalker& next ();
@@ -43,7 +43,7 @@ class ASTDepthWalker : public IASTWalker
         inline INode*           element ()       { return *_it; }
         inline bool             isNext  () const { return _eot; }
         inline IAST::iterator&  getIt   ()       { return _it;  }
-        inline void             setIt   ( const IAST::iterator& root ) { _it = root; }
+        inline void             setIt   ( const IAST::iterator& root ) { _it = root; _eot = true; }
 
     private:
         IAST::iterator _it;

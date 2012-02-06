@@ -100,7 +100,7 @@ IAST::iterator& IAST::iterator::right()
     INode* node = getCurrentNode();
     if( node == NULL )
         throw BadPointer("iterator: operator->: pointer is NULL");
-    INode* rightNeighbor = node->getRightChild();
+    INode* rightNeighbor = node->getRightNeighbor();
     if( rightNeighbor == NULL )
         return IAST::null_it;
     setCurrentNode( rightNeighbor );

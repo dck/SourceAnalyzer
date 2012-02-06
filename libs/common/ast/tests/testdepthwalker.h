@@ -37,7 +37,6 @@
 #include "astdepthwalker.h"
 #include "iast.h"
 
-
 class TestDepthWalker : public CppUnit::TestFixture, protected TreeBuilderMethod
 {
     CPPUNIT_TEST_SUITE( TestDepthWalker );

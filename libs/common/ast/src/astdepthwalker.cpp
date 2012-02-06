@@ -25,17 +25,25 @@
 // or implied, of SourceAnalyzer team.
 
 #include "astdepthwalker.h"
+#include <iostream>
 
 IASTWalker& ASTDepthWalker::next()
 {
     if( IAST::null_it != _it.downToL() )
+    {
         return *this;
+    }
     if( IAST::null_it != (++_it) )
+    {
         return *this;
+    }
     do
     {
         if ( IAST::null_it == _it.up() )
-            break;
+        {
+            _eot = false;
+            return *this;
+        }
     } while ( IAST::null_it == (++_it) );
     return *this;
 }
