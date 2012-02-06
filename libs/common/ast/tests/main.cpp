@@ -24,8 +24,13 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
+#include <iostream>
+
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
+
+#include "iexception.h"
+#include "iast.h"
 
 int main(int argc, char** argv)
 {

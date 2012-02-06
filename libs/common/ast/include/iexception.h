@@ -30,32 +30,38 @@
 #include <exception>
 #include <string>
 
-class IException : std::exception
+class IException : public std::exception
 {
     public:
         IException( const std::string msg ) throw()
             : _msg(msg) {}
         virtual ~IException() throw() {}
 
-        inline virtual void setMsg( const std::string msg ) { this->_msg = msg; }
-        inline virtual std::string getMsg() const           { return _msg;      }
+        inline void setMsg( const std::string& msg ) { this->_msg = msg; }
+        inline std::string getMsg() const            { return _msg;      }
+        virtual const char* what() const throw()
+        {
+            return getMsg().c_str();
+        }
 
     private:
         std::string _msg;
 };
 
-class StackException : IException
+class StackException : public IException
 {
     public:
         StackException( std::string msg ) throw()
             : IException(msg) {}
+        virtual ~StackException() throw() {}
 };
 
-class BadPointer : IException
+class BadPointer : public IException
 {
-public:
-    BadPointer( std::string msg ) throw()
-        : IException(msg) {}
+    public:
+        BadPointer( std::string msg ) throw()
+            : IException(msg) {}
+        virtual ~BadPointer() throw() {}
 };
 
 #endif // IEXCEPTION_H

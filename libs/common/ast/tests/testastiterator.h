@@ -29,6 +29,7 @@
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
+#include <cppunit/Exception.h>
 
 #include "testastbuilder.h"
 
@@ -39,8 +40,8 @@ class TestASTIterator : public CppUnit::TestFixture, protected TreeBuilderMethod
 {
     CPPUNIT_TEST_SUITE( TestASTIterator );
         CPPUNIT_TEST(testNullIt);
-        CPPUNIT_TEST(testNullItForException);
         CPPUNIT_TEST(testOperatorEqual);
+        CPPUNIT_TEST(testNullItForException);
     CPPUNIT_TEST_SUITE_END();
 
     public:

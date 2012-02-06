@@ -27,54 +27,54 @@
 #include "iast.h"
 #include "iexception.h"
 
-IAST::iterator& IAST::null_iterator::up() throw()
+IAST::iterator& IAST::null_iterator::up()
 {
     throw BadPointer("null_iterator: up");
     return *this;
 }
 
-IAST::iterator& IAST::null_iterator::downToL() throw()
+IAST::iterator& IAST::null_iterator::downToL()
 {
     throw BadPointer("null_iterator: downToL");
     return *this;
 }
 
-IAST::iterator& IAST::null_iterator::downToR() throw()
+IAST::iterator& IAST::null_iterator::downToR()
 {
     throw BadPointer("null_iterator: downToR");
     return *this;
 }
 
-IAST::iterator& IAST::null_iterator::left() throw()
+IAST::iterator& IAST::null_iterator::left()
 {
     throw BadPointer("null_iterator: left");
     return *this;
 }
 
-IAST::iterator& IAST::null_iterator::operator-- () throw()
+IAST::iterator& IAST::null_iterator::operator-- ()
 {
     return left();
 }
 
-IAST::iterator IAST::null_iterator::operator-- (int) throw()
+IAST::iterator IAST::null_iterator::operator-- (int)
 {
     iterator it_copy(*this);
     left();
     return it_copy;
 }
 
-IAST::iterator& IAST::null_iterator::right() throw()
+IAST::iterator& IAST::null_iterator::right()
 {
     throw BadPointer("null_iterator: right");
     return *this;
 }
 
-IAST::iterator& IAST::null_iterator::operator++ () throw()
+IAST::iterator& IAST::null_iterator::operator++ ()
 {
     return right();
 }
 
-IAST::iterator IAST::null_iterator::operator++ (int) throw()
+IAST::iterator IAST::null_iterator::operator++ (int)
 {
     iterator it_copy(*this);
     right();
@@ -111,13 +111,13 @@ bool operator != ( const IAST::iterator& it1, const IAST::null_iterator& it2 )
     return !( it2 == it1 );
 }
 
-INode* IAST::null_iterator::operator* () const throw()
+INode* IAST::null_iterator::operator* () const
 {
     throw BadPointer("null_iterator: operator*");
     return NULL;
 }
 
-INode* IAST::null_iterator::operator-> () const throw()
+INode* IAST::null_iterator::operator-> () const
 {
     throw BadPointer("null_iterator: operator->");
     return NULL;

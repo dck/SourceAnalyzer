@@ -28,6 +28,7 @@
 #define IABSTRACT_SYNTAX_TREE_H
 
 #include "inode.h"
+#include "iexception.h"
 
 class IAbstractSyntaxTree
 {
@@ -61,9 +62,9 @@ class IAbstractSyntaxTree::iterator
         virtual iterator& operator++ ();
         virtual iterator  operator++ (int);
 
-        virtual iterator& up       () throw();
-        virtual iterator& downToR  () throw();
-        virtual iterator& downToL  () throw();
+        virtual iterator& up       ();
+        virtual iterator& downToR  ();
+        virtual iterator& downToL  ();
 
         virtual iterator& operator =  ( const iterator& iterator );
         friend  bool      operator == ( const iterator& it1, const iterator& it2 );
@@ -75,8 +76,8 @@ class IAbstractSyntaxTree::iterator
         friend  bool      operator == ( const IAbstractSyntaxTree::null_iterator& it1, const iterator& it2 );
         friend  bool      operator != ( const IAbstractSyntaxTree::null_iterator& it1, const iterator& it2 );
 
-        virtual INode*    operator*  () const throw();
-        virtual INode*    operator-> () const throw();
+        virtual INode*    operator*  () const;
+        virtual INode*    operator-> () const;
 
     protected:
         virtual iterator& left  ();
@@ -98,15 +99,15 @@ class IAbstractSyntaxTree::null_iterator : public IAbstractSyntaxTree::iterator
         null_iterator( INode* node = NULL )
             : iterator(node) { setNull(true); }
 
-        virtual iterator& operator-- ()     throw();
-        virtual iterator  operator-- (int)  throw();
+        virtual iterator& operator-- ();
+        virtual iterator  operator-- (int);
 
-        virtual iterator& operator++ ()     throw();
-        virtual iterator  operator++ (int)  throw();
+        virtual iterator& operator++ ();
+        virtual iterator  operator++ (int);
 
-        virtual iterator& up       () throw();
-        virtual iterator& downToR  () throw();
-        virtual iterator& downToL  () throw();
+        virtual iterator& up       ();
+        virtual iterator& downToR  ();
+        virtual iterator& downToL  ();
 
         //virtual iterator& operator =  ( const iterator& iterator );
 
@@ -119,12 +120,12 @@ class IAbstractSyntaxTree::null_iterator : public IAbstractSyntaxTree::iterator
         friend  bool      operator == ( const iterator& it1, const null_iterator& it2 );
         friend  bool      operator != ( const iterator& it1, const null_iterator& it2 );
 
-        virtual INode*    operator*  () const throw();
-        virtual INode*    operator-> () const throw();
+        virtual INode*    operator*  () const;
+        virtual INode*    operator-> () const;
 
     protected:
-        virtual iterator& left  () throw();
-        virtual iterator& right () throw();
+        virtual iterator& left  ();
+        virtual iterator& right ();
 
 };
 

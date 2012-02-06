@@ -25,7 +25,6 @@
 // or implied, of SourceAnalyzer team.
 
 #include "iast.h"
-#include "iexception.h"
 
 IAST::iterator::iterator(INode *node)
 {
@@ -39,33 +38,45 @@ IAST::iterator::iterator(const IAST::iterator& iterator)
     setNull(iterator.isNull());
 }
 
-IAST::iterator& IAST::iterator::up() throw()
+IAST::iterator& IAST::iterator::up()
 {
-    if( getCurrentNode()->isParentNull() == true )
+    INode* node = getCurrentNode();
+    if( node == NULL )
+        throw BadPointer("iterator: operator->: pointer is NULL");
+    if( node->isParentNull() == true )
         return IAST::null_it;
-    setCurrentNode( getCurrentNode()->getParent() );
+    setCurrentNode( node->getParent() );
     return *this;
 }
 
-IAST::iterator& IAST::iterator::downToL() throw()
+IAST::iterator& IAST::iterator::downToL()
 {
-    if( getCurrentNode()->isChildrenEmpty() == true )
+    INode* node = getCurrentNode();
+    if( node == NULL )
+        throw BadPointer("iterator: operator->: pointer is NULL");
+    if( node->isChildrenEmpty() == true )
         return IAST::null_it;
-    setCurrentNode( getCurrentNode()->getLeftChild() );
+    setCurrentNode( node->getLeftChild() );
     return *this;
 }
 
-IAST::iterator& IAST::iterator::downToR() throw()
+IAST::iterator& IAST::iterator::downToR()
 {
-    if( getCurrentNode()->isChildrenEmpty() == true )
+    INode* node = getCurrentNode();
+    if( node == NULL )
+        throw BadPointer("iterator: operator->: pointer is NULL");
+    if( node->isChildrenEmpty() == true )
         return IAST::null_it;
-    setCurrentNode( getCurrentNode()->getRightChild() );
+    setCurrentNode( node->getRightChild() );
     return *this;
 }
 
 IAST::iterator& IAST::iterator::left()
 {
-    INode* leftNeighbor = getCurrentNode()->getLeftNeighbor();
+    INode* node = getCurrentNode();
+    if( node == NULL )
+        throw BadPointer("iterator: operator->: pointer is NULL");
+    INode* leftNeighbor = node->getLeftNeighbor();
     if( leftNeighbor == NULL )
         return IAST::null_it;
     setCurrentNode( leftNeighbor );
@@ -86,7 +97,10 @@ IAST::iterator IAST::iterator::operator-- (int)
 
 IAST::iterator& IAST::iterator::right()
 {
-    INode* rightNeighbor = getCurrentNode()->getRightChild();
+    INode* node = getCurrentNode();
+    if( node == NULL )
+        throw BadPointer("iterator: operator->: pointer is NULL");
+    INode* rightNeighbor = node->getRightChild();
     if( rightNeighbor == NULL )
         return IAST::null_it;
     setCurrentNode( rightNeighbor );
@@ -121,7 +135,7 @@ bool operator != ( const IAST::iterator& it1, const IAST::iterator& it2 )
     return !(it1 == it2);
 }
 
-INode* IAST::iterator::operator* () const throw()
+INode* IAST::iterator::operator* () const
 {
     INode* node = getCurrentNode();
     if( node == NULL )
@@ -129,7 +143,7 @@ INode* IAST::iterator::operator* () const throw()
     return node;
 }
 
-INode* IAST::iterator::operator-> () const throw()
+INode* IAST::iterator::operator-> () const
 {
     INode* node = getCurrentNode();
     if( node == NULL )

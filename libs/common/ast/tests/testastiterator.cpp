@@ -55,16 +55,16 @@ void TestASTIterator::testNullIt()
 
 void TestASTIterator::testNullItForException()
 {
-    IAST::iterator it = IAST::null_it;
-    try {
-        //CPPUNIT_ASSERT_THROW( IAST::null_it.downToL(), IException );
-        //*it;
-    }
-    catch (BadPointer)
-    {
-
-    }
-
+    IAST::iterator it;
+    CPPUNIT_ASSERT_THROW( *it,          BadPointer );
+    CPPUNIT_ASSERT_THROW( it.downToL(), BadPointer );
+    CPPUNIT_ASSERT_THROW( it.downToR(), BadPointer );
+    CPPUNIT_ASSERT_THROW( it.up(),      BadPointer );
+    CPPUNIT_ASSERT_THROW( ++it,         BadPointer );
+    CPPUNIT_ASSERT_THROW( --it,         BadPointer );
+    CPPUNIT_ASSERT_THROW( it++,         BadPointer );
+    CPPUNIT_ASSERT_THROW( it--,         BadPointer );
+    CPPUNIT_ASSERT_THROW( IAST::null_it.downToL(), BadPointer );
 }
 
 void TestASTIterator::testOperatorEqual()
