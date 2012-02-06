@@ -69,7 +69,6 @@ class TestASTBuilder : public CppUnit::TestFixture
         virtual void initResSymbols ();
 
     private:
-
         int  testR2LBuilder ();
         int  testL2RBuilder ();
 
