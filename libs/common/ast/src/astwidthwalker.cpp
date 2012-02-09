@@ -28,6 +28,25 @@
 
 IASTWalker& ASTWidthWalker::next()
 {
-
+    if( IAST::null_it != ++_it )
+    {
+        if( !_it->isChildrenEmpty() )
+        {
+            _itQueue.push(_it);
+        }
+        return *this;
+    }
+    if( !_itQueue.empty() )
+    {
+        _it = _itQueue.front();
+        _itQueue.pop();
+        _it.downToL();
+        if( !_it->isChildrenEmpty() )
+        {
+            _itQueue.push(_it);
+        }
+        return *this;
+    }
+    _eot = false;
     return *this;
 }

@@ -39,7 +39,7 @@ class ASTWidthWalker : public IASTWalker
         ASTWidthWalker( const IAST::iterator& root )
             : _it(root), _eot(true)
         {
-            itQueue.push(_it);
+            _itQueue.push(_it);
         }
         virtual ~ASTWidthWalker(){}
 
@@ -48,12 +48,12 @@ class ASTWidthWalker : public IASTWalker
         inline INode*           element ()       { return *_it; }
         inline bool             isNext  () const { return _eot; }
         inline IAST::iterator&  getIt   ()       { return _it;  }
-        inline void             setIt   ( const IAST::iterator& root ) { _it = root; }
+        inline void             setIt   ( const IAST::iterator& root ) { _it = root; _eot = true; }
 
     private:
         IAST::iterator _it;
         bool           _eot;
-        std::queue<IAST::iterator> itQueue;
+        std::queue<IAST::iterator> _itQueue;
 };
 
 #endif // ASTWIDTHWALKER_H
