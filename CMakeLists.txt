@@ -70,3 +70,4 @@ foreach( component ${ALL_COMPONENTS} )
 		message( STATUS "Error: Can't find ${cmakelists}" )
 	endif( EXISTS ${cmakelists} )
 endforeach(component ${ALL_COMPONENTS} )
+
