@@ -32,7 +32,9 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "astbuilder.h"
+#include "astr2lbuilder.h"
+#include "astl2rbuilder.h"
+
 #include "iexception.h"
 
 class TreeBuilderMethod

@@ -24,44 +24,18 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
+#ifndef ASTR2LBUILDER_H
+#define ASTR2LBUILDER_H
+
 #include "astbuilder.h"
-#include "iexception.h"
 
-ASTBuilder::~ASTBuilder()
+class ASTR2LBuilder : public ASTBuilder
 {
-    delete getINodeStack();
-}
+    public:
+    ASTR2LBuilder() : ASTBuilder() {}
+        virtual ~ASTR2LBuilder()  {}
+        virtual void connectNodes ( INode* left, INode* right   );
+        virtual void addChild     ( INode *parent, INode *child );
+};
 
-void ASTBuilder::pushNode( INode* node )
-{
-    getINodeStack()->push(node);
-}
-
-void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber ) throw()
-{
-    INode* previousChild = NULL;
-    if( getINodeStack()->size() < childrenNodeNumber )
-    {
-        throw StackException("ast_builder: buildNode: number of nodes are less");
-    }
-    for( size_t i = 0; i<childrenNodeNumber; i++ )
-    {
-        INode* nextChild = getINodeStack()->top();
-        connectNodes    ( previousChild, nextChild );
-        addChild        ( node, nextChild          );
-        previousChild = nextChild;
-        getINodeStack()->pop();
-    }
-    getINodeStack()->push(node);
-}
-
-IAST* ASTBuilder::getAST () throw()
-{
-    if( getINodeStack()->size() != 1 )
-    {
-        throw StackException("ast_builder: getAST: number of nodes are less");
-    }
-    IAST* ast = new AbstractSyntaxTree(getINodeStack()->top());
-    getINodeStack()->pop();
-    return ast;
-}
+#endif // ASTR2LBUILDER_H

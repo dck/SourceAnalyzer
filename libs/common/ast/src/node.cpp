@@ -45,10 +45,8 @@ Node::~Node()
         delete _nodeLocation;
         _nodeLocation = NULL;
     }
-    //std::cout << "Delete node: " << _value << std::endl;
     if( getChildren().empty() == false )
     {
-        //std::cout << "Go to children:" << std::endl;
         for( INodeIterator it = _children.begin(); it!=_children.end(); ++it )
         {
             INode* node = *it;
@@ -56,7 +54,6 @@ Node::~Node()
             node = NULL;
         }
     }
-    //std::cout << "End node deleting: " << _value << std::endl;
 }
 
 INode* Node::getLeftChild() const

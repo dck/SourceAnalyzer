@@ -24,14 +24,12 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
-#ifndef AST_BUILDER_H
-#define AST_BUILDER_H
+#ifndef ASTBUILDER_H
+#define ASTBUILDER_H
 
 #include "iastbuilder.h"
 #include "node.h"
 #include "ast.h"
-
-// Abstract ASTBuilder
 
 class ASTBuilder : public IASTBuilder
 {
@@ -54,26 +52,4 @@ class ASTBuilder : public IASTBuilder
         INodeStack* _inodeStack;
 };
 
-// ASTBuilder with the spcified RIGHT to LEFT building direction
-
-class ASTR2LBuilder : public ASTBuilder
-{
-    public:
-    ASTR2LBuilder() : ASTBuilder() {}
-        virtual ~ASTR2LBuilder()  {}
-        virtual void connectNodes ( INode* left, INode* right   );
-        virtual void addChild     ( INode *parent, INode *child );
-};
-
-// ASTBuilder with the spcified LEFT to RIGHT building direction
-
-class ASTL2RBuilder : public ASTBuilder
-{
-    public:
-        ASTL2RBuilder() : ASTBuilder() {}
-        virtual ~ASTL2RBuilder()  {}
-        virtual void connectNodes ( INode* left, INode* right   );
-        virtual void addChild     ( INode *parent, INode *child );
-};
-
-#endif // AST_BUILDER_H
+#endif // ASTBUILDER_H
