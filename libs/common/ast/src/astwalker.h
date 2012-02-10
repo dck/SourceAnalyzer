@@ -24,27 +24,28 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
-#include "astdepthwalker.h"
-#include <iostream>
+#ifndef ASTWALKER_H
+#define ASTWALKER_H
 
-IASTWalker& ASTDepthWalker::next()
+#include "iastwalker.h"
+
+class ASTWalker : public IASTWalker
 {
-    if( IAST::null_it != _it
-            .downToL() )
-    {
-        return *this;
-    }
-    if( IAST::null_it != (++_it) )
-    {
-        return *this;
-    }
-    do
-    {
-        if ( IAST::null_it == _it.up() )
-        {
-            _eot = false;
-            return *this;
-        }
-    } while ( IAST::null_it == (++_it) );
-    return *this;
-}
+    public:
+        ASTWalker( const IAST::iterator& root )
+            : _it(root), _eot(true) {}
+        virtual ~ASTWalker(){}
+
+        inline IASTWalker& next         () = 0;
+
+        inline INode*           element ()       { return *_it; }
+        inline bool             isNext  () const { return _eot; }
+        inline IAST::iterator&  getIt   ()       { return _it;  }
+        inline void             setIt   ( const IAST::iterator& root ) { _it = root; _eot = true; }
+
+    protected:
+        IAST::iterator _it;
+        bool           _eot;
+};
+
+#endif // ASTWALKER_H

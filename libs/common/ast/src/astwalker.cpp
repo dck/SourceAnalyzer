@@ -24,27 +24,4 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of SourceAnalyzer team.
 
-#include "astdepthwalker.h"
-#include <iostream>
-
-IASTWalker& ASTDepthWalker::next()
-{
-    if( IAST::null_it != _it
-            .downToL() )
-    {
-        return *this;
-    }
-    if( IAST::null_it != (++_it) )
-    {
-        return *this;
-    }
-    do
-    {
-        if ( IAST::null_it == _it.up() )
-        {
-            _eot = false;
-            return *this;
-        }
-    } while ( IAST::null_it == (++_it) );
-    return *this;
-}
+#include "astwalker.h"
