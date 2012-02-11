@@ -43,8 +43,11 @@ class TreeBuilderMethod
         TreeBuilderMethod() { initSymbols(); }
         //         c = 8 * 5 + 1;
         //             |=|
+        //            /   \
         //         |c|     |+|
+        //                /   \
         //             |*|     |1|
+        //             / \
         //          |8|   |5|
         virtual void build(  IASTBuilder* astBuilder );
 

@@ -56,11 +56,11 @@ class IAbstractSyntaxTree::iterator
 
         virtual ~iterator() {}
 
-        virtual iterator& operator-- ();
-        virtual iterator  operator-- (int);
+        iterator& operator-- ();
+        iterator  operator-- (int);
 
-        virtual iterator& operator++ ();
-        virtual iterator  operator++ (int);
+        iterator& operator++ ();
+        iterator  operator++ (int);
 
         virtual iterator& up       ();
         virtual iterator& downToR  ();
@@ -98,12 +98,6 @@ class IAbstractSyntaxTree::null_iterator : public IAbstractSyntaxTree::iterator
     public:
         null_iterator( INode* node = NULL )
             : iterator(node) { setNull(true); }
-
-        virtual iterator& operator-- ();
-        virtual iterator  operator-- (int);
-
-        virtual iterator& operator++ ();
-        virtual iterator  operator++ (int);
 
         virtual iterator& up       ();
         virtual iterator& downToR  ();

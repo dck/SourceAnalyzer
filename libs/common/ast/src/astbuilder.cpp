@@ -37,7 +37,7 @@ void ASTBuilder::pushNode( INode* node )
     getINodeStack()->push(node);
 }
 
-void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber ) throw()
+void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber )
 {
     INode* previousChild = NULL;
     if( getINodeStack()->size() < childrenNodeNumber )
@@ -55,7 +55,7 @@ void ASTBuilder::buildNode( INode* node, const size_t childrenNodeNumber ) throw
     getINodeStack()->push(node);
 }
 
-IAST* ASTBuilder::getAST () throw()
+IAST* ASTBuilder::getAST ()
 {
     if( getINodeStack()->size() != 1 )
     {

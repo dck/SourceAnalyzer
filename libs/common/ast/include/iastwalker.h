@@ -34,11 +34,14 @@ class IASTWalker
     public:
         virtual ~IASTWalker() {}
 
+        //virtual IASTWalker& back    () = 0;
+        //virtual IASTWalker& isBack  () = 0;
+
         virtual IASTWalker& next    () = 0;
         virtual INode*      element () = 0;
         virtual bool        isNext  () const = 0;
 
-        virtual IAST::iterator& getIt ()                  = 0;
+        virtual IAST::iterator& getIt () = 0;
         virtual void setIt ( const IAST::iterator& root ) = 0;
 };
 

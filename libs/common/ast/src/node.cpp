@@ -45,14 +45,11 @@ Node::~Node()
         delete _nodeLocation;
         _nodeLocation = NULL;
     }
-    if( getChildren().empty() == false )
+    for( INodeIterator it = _children.begin(); it!=_children.end(); ++it )
     {
-        for( INodeIterator it = _children.begin(); it!=_children.end(); ++it )
-        {
-            INode* node = *it;
-            delete node;
-            node = NULL;
-        }
+        INode* node = *it;
+        delete node;
+        node = NULL;
     }
 }
 
@@ -74,9 +71,9 @@ INode* Node::getRightChild() const
 
 bool operator == ( const INode& node1, const INode& node2 )
 {
-    return ( (  node1.getValue        () == node2.getValue         ()  ) &&
-             (  node1.getInstrType    () == node2.getInstrType     ()  ) &&
-             ( *node1.getNodeLocation () == *node2.getNodeLocation ()  ) );
+    return ( (  node1.getValue()        == node2.getValue()          ) &&
+             (  node1.getInstrType()    == node2.getInstrType()      ) &&
+             ( *node1.getNodeLocation() == *node2.getNodeLocation()  ) );
 }
 
 bool operator != ( const INode& node1, const INode& node2 )
@@ -84,3 +81,20 @@ bool operator != ( const INode& node1, const INode& node2 )
     return !(node1 == node2);
 }
 
+INode& Node::operator =  ( const INode& node )
+{
+    this->setInstrType     ( node.getInstrType () );
+
+    this->setLeftNeighbor  ( node.getLeftNeighbor  () );
+    this->setRightNeighbor ( node.getRightNeighbor () );
+
+    this->setParent        ( node.getParent () );
+    this->setValue         ( node.getValue  () );
+
+    *(this->getNodeLocation()) = *(node.getNodeLocation());
+
+    for( INodeIterator it = node.getChildren().begin(); it!=node.getChildren().end(); ++it )
+    {
+        _children.push_back(*it);
+    }
+}

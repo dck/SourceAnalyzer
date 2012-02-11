@@ -33,6 +33,7 @@ INodeLocation& NodeLocation::operator = ( const INodeLocation& nodeLocation )
     this->setFile ( nodeLocation.getFile () );
     this->setLine ( nodeLocation.getLine () );
     this->setPos  ( nodeLocation.getPos  () );
+    return *this;
 }
 
 bool operator == ( const INodeLocation& nodeLocation1, const INodeLocation& nodeLocation2 )

@@ -74,6 +74,8 @@ class INode
         virtual bool isRightNull     () const = 0;
         virtual bool isLeftNull      () const = 0;
 
+        virtual INode& operator =  ( const INode& node ) = 0;
+
         friend bool operator == ( const INode& node1, const INode& node2 );
         friend bool operator != ( const INode& node1, const INode& node2 );
 

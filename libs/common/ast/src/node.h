@@ -63,8 +63,7 @@ class Node : public INode
         inline bool isRightNull     () const { return (_rneighbor == NULL); }
         inline bool isLeftNull      () const { return (_lneighbor == NULL); }
 
-        // friend bool operator == ( const INode& node1, const INode& node2 );
-        // friend bool operator != ( const INode& node1, const INode& node2 );
+        virtual INode& operator = ( const INode& node );
 
     protected:
         virtual void setNodeLocation  ( INodeLocation* nodeLocation ) { _nodeLocation = nodeLocation; }

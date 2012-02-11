@@ -34,6 +34,8 @@ class ASTL2RBuilder : public ASTBuilder
     public:
         ASTL2RBuilder() : ASTBuilder() {}
         virtual ~ASTL2RBuilder()  {}
+
+    protected:
         virtual void connectNodes ( INode* left, INode* right   );
         virtual void addChild     ( INode *parent, INode *child );
 };

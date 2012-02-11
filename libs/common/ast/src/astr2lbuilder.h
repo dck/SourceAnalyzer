@@ -32,8 +32,10 @@
 class ASTR2LBuilder : public ASTBuilder
 {
     public:
-    ASTR2LBuilder() : ASTBuilder() {}
+        ASTR2LBuilder() : ASTBuilder() {}
         virtual ~ASTR2LBuilder()  {}
+
+    protected:
         virtual void connectNodes ( INode* left, INode* right   );
         virtual void addChild     ( INode *parent, INode *child );
 };

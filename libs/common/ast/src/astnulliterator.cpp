@@ -51,34 +51,10 @@ IAST::iterator& IAST::null_iterator::left()
     return *this;
 }
 
-IAST::iterator& IAST::null_iterator::operator-- ()
-{
-    return left();
-}
-
-IAST::iterator IAST::null_iterator::operator-- (int)
-{
-    iterator it_copy(*this);
-    left();
-    return it_copy;
-}
-
 IAST::iterator& IAST::null_iterator::right()
 {
     throw BadPointer("null_iterator: right");
     return *this;
-}
-
-IAST::iterator& IAST::null_iterator::operator++ ()
-{
-    return right();
-}
-
-IAST::iterator IAST::null_iterator::operator++ (int)
-{
-    iterator it_copy(*this);
-    right();
-    return it_copy;
 }
 
 bool operator == ( const IAST::null_iterator& it1, const IAST::iterator& it2 )

@@ -39,12 +39,13 @@ class ASTBuilder : public IASTBuilder
 
         virtual ~ASTBuilder ();
         virtual void  pushNode     ( INode* node );
-        virtual void  buildNode    ( INode* node, const size_t childrenNodeNumber ) throw();
-        virtual void  connectNodes ( INode* left, INode* right ) = 0;
-        virtual void  addChild     ( INode* parent, INode* child ) = 0;
-        virtual IAST* getAST       () throw();
+        virtual void  buildNode    ( INode* node, const size_t childrenNodeNumber );
+        virtual IAST* getAST       ();
 
     protected:
+        virtual void  connectNodes ( INode* left, INode* right ) = 0;
+        virtual void  addChild     ( INode* parent, INode* child ) = 0;
+
         inline INodeStack* getINodeStack   () const                   { return _inodeStack;      }
         inline void        setINodeStack   ( INodeStack* inodeStack ) {_inodeStack = inodeStack; }
 

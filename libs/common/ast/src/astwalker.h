@@ -33,7 +33,7 @@ class ASTWalker : public IASTWalker
 {
     public:
         ASTWalker( const IAST::iterator& root )
-            : _it(root), _eot(true) {}
+            : _it(root), _root(root), _eot(true) {}
         virtual ~ASTWalker(){}
 
         inline IASTWalker& next         () = 0;
@@ -45,6 +45,7 @@ class ASTWalker : public IASTWalker
 
     protected:
         IAST::iterator _it;
+        IAST::iterator _root;
         bool           _eot;
 };
 

@@ -35,10 +35,12 @@ class IASTBuilder
     public:
         virtual ~IASTBuilder      () {}
         virtual void pushNode     ( INode* node ) = 0;
-        virtual void buildNode    ( INode* node, const size_t childrenNodeNumber ) throw() = 0;
+        virtual void buildNode    ( INode* node, const size_t childrenNodeNumber ) = 0;
+        virtual IAST* getAST      () = 0;
+
+    protected:
         virtual void connectNodes ( INode* previousChild, INode* nextChild ) = 0;
         virtual void addChild     ( INode* parent, INode* child ) = 0;
-        virtual IAST* getAST      () throw() = 0;
 };
 
 #endif // IAST_BUILDER_H
