@@ -82,16 +82,6 @@ class INode
     protected:
         virtual void setNodeLocation ( INodeLocation* nodeLocation ) = 0;
 
-        /*
-            virtual IASTIterator& hbegin () const = 0;
-            virtual IASTIterator& hend   () const = 0;
-
-            virtual IASTIterator& lchild () const = 0;
-            virtual IASTIterator& rchild () const = 0;
-        */
-
-        //TODO: implement removeChild function
-        //TODO: implement operator=
 };
 
 #endif //INODE_H
