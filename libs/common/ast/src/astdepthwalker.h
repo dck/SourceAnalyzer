@@ -36,7 +36,8 @@ class ASTDepthWalker : public ASTWalker
             : ASTWalker(root) {}
         virtual ~ASTDepthWalker(){}
 
-        virtual IASTWalker& next ();
+        virtual IASTWalker& next     ();
+        virtual IASTWalker& previous ();
 };
 
 #endif // ASTDEPTHWALKER_H

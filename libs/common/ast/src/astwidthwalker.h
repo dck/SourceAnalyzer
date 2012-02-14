@@ -38,7 +38,8 @@ class ASTWidthWalker : public ASTWalker
             : ASTWalker(root) { _itQueue.push(getIt()); }
 
         virtual ~ASTWidthWalker(){}
-        virtual IASTWalker& next ();
+        virtual IASTWalker& next     ();
+        virtual IASTWalker& previous ();
 
     private:
         std::queue<IAST::iterator> _itQueue;

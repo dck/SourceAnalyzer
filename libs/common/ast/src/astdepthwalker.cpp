@@ -29,6 +29,7 @@
 
 IASTWalker& ASTDepthWalker::next()
 {
+    _bot = true;
     if( IAST::null_it != _it.downToL() )
     {
         return *this;
@@ -45,5 +46,19 @@ IASTWalker& ASTDepthWalker::next()
             return *this;
         }
     } while ( IAST::null_it == (++_it) );
+    return *this;
+}
+
+IASTWalker& ASTDepthWalker::previous()
+{
+    _eot = true;
+    if( IAST::null_it != (++_it).downToR() )
+    {
+        return *this;
+    }
+    if( IAST::null_it == _it.up() || _root == _it )
+    {
+        _bot = false;
+    }
     return *this;
 }

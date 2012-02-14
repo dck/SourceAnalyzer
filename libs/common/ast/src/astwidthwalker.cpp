@@ -50,3 +50,8 @@ IASTWalker& ASTWidthWalker::next()
     _eot = false;
     return *this;
 }
+
+IASTWalker& ASTWidthWalker::previous()
+{
+    return *this;
+}

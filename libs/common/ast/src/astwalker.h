@@ -33,20 +33,23 @@ class ASTWalker : public IASTWalker
 {
     public:
         ASTWalker( const IAST::iterator& root )
-            : _it(root), _root(root), _eot(true) {}
+            : _it(root), _root(root), _eot(true), _bot(false) {}
         virtual ~ASTWalker(){}
 
-        inline IASTWalker& next         () = 0;
+        virtual IASTWalker& next     () = 0;
+        virtual IASTWalker& previous () = 0;
 
-        inline INode*           element ()       { return *_it; }
-        inline bool             isNext  () const { return _eot; }
-        inline IAST::iterator&  getIt   ()       { return _it;  }
-        inline void             setIt   ( const IAST::iterator& root ) { _it = root; _eot = true; }
+        inline INode*           element     ()       { return *_it; }
+        inline bool             isNext      () const { return _eot; }
+        inline bool             isPrevious  () const { return _bot; }
+        inline IAST::iterator&  getIt       ()       { return _it;  }
+        inline void             setIt       ( const IAST::iterator& root ) { _it = root; _eot = true; _bot = false; }
 
     protected:
         IAST::iterator _it;
         IAST::iterator _root;
         bool           _eot;
+        bool           _bot;
 };
 
 #endif // ASTWALKER_H
